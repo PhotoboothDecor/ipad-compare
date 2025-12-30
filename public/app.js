@@ -119,7 +119,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // We handle this in render to show specific message if no other matches
         }
 
+        // Deduplication Map: Key = Canonical Name, Value = Result Object
+        const uniqueResults = new Map();
+
         availableModels.forEach(modelName => {
+            // FILTER: Skip OS versions (e.g., "iPadOS 15.x", "iOS 12.x")
+            if (/^(iPadOS|iOS)\s/i.test(modelName)) return;
+
             const modelLower = modelName.toLowerCase();
             let matchScore = 0;
             let matchType = 'fuzzy';
@@ -141,45 +147,93 @@ document.addEventListener('DOMContentLoaded', () => {
             matchScore += (tokenMatches * 10);
 
             // 3. A-Number Matching (Check Mapping)
-            const mapping = modelMapping.find(m => m.model_name === modelName);
-            if (mapping && mapping.model_numbers) {
-                const exactNumMatch = mapping.model_numbers.find(num => num.toLowerCase() === query);
-                const partialNumMatch = mapping.model_numbers.find(num => num.toLowerCase().includes(query));
+            let canonicalName = modelName; // Default to self
+            let isCanonical = false;
 
-                if (exactNumMatch) {
-                    matchScore += 200; // Exact A-Number is very strong
-                    matchType = 'number';
-                    matchedDetail = exactNumMatch;
-                } else if (partialNumMatch) {
-                    matchScore += 50;
-                    if (matchType !== 'number') {
+            const mapping = modelMapping.find(m => {
+                // Check if this modelName IS the canonical name
+                if (m.model_name === modelName) return true;
+
+                // Robust Check: Normalize both strings to handle "iPad (8th)" vs "iPad (8th generation)"
+                // Remove parentheses and lowercase
+                const mappingNorm = m.model_name.replace(/[()]/g, '').toLowerCase();
+                const modelNorm = modelName.replace(/[()]/g, '').toLowerCase();
+
+                // Check inclusion AND ensure a digit is present (so we don't map "iPad" to everything)
+                if (mappingNorm.includes(modelNorm) && /\d/.test(modelName)) return true;
+                return false;
+            });
+
+            if (mapping) {
+                // Use the official long name as key to grouping
+                canonicalName = mapping.model_name;
+                if (mapping.model_name === modelName) isCanonical = true;
+
+                if (mapping.model_numbers) {
+                    const exactNumMatch = mapping.model_numbers.find(num => num.toLowerCase() === query);
+                    const partialNumMatch = mapping.model_numbers.find(num => num.toLowerCase().includes(query));
+
+                    if (exactNumMatch) {
+                        matchScore += 200; // Exact A-Number is very strong
                         matchType = 'number';
-                        matchedDetail = partialNumMatch;
+                        matchedDetail = exactNumMatch;
+                    } else if (partialNumMatch) {
+                        matchScore += 50;
+                        if (matchType !== 'number') {
+                            matchType = 'number';
+                            matchedDetail = partialNumMatch;
+                        }
                     }
                 }
 
-                // 4. Alias/Keyword Matching (New)
+                // 4. Alias/Keyword Matching
                 if (mapping.aliases) {
                     mapping.aliases.forEach(alias => {
                         const aliasLower = alias.toLowerCase();
-                        // Check if alias is in the query (e.g query="ipad air 2022", alias="2022")
                         if (query.includes(aliasLower)) {
-                            matchScore += 40; // Significant boost for correct year/chip
+                            matchScore += 40;
                         }
                     });
                 }
             }
 
             if (matchScore > 0) {
-                scoredResults.push({
-                    name: modelName,
+                const newResult = {
+                    name: canonicalName, // Use canonical name for display if available
+                    originalName: modelName, // Keep track of DB key
                     matchType: matchType,
                     matchedNumber: matchedDetail,
                     score: modelsData[modelName].score,
-                    relevance: matchScore
-                });
+                    relevance: matchScore,
+                    isCanonical: isCanonical
+                };
+
+                // Deduplication Logic
+                if (uniqueResults.has(canonicalName)) {
+                    const existing = uniqueResults.get(canonicalName);
+                    // Prefer the result that IS the canonical name key (if scores are similar)
+                    // OR the one with significantly higher score?
+                    // Usually we want the entry that links to the Canonical Name if possible.
+                    // But 'score' (benchmark) comes from the DB entry. If we change 'name', we ideally want to point to the entry that HAS the data.
+                    // Actually, if we map "iPad (8th)" -> "iPad (8th generation)", we are saying they are the same.
+                    // But if "iPad (8th generation)" entry DOES exist in DB, use that data.
+                    // If "iPad (8th)" exists but "iPad (8th generation)" NOT in DB, we use "iPad (8th)" data but displayed as "iPad (8th generation)".
+
+                    // Logic: If current is isCanonical (matches mapping name exactly), it overwrites non-canonical
+                    // UNLESS the non-canonical has a much higher match score (unlikely if they are dupes).
+                    if (newResult.isCanonical && !existing.isCanonical) {
+                        uniqueResults.set(canonicalName, newResult);
+                    } else if (newResult.relevance > existing.relevance) {
+                        uniqueResults.set(canonicalName, newResult);
+                    }
+                } else {
+                    uniqueResults.set(canonicalName, newResult);
+                }
             }
         });
+
+        // Convert Map to Array
+        scoredResults = Array.from(uniqueResults.values());
 
         // Filter out low relevance if we have high relevance options
         // Sort by relevance descending
@@ -228,18 +282,19 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 li.textContent = match.name;
             }
+            li.dataset.original = match.originalName; // Store DB key
 
             li.addEventListener('click', () => {
-                selectModel(match.name);
+                selectModel(match.name, match.originalName);
             });
             searchResults.appendChild(li);
         });
         searchResults.classList.remove('hidden');
     }
 
-    function selectModel(modelName) {
+    function selectModel(modelName, originalName) {
         modelSearchInput.value = modelName;
-        selectedModelIdInput.value = modelName;
+        selectedModelIdInput.value = originalName || modelName; // Use DB key if available
         searchResults.classList.add('hidden');
     }
 
@@ -255,7 +310,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Logic Check: 
         // If user didn't click a result, try to find the best match automatically
-        let finalModel = modelsData[selectedModel] ? selectedModel : null;
+        // Use originalName if available in the selected result context (would need to track it), 
+        // but here we just have values.
+        // If "selectedModel" is a "Canonical Name", we need to check if it's in modelsData.
+        // If not, we might need to find the backing data.
+        let finalModel = selectedModel;
+
+        if (!modelsData[finalModel]) {
+            // Check if we can reverse-map the canonical name to a DB key?
+            // Actually, findMatches now sets 'name' to Canonical.
+            // But we need the DB key for modelsData lookup.
+            // Simplified: If modelsData[finalModel] is undefined, search for a key that maps to this?
+            const foundKey = Object.keys(modelsData).find(k => k === finalModel || (modelMapping.some(m => m.model_name === finalModel && m.model_name.includes(k) && /\d/.test(k))));
+            if (foundKey) finalModel = foundKey;
+            // Worst case: The deduplication logic picked a "Canonical Name" that isn't a DB key itself.
+            // We should persist 'originalName' in the LI dataset to avoid this guessing.
+        }
 
         if (!finalModel && fallbackQuery) {
             // Run search one last time to see if we have a high-confidence top match
