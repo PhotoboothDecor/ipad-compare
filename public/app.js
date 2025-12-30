@@ -320,6 +320,15 @@ document.addEventListener('DOMContentLoaded', () => {
             row.classList.add('new-row');
         }
 
+        // Visual Feedback for Max iOS
+        if (max_os === 'Latest') {
+            row.classList.add('max-ios-latest');
+        } else {
+            row.classList.add('max-ios-outdated');
+        }
+
+        checkEmptyTable(); // Immediately update UI (hide instructions)
+
         // Event Listener for Delete
         row.querySelector('.delete-btn').addEventListener('click', function () {
             row.remove();

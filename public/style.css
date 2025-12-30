@@ -278,6 +278,23 @@ button.delete-btn:active {
     animation: highlightAndSlide 1s ease-out forwards;
 }
 
+/* Max iOS Status Styling */
+.max-ios-latest {
+    box-shadow: inset 4px 0 0 var(--success);
+    background: linear-gradient(90deg, rgba(16, 185, 129, 0.05) 0%, transparent 100%);
+}
+
+.max-ios-outdated {
+    box-shadow: inset 4px 0 0 #ef4444;
+    /* Red-500 */
+    background: linear-gradient(90deg, rgba(239, 68, 68, 0.05) 0%, transparent 100%);
+}
+
+.max-ios-outdated td {
+    color: rgba(248, 250, 252, 0.7);
+    /* Slightly dim text for old devices */
+}
+
 footer {
     text-align: center;
     margin-top: 4rem;
