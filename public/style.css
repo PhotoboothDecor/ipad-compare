@@ -1,12 +1,14 @@
 :root {
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
-    --bg: #0f172a;
-    --card-bg: #1e293b;
-    --text: #f8fafc;
-    --text-muted: #94a3b8;
-    --border: #334155;
-    --success: #10b981;
+    --primary: #000000;
+    --primary-dark: #262626;
+    --bg: #ffffff;
+    --card-bg: #f8f9fa;
+    --text: #171717;
+    --text-muted: #525252;
+    --border: #e5e5e5;
+    --success: #16a34a;
+    /* Slightly darker green for light mode contrast */
+    --accent-gold: #d4af37;
 }
 
 * {
@@ -41,7 +43,7 @@ header {
 header h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    background: linear-gradient(to right, #818cf8, #c084fc);
+    background: linear-gradient(to right, #000000, #d4af37);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -82,8 +84,8 @@ input {
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
     border: 1px solid var(--border);
-    background-color: #0f172a;
-    color: white;
+    background-color: #ffffff;
+    color: var(--text);
     font-family: inherit;
     font-size: 1rem;
     outline: none;
@@ -92,8 +94,8 @@ input {
 
 select:focus,
 input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px var(--primary);
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
 }
 
 /* Generic Button Reset */
@@ -114,7 +116,23 @@ button:hover {
     background-color: var(--primary-dark);
 }
 
-button:active {
+/* Calculate Button Specifics */
+#calculate-btn {
+    background: linear-gradient(135deg, #d4af37, #b45309);
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: 0 4px 6px -1px rgba(212, 175, 55, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#calculate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(212, 175, 55, 0.5);
+    background: linear-gradient(135deg, #e5c155, #d97706);
+}
+
+#calculate-btn:active {
     transform: scale(0.98);
 }
 
@@ -143,10 +161,11 @@ button:active {
     margin-top: 2rem;
     overflow-x: auto;
     border-radius: 12px;
+    border-radius: 12px;
     background: var(--card-bg);
-    /* Use card-bg for better contrast or keep transparent */
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
+    /* Light border for definition */
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 table {
@@ -197,7 +216,7 @@ td:nth-child(5) {
 }
 
 th {
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid var(--border);
     font-weight: 600;
     color: var(--primary);
     text-transform: uppercase;
@@ -208,7 +227,7 @@ th {
 }
 
 td {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--border);
     font-size: 1.1rem;
     /* Slightly larger text */
     color: var(--text);
@@ -291,8 +310,8 @@ button.delete-btn:active {
 }
 
 .max-ios-outdated td {
-    color: rgba(248, 250, 252, 0.7);
-    /* Slightly dim text for old devices */
+    color: var(--text-muted);
+    /* Muted text for old devices */
 }
 
 footer {
@@ -305,22 +324,22 @@ footer {
 
 /* Champion/Winner Row Styling */
 .champion-row td {
-    color: #fff;
-    background: rgba(255, 215, 0, 0.05);
-    /* Subtle Gold Tint */
-    border-top: 1px solid rgba(255, 215, 0, 0.3);
-    border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+    color: var(--text);
+    background: rgba(212, 175, 55, 0.1);
+    /* Gold tint */
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
 }
 
 .champion-row .model-name {
     font-weight: 700;
-    color: #fbbf24;
-    /* Amber-400 */
+    color: #b45309;
+    /* Darker Gold/Amber for readability on light bg */
 }
 
 .champion-row .value-cell {
-    color: #fbbf24;
-    text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+    color: #b45309;
+    text-shadow: none;
 }
 
 .trophy-icon {
@@ -356,7 +375,7 @@ footer {
 
 /* Chip Badge */
 .chip-badge {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.05);
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 0.85rem;
@@ -365,17 +384,18 @@ footer {
 }
 
 .champion-row .chip-badge {
-    color: #fbbf24;
-    background: rgba(251, 191, 36, 0.1);
+    color: #b45309;
+    background: rgba(212, 175, 55, 0.2);
 }
 
 .price-edit-input {
     width: 100px;
     padding: 0.25rem;
     font-size: 1rem;
-    background: var(--bg);
-    color: white;
-    border: 1px solid var(--primary);
+    font-size: 1rem;
+    background: white;
+    color: var(--text);
+    border: 1px solid var(--accent-gold);
     border-radius: 4px;
     text-align: center;
 }
