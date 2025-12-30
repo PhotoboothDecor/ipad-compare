@@ -411,11 +411,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // "Clear All" Logic
     if (clearAllBtn) {
+        console.log("Clear All Button initialized");
         clearAllBtn.addEventListener('click', () => {
-            if (confirm('Clear all comparisons?')) {
+            // confirm() removed for better UX/reliability
+            try {
                 comparisonBody.innerHTML = '';
                 checkEmptyTable();
-                saveComparisons();
+                localStorage.removeItem('ipadComparisons'); // Explicitly clear storage
+            } catch (err) {
+                console.error("Error clearing table:", err);
+                alert("Error clearing table. See console.");
             }
         });
     }
@@ -447,13 +452,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Error loading saved data", e);
             }
         }
+        checkEmptyTable(); // Update UI state based on loaded data
     }
 
     // Helper to hide table if empty
-    window.checkEmptyTable = function () {
+    function checkEmptyTable() {
+        const instructions = document.getElementById('instructions');
         if (comparisonBody.children.length === 0) {
             resultContainer.classList.add('hidden');
-            clearAllBtn.classList.add('hidden');
+            if (clearAllBtn) clearAllBtn.classList.add('hidden');
+            if (instructions) instructions.classList.remove('hidden');
+        } else {
+            resultContainer.classList.remove('hidden');
+            if (clearAllBtn) clearAllBtn.classList.remove('hidden');
+            if (instructions) instructions.classList.add('hidden');
         }
-    };
+    }
 });
