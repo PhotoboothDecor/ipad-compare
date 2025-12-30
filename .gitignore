@@ -1,0 +1,16 @@
+# Node
+node_modules/
+scripts/node_modules/
+npm-debug.log
+
+# Firebase
+.firebase/
+firebase-debug.log
+
+# System
+.DS_Store
+Thumbs.db
+
+# Secrets
+service-account.json
+*-fbsvc-*.json

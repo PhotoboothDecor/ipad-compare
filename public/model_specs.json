@@ -1,0 +1,166 @@
+{
+    "iPad (1st generation)": {
+        "cpu": "A4",
+        "released": "2010"
+    },
+    "iPad 2": {
+        "cpu": "A5",
+        "released": "2011"
+    },
+    "iPad (3rd generation)": {
+        "cpu": "A5X",
+        "released": "2012"
+    },
+    "iPad (4th generation)": {
+        "cpu": "A6X",
+        "released": "2012"
+    },
+    "iPad (5th generation)": {
+        "cpu": "A9",
+        "released": "2017"
+    },
+    "iPad (6th generation)": {
+        "cpu": "A10 Fusion",
+        "released": "2018"
+    },
+    "iPad (7th generation)": {
+        "cpu": "A10 Fusion",
+        "released": "2019"
+    },
+    "iPad (8th generation)": {
+        "cpu": "A12 Bionic",
+        "released": "2020"
+    },
+    "iPad (9th generation)": {
+        "cpu": "A13 Bionic",
+        "released": "2021"
+    },
+    "iPad (10th generation)": {
+        "cpu": "A14 Bionic",
+        "released": "2022"
+    },
+    "iPad (11th generation)": {
+        "cpu": "A16 Bionic",
+        "released": "2025"
+    },
+    "iPad Air (1st generation)": {
+        "cpu": "A7",
+        "released": "2013"
+    },
+    "iPad Air 2": {
+        "cpu": "A8X",
+        "released": "2014"
+    },
+    "iPad Air (3rd generation)": {
+        "cpu": "A12 Bionic",
+        "released": "2019"
+    },
+    "iPad Air (4th generation)": {
+        "cpu": "A14 Bionic",
+        "released": "2020"
+    },
+    "iPad Air (5th generation)": {
+        "cpu": "M1",
+        "released": "2022"
+    },
+    "iPad Air (6th generation)": {
+        "cpu": "M2",
+        "released": "2024"
+    },
+    "iPad Air (7th generation)": {
+        "cpu": "M3",
+        "released": "2025"
+    },
+    "iPad Mini (1st generation)": {
+        "cpu": "A5",
+        "released": "2012"
+    },
+    "iPad Mini 2": {
+        "cpu": "A7",
+        "released": "2013"
+    },
+    "iPad Mini 3": {
+        "cpu": "A7",
+        "released": "2014"
+    },
+    "iPad Mini 4": {
+        "cpu": "A8",
+        "released": "2015"
+    },
+    "iPad Mini (5th generation)": {
+        "cpu": "A12 Bionic",
+        "released": "2019"
+    },
+    "iPad Mini (6th generation)": {
+        "cpu": "A15 Bionic",
+        "released": "2021"
+    },
+    "iPad Mini (7th generation)": {
+        "cpu": "A17 Pro",
+        "released": "2024"
+    },
+    "iPad Pro 9.7-inch": {
+        "cpu": "A9X",
+        "released": "2016"
+    },
+    "iPad Pro 10.5-inch": {
+        "cpu": "A10X Fusion",
+        "released": "2017"
+    },
+    "iPad Pro 11-inch (1st generation)": {
+        "cpu": "A12X Bionic",
+        "released": "2018"
+    },
+    "iPad Pro 11-inch (2nd generation)": {
+        "cpu": "A12Z Bionic",
+        "released": "2020"
+    },
+    "iPad Pro 11-inch (3rd generation)": {
+        "cpu": "M1",
+        "released": "2021"
+    },
+    "iPad Pro 11-inch (4th generation)": {
+        "cpu": "M2",
+        "released": "2022"
+    },
+    "iPad Pro 11-inch (5th generation)": {
+        "cpu": "M4",
+        "released": "2024"
+    },
+    "iPad Pro 11-inch (6th generation)": {
+        "cpu": "M5",
+        "released": "2025"
+    },
+    "iPad Pro 12.9-inch (1st generation)": {
+        "cpu": "A9X",
+        "released": "2015"
+    },
+    "iPad Pro 12.9-inch (2nd generation)": {
+        "cpu": "A10X Fusion",
+        "released": "2017"
+    },
+    "iPad Pro 12.9-inch (3rd generation)": {
+        "cpu": "A12X Bionic",
+        "released": "2018"
+    },
+    "iPad Pro 12.9-inch (4th generation)": {
+        "cpu": "A12Z Bionic",
+        "released": "2020"
+    },
+    "iPad Pro 12.9-inch (5th generation)": {
+        "cpu": "M1",
+        "released": "2021"
+    },
+    "iPad Pro 12.9-inch (6th generation)": {
+        "cpu": "M2",
+        "released": "2022"
+    },
+    "iPad Pro 13-inch": {
+        "cpu": "M4",
+        "released": "2024"
+    },
+    "iPad Pro 13-inch (2nd generation)": {
+        "cpu": "M5",
+        "released": "2025"
+    }
+}

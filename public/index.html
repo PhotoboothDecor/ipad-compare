@@ -1,62 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Used iPad Value Comparer</title>
     <link rel="stylesheet" href="style.css">
-    
+    <link rel="stylesheet" href="search-style.css">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Firebase SDKs -->
     <script defer src="/__/firebase/10.7.1/firebase-app-compat.js"></script>
     <script defer src="/__/firebase/10.7.1/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/init.js"></script>
-    <script defer src="app.js"></script>
+    <!-- <script defer src="/__/firebase/init.js"></script> Removed: Using explicit config in app.js -->
+    <script defer src="app.js?v=3"></script>
 </head>
+
 <body>
     <div class="container">
         <header>
             <h1>iPad Value Scorer</h1>
             <p>Find the best bang for your buck.</p>
         </header>
-        
+
         <main>
             <div class="card">
                 <div class="input-group">
-                    <label for="model-select">iPad Model</label>
-                    <select id="model-select" disabled>
-                        <option value="">Loading models...</option>
-                    </select>
+                    <label for="model-search">iPad Model</label>
+                    <div class="search-container">
+                        <input type="text" id="model-search" placeholder="Loading data..." disabled>
+                        <ul id="search-results" class="hidden"></ul>
+                    </div>
+                    <!-- Hidden input to store the selected model ID -->
+                    <input type="hidden" id="selected-model-id">
                 </div>
-                
+
                 <div class="input-group">
                     <label for="price-input">Price ($)</label>
                     <input type="number" id="price-input" placeholder="e.g. 300" min="0" step="1">
                 </div>
-                
+
                 <button id="calculate-btn">Calculate Value</button>
             </div>
-            
-            <div id="result-area" class="result-card hidden">
-                <h2>Value Score</h2>
-                <div class="score-display">
-                    <span id="score-value">--</span>
-                    <span class="score-label">Points / Dollar</span>
-                </div>
-                <div id="context-msg">Higher is better!</div>
-                <div class="details">
-                    <p>Geekbench Score: <span id="gb-score">--</span></p>
-                </div>
+
+            <div class="result-container hidden" id="result-container">
+                <table id="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Price</th>
+                            <th>Chip</th>
+                            <th>Year</th>
+                            <th>Max iOS</th>
+                            <th>Geekbench</th>
+                            <th class="highlight">Value Score (Pts/$)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="comparison-body">
+                        <!-- Rows added dynamically -->
+                    </tbody>
+                </table>
+                <button id="clear-all-btn" class="secondary-btn hidden">Clear List</button>
             </div>
         </main>
-        
+
         <footer>
             <p>Data scraped from Geekbench Browser daily.</p>
         </footer>
     </div>
 </body>
+
 </html>
