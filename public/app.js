@@ -264,8 +264,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function findMatches(query) {
-        // Tokenize Query
-        const queryTokens = query.split(/\s+/).filter(t => t.length > 0);
+        // Tokenize Query (Lowercase for matching)
+        const queryLower = query.toLowerCase();
+        const queryTokens = queryLower.split(/\s+/).filter(t => t.length > 0);
         if (queryTokens.length === 0) return [];
 
         let scoredResults = [];
@@ -362,36 +363,56 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (matchScore > 0) {
+                // DEDUPLICATION STRATEGY
+                // We want to group "iPad Air (6th)" and "iPad Air (6th generation)" together.
+                // 1. If mapping exists, use the mapping's normalized name as the key (strongest link).
+                // 2. If no mapping, use our generating normalizer to create a standard key.
+
+                let dedupeKey;
+                if (mapping) {
+                    dedupeKey = normalizeModelName(mapping.model_name);
+                } else {
+                    dedupeKey = normalizeModelName(modelName);
+                }
+
                 const newResult = {
-                    name: canonicalName, // Use canonical name for display if available
-                    originalName: modelName, // Keep track of DB key
+                    name: isCanonical || (mapping && mapping.model_name) || modelName, // Prefer canonical display name
+                    originalName: modelName,
                     matchType: matchType,
                     matchedNumber: matchedDetail,
                     score: modelsData[modelName].score,
                     relevance: matchScore,
-                    isCanonical: isCanonical
+                    isCanonical: isCanonical,
+                    normalizedKey: dedupeKey // Store key for debug/logic
                 };
 
-                // Deduplication Logic
-                if (uniqueResults.has(canonicalName)) {
-                    const existing = uniqueResults.get(canonicalName);
-                    // Prefer the result that IS the canonical name key (if scores are similar)
-                    // OR the one with significantly higher score?
-                    // Usually we want the entry that links to the Canonical Name if possible.
-                    // But 'score' (benchmark) comes from the DB entry. If we change 'name', we ideally want to point to the entry that HAS the data.
-                    // Actually, if we map "iPad (8th)" -> "iPad (8th generation)", we are saying they are the same.
-                    // But if "iPad (8th generation)" entry DOES exist in DB, use that data.
-                    // If "iPad (8th)" exists but "iPad (8th generation)" NOT in DB, we use "iPad (8th)" data but displayed as "iPad (8th generation)".
+                // Logic: 
+                // If we have "iPad Air (6th)" (mapped to nothing) -> Key: "ipad air (6th generation)"
+                // If we have "iPad Air (6th generation)" (mapped to nothing) -> Key: "ipad air (6th generation)"
+                // They share a key -> Deduplication happens!
 
-                    // Logic: If current is isCanonical (matches mapping name exactly), it overwrites non-canonical
-                    // UNLESS the non-canonical has a much higher match score (unlikely if they are dupes).
+                if (uniqueResults.has(dedupeKey)) {
+                    const existing = uniqueResults.get(dedupeKey);
+
+                    // Merging Logic:
+                    // 1. Prefer the one that is Explicitly Canonical (from mapping source)
                     if (newResult.isCanonical && !existing.isCanonical) {
-                        uniqueResults.set(canonicalName, newResult);
-                    } else if (newResult.relevance > existing.relevance) {
-                        uniqueResults.set(canonicalName, newResult);
+                        uniqueResults.set(dedupeKey, newResult);
+                    }
+                    // 2. If neither is canonical, prefer the one with a "better" name (e.g. contains "generation" vs just number)
+                    else if (!existing.isCanonical) {
+                        const newHasGen = newResult.name.toLowerCase().includes('generation');
+                        const oldHasGen = existing.name.toLowerCase().includes('generation');
+
+                        if (newHasGen && !oldHasGen) {
+                            uniqueResults.set(dedupeKey, newResult);
+                        } else if (newResult.relevance > existing.relevance + 10) {
+                            // Only overwrite if significantly more relevant (unlikely for dupes)
+                            uniqueResults.set(dedupeKey, newResult);
+                        }
                     }
                 } else {
-                    uniqueResults.set(canonicalName, newResult);
+                    uniqueResults.set(dedupeKey, newResult);
                 }
             }
         });
@@ -405,6 +426,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Return top 10
         return scoredResults.slice(0, 10);
+    }
+
+    /**
+     * Helper: Normalize model name for deduplication
+     * E.g. "iPad Air (6th)" -> "ipad air (6th generation)"
+     * E.g. "iPad Air 6th Gen" -> "ipad air (6th generation)"
+     */
+    function normalizeModelName(name) {
+        let normalized = name.toLowerCase().trim();
+
+        // Remove "apple" prefix
+        normalized = normalized.replace(/^apple\s+/i, '');
+
+        // 1. Normalize Parentheses variants: "(6)", "(6th)", "(6th Gen)" -> " (6th generation)"
+        // Matches: space(optional) + "(" + number + suffix(optional) + "gen/generation"(optional) + ")"
+        // Be careful not to match "(M2)" as a generation unless we want to, but numbers usually imply gen.
+        normalized = normalized.replace(/\s*\(\s*(\d+)(?:st|nd|rd|th)?\s*(?:gen|generation|)?\s*\)/g, (match, num) => {
+            return ` (${getOrdinal(num)} generation)`;
+        });
+
+        // 2. Normalize "Gen" variants without parens: " 6th Gen", " Gen 6"
+        // "Gen 6"
+        normalized = normalized.replace(/\s+gen(?:eration)?\s+(\d+)(?:st|nd|rd|th)?/g, (match, num) => {
+            return ` (${getOrdinal(num)} generation)`;
+        });
+        // "6th Gen"
+        normalized = normalized.replace(/\s+(\d+)(?:st|nd|rd|th)?\s+gen(?:eration)?/g, (match, num) => {
+            return ` (${getOrdinal(num)} generation)`;
+        });
+
+        // 3. Normalize "M-Series" chips if in parens or loose: " (M1) "
+        // "iPad Air M2" -> "ipad air (m2)"
+        // This helps merge "iPad Air (M2)" and "iPad Air M2"
+        normalized = normalized.replace(/\s*\(\s*(m\d+)\s*\)/g, ' ($1)'); // Ensure parens are clean
+        // If " M2 " exists without parens?
+        // normalized = normalized.replace(/\s+(m\d+)(?:\s|$)/g, ' ($1) '); 
+
+        return normalized.trim();
+    }
+
+    function getOrdinal(n) {
+        const s = ["th", "st", "nd", "rd"];
+        const v = n % 100;
+        return n + (s[(v - 20) % 10] || s[v] || s[0]);
     }
 
     function renderResults(matches) {
