@@ -137,11 +137,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // 2. Identify Price
-            // Regex: Flexible currency prefix (CA, CAD, US, USD, none) 
-            // Followed by optional whitespace, then $ sign (optional for some formats but usually present), then digits.
-            // We want to capture the numeric part.
-            // Matches: "$450", "CA$450", "CA $450", "450$" (maybe?), "CAD 450"
-            const priceRegex = /(?:(?:CA|CAD|US|USD)\s*\$?\s*|\$\s*)?([\d,]+)/i;
+            // STRICTER REGEX: Must have $ or CA/US/CAD prefix to be a primary match.
+            // avoiding "64GB", "10th Gen" matching as "64" or "10".
+            const priceRegex = /(?:(?:CA|CAD|US|USD)\s*\$?\s*|\$)\s*([\d,]+)/i;
             const priceMatch = line.match(priceRegex);
 
             let price = null;
@@ -178,7 +176,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Check for loose number at END of line? (risky, e.g. "iPad 4")
                 // Only if typical price range > 20? 
                 const looseNumberMatch = line.match(/(\d+)$/);
-                if (looseNumberMatch && parseInt(looseNumberMatch[1]) > 20) {
+
+                // VALIDATION: Ensure this loose number isn't "64" (GB) or "2021" (Year) or "10" (Gen)
+                // We do this by checking if the line ENDS with "GB", "Gen", etc.
+                // Actually, looseNumberMatch matches number at END. 
+                // We should also check if the line *text* immediately preceding the number hints at non-price.
+                // But simplest:
+                // 1. Value must be > 40 (avoid "10th gen", "4th gen")
+                // 2. Value shouldn't match typical storage sizes exactly if ambiguous (64, 128, 256, 512). 
+                //    BUT prices *can* be 250. 
+                //    Better check: does the line ending look like "64GB"?
+                const isStorage = line.match(/\d+\s*(gb|mb|tb)\s*$/i);
+                const isGen = line.match(/\d+\s*(st|nd|rd|th)?\s*Gen\s*$/i);
+
+                if (looseNumberMatch && !isStorage && !isGen && parseInt(looseNumberMatch[1]) > 40) {
                     // Treated as price line?
                     // e.g. "iPad Air 400"
                     price = parseInt(looseNumberMatch[1]);
