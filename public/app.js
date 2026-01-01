@@ -208,7 +208,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             namePart = namePart.trim();
 
-            if (!namePart || !price) continue;
+            if (!price) continue;
+
+            if (!namePart) {
+                namePart = "Unknown Model";
+                // This allows the row to be created with the price, 
+                // and the user can use the "Resolve" dropdown to fix the name.
+            }
 
             // --- Process Row ---
             const matches = findMatches(namePart, modelMapping);
