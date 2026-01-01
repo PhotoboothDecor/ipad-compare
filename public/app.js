@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const modelSearchInput = document.getElementById('model-search');
-    const searchResults = document.getElementById('search-results');
-    const suggestionsList = document.getElementById('suggestions');
+    const searchResults = document.getElementById('suggestions');
     const priceInput = document.getElementById('price-input');
     const calculateBtn = document.getElementById('calculate-btn');
     const resultContainer = document.getElementById('result-container');
