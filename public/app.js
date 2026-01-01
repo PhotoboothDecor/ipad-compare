@@ -112,12 +112,27 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i];
 
-            // 1. Skip obvious junk lines (Location only)
-            // Common locations: "Ottawa, ON", "Gatineau, QC", "Cornwall, ON"
-            if (line.match(/^[A-Za-z\s\.]+, [A-Z]{2}$/)) {
-                // If we have a pending title but no price was found before this location line, 
-                // it might mean the previous line was just a title and the price is missing or elsewhere.
-                // For now, just ignore pure location lines.
+            // 1. Skip obvious junk lines 
+            // Common locations: "Ottawa, ON", "Gatineau, QC"
+            // Marketing/Status: "Ships to you", "Door pickup", "Seller rating", "Condition"
+            const junkPatterns = [
+                /^[A-Za-z\s\.]+, [A-Z]{2}$/, // City, ST location
+                /^Ships to you/i,
+                /^Door pickup/i,
+                /^Porch pickup/i,
+                /^Local pickup/i,
+                /^Seller rating/i,
+                /^Condition:/i,
+                /^Sold/i,
+                /^Pending$/i,
+                /^\d+\s+ratings/i, // e.g. "5 ratings"
+                /^In stock/i,
+                /^Out of stock/i,
+                /^Listed/i
+            ];
+
+            const isJunk = junkPatterns.some(pattern => line.match(pattern));
+            if (isJunk) {
                 continue;
             }
 
