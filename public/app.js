@@ -113,10 +113,10 @@ document.addEventListener('DOMContentLoaded', () => {
             let line = lines[i];
 
             // 1. Skip obvious junk lines 
-            // Common locations: "Ottawa, ON", "Gatineau, QC"
+            // Common locations: "Ottawa, ON", "Gatineau, QC", "Clarence-Rockland, ON"
             // Marketing/Status: "Ships to you", "Door pickup", "Seller rating", "Condition"
             const junkPatterns = [
-                /^[A-Za-z\s\.]+, [A-Z]{2}$/, // City, ST location
+                /^[A-Za-z\s\.\-]+, [A-Z]{2}$/, // City, ST location (allow hyphens)
                 /^Ships to you/i,
                 /^Door pickup/i,
                 /^Porch pickup/i,
@@ -140,8 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // PERMISSIVE REGEX: Match $... or CA... or just plain numbers if specific conditions met
             // We'll capture broadly, then validate.
             // Matches: CA$450, $450, 450 (if strict mode fails, caught by loose logic below)
-            // This regex focuses on EXPLICIT currency indicators to avoid 64GB
-            const priceRegex = /[\$£€¥]|(?:CA|CAD|US|USD)\s*\$?|(?:\bCAD\b|\bUSD\b)/i;
+            // This regex focuses on EXPLICIT currency indicators to avoid 64GB or "case"
+            // Use word boundaries \b for text prefixes!
+            const priceRegex = /[\$£€¥]|(?:\bCA|\bCAD|\bUS|\bUSD)\s*\$?|\$\s*\d/i;
             const hasCurrencySymbol = line.match(priceRegex);
 
             // Extract numbers
