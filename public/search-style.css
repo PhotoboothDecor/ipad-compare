@@ -1,10 +1,12 @@
 /* Search Styles */
 /* Make sure the parent container allows absolute positioning of the dropdown */
-.input-group {
+.input-group,
+.model-resolve-wrapper {
     position: relative;
 }
 
-#suggestions {
+/* Generalized Dropdown Class */
+.suggestions-dropdown {
     position: absolute;
     top: 100%;
     /* Directly below */
@@ -27,37 +29,43 @@
     z-index: 100;
 }
 
-#suggestions li {
+.suggestions-dropdown.hidden {
+    display: none;
+}
+
+.suggestions-dropdown li {
     padding: 12px 16px;
     cursor: pointer;
     font-size: 0.95rem;
     color: var(--text);
     border-bottom: 1px solid var(--border);
     transition: background 0.2s ease;
+    text-align: left;
+    /* Ensure left align even in centered table cells */
 }
 
-#suggestions li:last-child {
+.suggestions-dropdown li:last-child {
     border-bottom: none;
 }
 
-#suggestions li:hover {
+.suggestions-dropdown li:hover {
     background-color: #f8fafc;
     /* Light gray hover */
     color: #0f172a;
     font-weight: 500;
 }
 
-#suggestions li strong {
+.suggestions-dropdown li strong {
     color: var(--accent-gold);
     /* Gold highlight for matches */
 }
 
 /* Scrollbar for suggestions */
-#suggestions::-webkit-scrollbar {
+.suggestions-dropdown::-webkit-scrollbar {
     width: 6px;
 }
 
-#suggestions::-webkit-scrollbar-thumb {
+.suggestions-dropdown::-webkit-scrollbar-thumb {
     background: #cbd5e1;
     border-radius: 3px;
 }

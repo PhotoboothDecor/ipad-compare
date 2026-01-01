@@ -183,6 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
             namePart = namePart.replace(/^Apple\s+/i, '');
             // 3. Remove "Blue", "Silver", "Space Gray", "Gold" colors if at start
             namePart = namePart.replace(/^(Blue|Pink|Silver|Gold|Space Gray|Space Grey)\s+/i, '');
+            // 4. Remove condition/marketing prefixes (New, Like New, Brand New)
+            namePart = namePart.replace(/^(New|Brand New|Like New|Used|Mint)\s+/i, '');
 
             namePart = namePart.trim();
 
@@ -555,7 +557,10 @@ document.addEventListener('DOMContentLoaded', () => {
             row.classList.add('incomplete-row');
             row.innerHTML = `
                 <td>
-                    <input type="text" class="model-resolve-input" value="${model}" placeholder="Enter generic model name...">
+                    <div class="model-resolve-wrapper">
+                        <input type="text" class="model-resolve-input" value="${model}" placeholder="Type to search definition..." autocomplete="off">
+                        <ul class="suggestions-dropdown hidden"></ul>
+                    </div>
                 </td>
                 <td class="price-cell">$${price}</td>
                 <td colspan="3"><span class="needs-info-badge">Identify Model</span></td>
@@ -568,32 +573,78 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Add Listener for Resolution
             const resolveInput = row.querySelector('.model-resolve-input');
-            const handleResolve = () => {
-                const query = resolveInput.value.trim();
-                const matches = findMatches(query);
-                if (matches.length > 0) {
-                    const best = matches[0];
-                    const fullData = modelsData[best.name]; // name is canonical
-                    if (fullData) {
-                        // RE-RENDER ROW as Complete
-                        // Remove old row, add new row (easiest way)
-                        row.remove();
-                        addResultRow({
-                            model: best.name,
-                            price: price,
-                            score: fullData.score,
-                            cpu: fullData.cpu,
-                            released: fullData.released,
-                            max_os: fullData.max_os,
-                            shouldSave: true
-                        });
-                        updateLeaderboard();
-                    }
+            const suggestionsList = row.querySelector('.suggestions-dropdown');
+
+            // Function to Finalize Selection
+            const finalizeResolution = (selectedModelName) => {
+                const fullData = modelsData[selectedModelName];
+                if (fullData) {
+                    row.remove();
+                    addResultRow({
+                        model: selectedModelName,
+                        price: price,
+                        score: fullData.score,
+                        cpu: fullData.cpu,
+                        released: fullData.released,
+                        max_os: fullData.max_os,
+                        shouldSave: true
+                    });
+                    updateLeaderboard();
                 }
             };
 
-            resolveInput.addEventListener('change', handleResolve);
-            // resolveInput.addEventListener('blur', handleResolve); // Optional, maybe too aggressive?
+            // Input Event for Autocomplete
+            resolveInput.addEventListener('input', () => {
+                const query = resolveInput.value.trim().toLowerCase();
+                if (query.length < 1) {
+                    suggestionsList.classList.add('hidden');
+                    return;
+                }
+
+                const matches = findMatches(query);
+
+                if (matches.length > 0) {
+                    suggestionsList.innerHTML = '';
+                    matches.forEach(match => {
+                        const li = document.createElement('li');
+                        if (match.matchType === 'number') {
+                            li.innerHTML = `<strong>${match.matchedNumber}</strong> - ${match.name}`;
+                        } else {
+                            li.textContent = match.name;
+                        }
+
+                        li.addEventListener('click', (e) => {
+                            e.stopPropagation(); // Prevent document click from closing immediately
+                            resolveInput.value = match.name;
+                            suggestionsList.classList.add('hidden');
+                            finalizeResolution(match.name);
+                        });
+                        suggestionsList.appendChild(li);
+                    });
+                    suggestionsList.classList.remove('hidden');
+                } else {
+                    suggestionsList.classList.add('hidden');
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!row.contains(e.target)) {
+                    suggestionsList.classList.add('hidden');
+                }
+            });
+
+            // Handle Enter key
+            resolveInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    // Try to resolve exactly or pick first match
+                    const query = resolveInput.value.trim();
+                    const matches = findMatches(query);
+                    if (matches.length > 0) {
+                        finalizeResolution(matches[0].name);
+                    }
+                }
+            });
         } else {
             // Standard Row
             row.innerHTML = `
