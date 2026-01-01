@@ -442,7 +442,10 @@ footer {
 }
 
 .tab-btn:hover {
-    color: var(--text);
+    background-color: #1e293b;
+    /* Dark Slate */
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .tab-btn.active {
