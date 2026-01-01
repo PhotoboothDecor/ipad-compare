@@ -181,6 +181,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     // e.g. "iPad Air 400"
                     price = parseInt(looseNumberMatch[1]);
                     namePart = line.substring(0, looseNumberMatch.index).trim();
+
+                    if (!namePart && pendingTitle) {
+                        namePart = pendingTitle;
+                        pendingTitle = null; // Consumed
+                    }
                 } else {
                     // Likely a Title line or Description.
                     // Store it as pendingTitle for the *next* line to pick up.
@@ -360,6 +365,30 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
                 }
+
+                // 5. CPU Matching (A-Series, M-Series)
+                const modelData = modelsData[modelName] || {};
+                const cpu = modelData.cpu ? modelData.cpu.toString().toLowerCase() : '';
+                // We only care if the query matches the CPU name specifically
+                // e.g. "a12", "m1"
+                if (cpu.includes(query) || queryTokens.some(t => cpu.includes(t))) {
+                    matchScore += 80; // High relevance for CPU
+                    if (matchType !== 'name' && matchType !== 'number') {
+                        matchType = 'cpu';
+                        matchedDetail = modelData.cpu; // Store actual CPU name
+                    }
+                }
+
+                // 6. Year Matching (e.g. "2020")
+                const released = modelData.released ? modelData.released.toString().toLowerCase() : '';
+                // "September 2021" -> matches "2021"
+                if (released.includes(query)) {
+                    matchScore += 60;
+                    if (matchType !== 'name' && matchType !== 'number' && matchType !== 'cpu') {
+                        matchType = 'year';
+                        matchedDetail = modelData.released; // Store date
+                    }
+                }
             }
 
             if (matchScore > 0) {
@@ -506,11 +535,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         matches.forEach(match => {
             const li = document.createElement('li');
+
+            let displayText = match.name;
+            let extraInfo = '';
+
             if (match.matchType === 'number') {
-                li.innerHTML = `<strong>${match.matchedNumber}</strong> - ${match.name}`;
-            } else {
-                li.textContent = match.name;
+                // Bold the model number
+                displayText = `<strong>${match.matchedNumber}</strong> - ${match.name}`;
+            } else if (match.matchType === 'cpu') {
+                // Show CPU badge
+                extraInfo = `<span class="badge chip-badge matched-badge">${match.matchedNumber}</span>`; // matchedNumber holds the CPU here
+            } else if (match.matchType === 'year') {
+                // Show Year badge
+                extraInfo = `<span class="badge year-badge matched-badge">${match.matchedNumber}</span>`; // matchedNumber holds the release date
             }
+
+            li.innerHTML = `<span>${displayText}</span> ${extraInfo}`;
+
             li.dataset.original = match.originalName; // Store DB key
 
             li.addEventListener('click', () => {
