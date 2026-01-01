@@ -139,7 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // 2. Identify Price
             // STRICTER REGEX: Must have $ or CA/US/CAD prefix to be a primary match.
             // avoiding "64GB", "10th Gen" matching as "64" or "10".
-            const priceRegex = /(?:(?:CA|CAD|US|USD)\s*\$?\s*|\$)\s*([\d,]+)/i;
+            // Longest first for currency codes to prevent "CAD" matching just "CA"
+            const priceRegex = /(?:(?:CAD|CA|USD|US)\s*\$?\s*|\$)\s*([\d,]+)/i;
             const priceMatch = line.match(priceRegex);
 
             let price = null;
