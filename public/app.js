@@ -1,12 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     const modelSearchInput = document.getElementById('model-search');
     const searchResults = document.getElementById('search-results');
-    const selectedModelIdInput = document.getElementById('selected-model-id');
+    const suggestionsList = document.getElementById('suggestions');
     const priceInput = document.getElementById('price-input');
     const calculateBtn = document.getElementById('calculate-btn');
     const resultContainer = document.getElementById('result-container');
     const comparisonBody = document.getElementById('comparison-body');
     const clearAllBtn = document.getElementById('clear-all-btn');
+
+    // Tab Elements
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const bulkInput = document.getElementById('bulk-input');
+    const processBulkBtn = document.getElementById('process-bulk-btn');
 
     let db;
     let modelsData = {}; // Key: Model Name, Value: { score, cpu, released }
@@ -58,8 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             snapshot.forEach(doc => {
                 const data = doc.data();
-                modelsData[doc.id] = {
-                    score: data.score,
+                modelsData[data.name || doc.id] = {
+                    score: data.multi_core_score || 0,
                     cpu: data.cpu || 'Unknown',
                     released: data.released || 'Unknown',
                     max_os: data.max_os || 'Unknown'
@@ -79,6 +85,148 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Error loading mapping:", error);
         }
     }
+
+
+    // --- Tab Logic ---
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Deactivate all
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+
+            // Activate clicked
+            btn.classList.add('active');
+            const tabId = btn.dataset.tab;
+            document.getElementById(`${tabId}-tab`).classList.add('active');
+        });
+    });
+
+    // --- Bulk Process Logic (Improved) ---
+    processBulkBtn.addEventListener('click', async () => {
+        const rawText = bulkInput.value;
+        if (!rawText.trim()) return;
+
+        const lines = rawText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        let processedCount = 0;
+        let pendingTitle = null; // Store a title if we find a line with no price
+
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i];
+
+            // 1. Skip obvious junk lines (Location only)
+            // Common locations: "Ottawa, ON", "Gatineau, QC", "Cornwall, ON"
+            if (line.match(/^[A-Za-z\s\.]+, [A-Z]{2}$/)) {
+                // If we have a pending title but no price was found before this location line, 
+                // it might mean the previous line was just a title and the price is missing or elsewhere.
+                // For now, just ignore pure location lines.
+                continue;
+            }
+
+            // 2. Identify Price
+            // Regex: Looks for $ followed by digits, OR CA$ followed by digits.
+            // Also supports just digits at end of line if reasonable price (e.g. > 20)
+            const priceRegex = /(?:CA\s*|US\s*)?\$([\d,]+)/i;
+            const priceMatch = line.match(priceRegex);
+
+            let price = null;
+            let namePart = "";
+
+            if (priceMatch) {
+                // Found an explicit price (e.g. CA$470, $400)
+                const rawPrice = priceMatch[1].replace(/,/g, '');
+                price = parseInt(rawPrice);
+
+                // Check text BEFORE the price on this line
+                // e.g. "iPad Air $300" -> name="iPad Air"
+                // e.g. "CA$470" -> name="" (empty)
+                const textBeforePrice = line.substring(0, priceMatch.index).trim();
+
+                // If text before price is substantial, use it as name.
+                // If it's just "CA" or empty, rely on pendingTitle.
+                if (textBeforePrice.length > 2 && textBeforePrice.toUpperCase() !== 'CA') {
+                    namePart = textBeforePrice;
+                    pendingTitle = null; // Consumed
+                } else if (pendingTitle) {
+                    // Use the previous line as the title
+                    namePart = pendingTitle;
+                    pendingTitle = null; // Consumed
+                } else {
+                    // No name found on this line or previous. Skip or mark unknown.
+                    // It might be a price update line "CA$450" after "CA$400".
+                    // For now, ignore orphan prices to avoid noise.
+                    continue;
+                }
+
+            } else {
+                // No explicit price symbol found. 
+                // Check for loose number at END of line? (risky, e.g. "iPad 4")
+                // Only if typical price range > 20? 
+                const looseNumberMatch = line.match(/(\d+)$/);
+                if (looseNumberMatch && parseInt(looseNumberMatch[1]) > 20) {
+                    // Treated as price line?
+                    // e.g. "iPad Air 400"
+                    price = parseInt(looseNumberMatch[1]);
+                    namePart = line.substring(0, looseNumberMatch.index).trim();
+                } else {
+                    // Likely a Title line or Description.
+                    // Store it as pendingTitle for the *next* line to pick up.
+                    // e.g. "Blue iPad in Ottawa, ON"
+                    pendingTitle = line;
+                    continue; // Move to next line to look for price
+                }
+            }
+
+            // Clean up Name Part
+            // 1. Remove "in City, ST" location suffix
+            namePart = namePart.replace(/\s+in\s+[A-Za-z\s\.]+, [A-Z]{2}$/i, '');
+            // 2. Remove common prefixes that confuse matcher if not exact
+            // e.g. "Apple iPad..." -> "iPad..." (Matcher works better with standard starts)
+            namePart = namePart.replace(/^Apple\s+/i, '');
+            // 3. Remove "Blue", "Silver", "Space Gray", "Gold" colors if at start
+            namePart = namePart.replace(/^(Blue|Pink|Silver|Gold|Space Gray|Space Grey)\s+/i, '');
+
+            namePart = namePart.trim();
+
+            if (!namePart || !price) continue;
+
+            // --- Process Row ---
+            const matches = findMatches(namePart, modelMapping);
+
+            if (matches && matches.length > 0) {
+                const bestMatch = matches[0];
+                const modelData = modelsData[bestMatch.model_name];
+
+                if (modelData) {
+                    addResultRow({
+                        model: bestMatch.model_name,
+                        score: modelData.score,
+                        price: price,
+                        cpu: modelData.cpu,
+                        released: modelData.released,
+                        max_os: modelData.max_os
+                    }, true);
+                    processedCount++;
+                }
+            } else {
+                addResultRow({
+                    model: namePart,
+                    price: price,
+                    incomplete: true
+                }, true);
+                processedCount++;
+            }
+        }
+
+        if (processedCount > 0) {
+            bulkInput.value = ''; // Clear input on success
+            // updateLeaderboard called inside addResultRow usually, but good to be safe
+            updateLeaderboard();
+            checkEmptyTable();
+            document.getElementById('result-container').scrollIntoView({ behavior: 'smooth' });
+        } else {
+            alert('Could not find any valid listings. Try copying closer to the "Title... Price" area.');
+        }
+    });
 
     // --- Search Logic ---
     modelSearchInput.addEventListener('input', (e) => {
@@ -361,40 +509,118 @@ document.addEventListener('DOMContentLoaded', () => {
         modelSearchInput.focus();
     });
 
-    function addResultRow(model, price, score, valueScore, cpu = '-', released = '-', max_os = '-', shouldSave = true) {
+    function addResultRow(modelOrData, priceArg, scoreArg, valueScoreArg, cpuArg, releasedArg, max_osArg, shouldSaveArg) {
+        // --- Normalization (Handle Object vs Arguments) ---
+        let data = {};
+        if (typeof modelOrData === 'object') {
+            data = modelOrData;
+            // shouldSave is the second arg if first is object
+            data.shouldSave = priceArg !== undefined ? priceArg : true;
+        } else {
+            // Legacy/Positional
+            data = {
+                model: modelOrData,
+                price: priceArg,
+                score: scoreArg,
+                valueScore: valueScoreArg,
+                cpu: cpuArg,
+                released: releasedArg,
+                max_os: max_osArg,
+                shouldSave: shouldSaveArg
+            };
+        }
+
+        // --- Defaults ---
+        const { model, price, score, valueScore, cpu = '-', released = '-', max_os = '-', shouldSave = true, incomplete = false } = data;
+
+        // Calculate value score if missing (e.g. from bulk)
+        let finalValueScore = valueScore;
+        if (!finalValueScore && score && price) {
+            finalValueScore = (score / price).toFixed(2);
+        }
+        if (incomplete) {
+            finalValueScore = 0; // Sort to bottom
+        }
+
         const row = document.createElement('tr');
-        row.dataset.value = valueScore; // Store for sorting
-        row.dataset.model = model; // Store for persistence
+        row.dataset.value = finalValueScore;
+        row.dataset.model = model;
         row.dataset.price = price;
-        row.dataset.score = score;
+        row.dataset.score = score || 0;
         row.dataset.cpu = cpu;
         row.dataset.released = released;
         row.dataset.max_os = max_os;
+        row.dataset.incomplete = incomplete;
 
-        row.innerHTML = `
-            <td class="model-name">${model}</td>
-            <td class="price-cell clickable" title="Click to edit price">$${price}</td>
-            <td><span class="badge chip-badge">${cpu}</span></td>
-            <td>${released}</td>
-            <td>${max_os}</td>
-            <td>${score}</td>
-            <td class="value-cell">
-                <span class="score-val">${valueScore}</span>
-                <span class="trophy-icon"></span>
-            </td>
-            <td><button class="delete-btn" aria-label="Remove row">×</button></td>
-        `;
+        if (incomplete) {
+            row.classList.add('incomplete-row');
+            row.innerHTML = `
+                <td>
+                    <input type="text" class="model-resolve-input" value="${model}" placeholder="Enter generic model name...">
+                </td>
+                <td class="price-cell">$${price}</td>
+                <td colspan="3"><span class="needs-info-badge">Identify Model</span></td>
+                <td>?</td>
+                <td class="value-cell">
+                    <span class="score-val" style="font-size: 0.9em; color: var(--text-muted)">Pending...</span>
+                </td>
+                <td><button class="delete-btn" aria-label="Remove row">×</button></td>
+            `;
+
+            // Add Listener for Resolution
+            const resolveInput = row.querySelector('.model-resolve-input');
+            const handleResolve = () => {
+                const query = resolveInput.value.trim();
+                const matches = findMatches(query);
+                if (matches.length > 0) {
+                    const best = matches[0];
+                    const fullData = modelsData[best.name]; // name is canonical
+                    if (fullData) {
+                        // RE-RENDER ROW as Complete
+                        // Remove old row, add new row (easiest way)
+                        row.remove();
+                        addResultRow({
+                            model: best.name,
+                            price: price,
+                            score: fullData.score,
+                            cpu: fullData.cpu,
+                            released: fullData.released,
+                            max_os: fullData.max_os,
+                            shouldSave: true
+                        });
+                        updateLeaderboard();
+                    }
+                }
+            };
+
+            resolveInput.addEventListener('change', handleResolve);
+            // resolveInput.addEventListener('blur', handleResolve); // Optional, maybe too aggressive?
+        } else {
+            // Standard Row
+            row.innerHTML = `
+                <td class="model-name">${model}</td>
+                <td class="price-cell clickable" title="Click to edit price">$${price}</td>
+                <td><span class="badge chip-badge">${cpu}</span></td>
+                <td>${released}</td>
+                <td>${max_os}</td>
+                <td>${score}</td>
+                <td class="value-cell">
+                    <span class="score-val">${finalValueScore}</span>
+                    <span class="trophy-icon"></span>
+                </td>
+                <td><button class="delete-btn" aria-label="Remove row">×</button></td>
+            `;
+            // Visual Feedback for Max iOS
+            if (max_os === 'Latest') {
+                row.classList.add('max-ios-latest');
+            } else {
+                row.classList.add('max-ios-outdated');
+            }
+        }
 
         // Add highlight animation class only if new
         if (shouldSave) {
             row.classList.add('new-row');
-        }
-
-        // Visual Feedback for Max iOS
-        if (max_os === 'Latest') {
-            row.classList.add('max-ios-latest');
-        } else {
-            row.classList.add('max-ios-outdated');
         }
 
         checkEmptyTable(); // Immediately update UI (hide instructions)

@@ -29,22 +29,40 @@
 
         <main>
             <div class="card">
-                <div class="input-group">
-                    <label for="model-search">iPad Model</label>
-                    <div class="search-container">
-                        <input type="text" id="model-search" placeholder="Loading data..." disabled>
-                        <ul id="search-results" class="hidden"></ul>
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="basic">BASIC</button>
+                    <button class="tab-btn" data-tab="pro">PRO</button>
+                </div>
+
+                <!-- Basic Tab (Single Entry) -->
+                <div id="basic-tab" class="tab-content active">
+                    <div class="input-group">
+                        <label for="model-search">iPad Model</label>
+                        <input type="text" id="model-search" placeholder="Loading data..." autocomplete="off">
+                        <div id="suggestions" class="suggestions-list hidden"></div>
                     </div>
-                    <!-- Hidden input to store the selected model ID -->
-                    <input type="hidden" id="selected-model-id">
+
+                    <div class="input-group">
+                        <label for="price-input">Price ($)</label>
+                        <input type="number" id="price-input" placeholder="e.g. 300">
+                    </div>
+
+                    <button id="calculate-btn">Calculate Value</button>
                 </div>
 
-                <div class="input-group">
-                    <label for="price-input">Price ($)</label>
-                    <input type="number" id="price-input" placeholder="e.g. 300" min="0" step="1">
+                <!-- Pro Tab (Bulk Entry) -->
+                <div id="pro-tab" class="tab-content">
+                    <div class="input-group">
+                        <label for="bulk-input">Paste Listing Titles & Prices</label>
+                        <p class="helper-text">Copy multiple lines from Marketplace. Start each line with the model
+                            name.</p>
+                        <textarea id="bulk-input" rows="6" placeholder="iPad Air 4 $350
+iPad Pro 12.9 3rd gen 450
+iPad 9th Gen 200"></textarea>
+                    </div>
+                    <button id="process-bulk-btn">Process List</button>
                 </div>
-
-                <button id="calculate-btn">Calculate Value</button>
             </div>
 
             <!-- Instructions (Visible when empty) -->

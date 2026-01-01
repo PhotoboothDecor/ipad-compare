@@ -412,6 +412,114 @@ footer {
     color: var(--text-muted);
 }
 
+/* Tabs Styling */
+/* Tabs Styling: Segmented Control */
+.tabs {
+    display: flex;
+    background-color: #f1f5f9;
+    /* Light gray track */
+    padding: 4px;
+    border-radius: 50px;
+    /* Pill shape */
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    background: transparent;
+    border: none;
+    border-radius: 50px;
+    /* Pill shape to match container */
+    color: var(--text-muted);
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Smooth transition */
+    margin-bottom: 0;
+}
+
+.tab-btn:hover {
+    color: var(--text);
+}
+
+.tab-btn.active {
+    background-color: white;
+    color: #1e293b;
+    /* Dark Slate */
+    font-weight: 700;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* Lifted effect */
+    border-bottom: none;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Pro Tab Elements */
+textarea#bulk-input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+    background: var(--bg);
+    /* Match inputs */
+}
+
+.helper-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: -0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+#process-bulk-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(90deg, #d4af37 0%, #aa8c2c 100%);
+    /* Gold Gradient */
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#process-bulk-btn:hover {
+    background: linear-gradient(90deg, #eacda3 0%, #d6ae7b 100%);
+    /* Lighter Gold */
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px -10px rgba(212, 175, 55, 0.5);
+}
+
 .champion-row .chip-badge {
     color: #b45309;
     background: rgba(212, 175, 55, 0.2);
@@ -439,4 +547,5 @@ input.price-edit-input::-webkit-inner-spin-button {
 /* Remove spinners for Firefox */
 input.price-edit-input[type=number] {
     -moz-appearance: textfield;
+    appearance: textfield;
 }
