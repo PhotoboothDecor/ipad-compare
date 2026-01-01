@@ -219,8 +219,10 @@ th:nth-child(1),
 td:nth-child(1) {
     text-align: left;
     /* Align Model Name Left */
-    width: 40%;
-    /* Give Model the most space */
+    width: 50%;
+    /* Give Model significantly more space */
+    min-width: 300px;
+    /* Ensure strictly minimum width */
 }
 
 th:nth-child(2),

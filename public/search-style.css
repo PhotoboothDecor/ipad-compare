@@ -33,6 +33,14 @@
     display: none;
 }
 
+/* Table context specific override */
+.model-resolve-wrapper .suggestions-dropdown {
+    min-width: 350px;
+    /* Force wider dropdown in tables */
+    z-index: 1000;
+    /* Ensure on top of other rows */
+}
+
 .suggestions-dropdown li {
     padding: 12px 16px;
     cursor: pointer;
