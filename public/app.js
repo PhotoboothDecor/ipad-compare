@@ -405,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 const newResult = {
-                    name: isCanonical || (mapping && mapping.model_name) || modelName, // Prefer canonical display name
+                    name: canonicalName, // Use canonical name for display if available
                     originalName: modelName,
                     matchType: matchType,
                     matchedNumber: matchedDetail,

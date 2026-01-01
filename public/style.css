@@ -590,3 +590,29 @@ input.price-edit-input[type=number] {
         background-color: rgba(255, 100, 100, 0.05);
     }
 }
+
+/* Matched Badge for Search Results */
+.matched-badge {
+    margin-left: 0.5rem;
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.chip-badge {
+    background: rgba(0, 0, 0, 0.05);
+    /* Default gray */
+    color: var(--text-muted);
+}
+
+.year-badge {
+    background: rgba(212, 175, 55, 0.15);
+    /* Gold tint */
+    color: #b45309;
+    /* Dark gold */
+    font-weight: 600;
+}
