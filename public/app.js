@@ -103,18 +103,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Bulk Process Logic (Improved) ---
     processBulkBtn.addEventListener('click', async () => {
         const rawText = bulkInput.value;
+        console.log("Bulk Process Started. Input length:", rawText.length);
         if (!rawText.trim()) return;
 
         const lines = rawText.split(/\r\n|\r|\n/).map(l => l.trim()).filter(l => l.length > 0);
+        console.log("Lines to process:", lines.length);
+
         let processedCount = 0;
-        let pendingTitle = null; // Store a title if we find a line with no price
+        let pendingTitle = null;
 
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i];
+            console.log(`Processing Line [${i}]: "${line}"`);
 
             // 1. Skip obvious junk lines 
             // Common locations: "Ottawa, ON", "Gatineau, QC", "Clarence-Rockland, ON"
-            // Marketing/Status: "Ships to you", "Door pickup", "Seller rating", "Condition"
             const junkPatterns = [
                 /^[A-Za-z\s\.\-]+, [A-Z]{2}$/, // City, ST location (allow hyphens)
                 /^Ships to you/i,
@@ -125,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 /^Condition:/i,
                 /^Sold/i,
                 /^Pending$/i,
-                /^\d+\s+ratings/i, // e.g. "5 ratings"
+                /^\d+\s+ratings/i,
                 /^In stock/i,
                 /^Out of stock/i,
                 /^Listed/i
@@ -133,22 +136,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const isJunk = junkPatterns.some(pattern => line.match(pattern));
             if (isJunk) {
+                console.log("  -> Junk Detected");
                 continue;
             }
 
             // 2. Identify Price
-            // PERMISSIVE REGEX: Match $... or CA... or just plain numbers if specific conditions met
-            // We'll capture broadly, then validate.
-            // Matches: CA$450, $450, 450 (if strict mode fails, caught by loose logic below)
-            // This regex focuses on EXPLICIT currency indicators to avoid 64GB or "case"
-            // Use word boundaries \b for text prefixes AND SUFFIXES!
-            const priceRegex = /[\$£€¥]|(?:\bCA\b|\bCAD\b|\bUS\b|\bUSD\b)\s*\$?|\$\s*\d/i;
+            // Matches: CA$450, $450, 450, CA450 (if strict), USD450
+            // \bCA\b handles "CA " or "CA$" or "CA.". 
+            // \bCA(?=\d) handles "CA450" (CA followed by digit).
+            // This prevents "case" (CA followed by 's') -> 's' is not \d or boundary? 
+            // Wait. 's' is word char. So \bCA matches 'ca' (start). End boundary fails.
+            // So \bCA\b fails on case. \bCA(?=\d) fails on case.
+            const priceRegex = /[\$£€¥]|(?:\bCA\b|\bCAD\b|\bUS\b|\bUSD\b|\bCA(?=\d)|\bCAD(?=\d)|\bUS(?=\d)|\bUSD(?=\d))\s*\$?|\$\s*\d/i;
             const hasCurrencySymbol = line.match(priceRegex);
 
             // Extract numbers
             const numberMatch = line.match(/([\d,]+)/);
 
-
+            console.log(`  -> Currency check: ${hasCurrencySymbol}, Number check: ${numberMatch}`);
 
             let price = null;
             let namePart = "";
@@ -160,117 +165,99 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Validate: If the number is identical to "64" and line contains "GB", abort price
                 if (line.match(new RegExp(rawPrice + "\\s*GB", "i"))) {
+                    console.log("  -> Aborting price, looked like storage size");
                     price = null;
                 } else {
-                    // Calculate text before price
-                    // finding index is tricky if we use multiple regexes. 
-                    // Let's use the number match index, but ensure it comes AFTER or WITH the symbol?
-                    // Simplified: Text before strict number match.
                     const textBeforePrice = line.substring(0, numberMatch.index).trim();
-
+                    // Heuristic Name Cleaning
                     if (textBeforePrice.length > 2 && textBeforePrice.toUpperCase().replace(/[^A-Z]/g, '').length > 2) {
-                        // Heuristic: If text before price has >2 letters, likely a name. 
-                        // "CA" has 2. "CAD" has 3. 
                         namePart = textBeforePrice;
                         pendingTitle = null;
+                        console.log("  -> Name extracted from prefix:", namePart);
                     } else if (pendingTitle) {
                         namePart = pendingTitle;
                         pendingTitle = null;
-                    } else {
-                        // Orphan price... might be junk or just price. 
-                        // If we skip here, we lose it. 
-                        // Let's assume it's a price for "Unknown" if nothing else?
-                        // No, continue to loop logic.
+                        console.log("  -> Name extracted from pendingTitle:", namePart);
                     }
                 }
             }
 
             if (!price) {
-                // Fallback to Loose Number logic (same as before)
-                // No explicit price symbol found. 
-                // Check for loose number at END of line
+                // Fallback to Loose Number logic
                 const looseNumberMatch = line.match(/(\d+)$/);
-
-                // VALIDATION: Ensure this loose number isn't "64" (GB) or "2021" (Year) or "10" (Gen)
                 const isStorage = line.match(/\d+\s*(gb|mb|tb)\s*$/i);
                 const isGen = line.match(/\d+\s*(st|nd|rd|th)?\s*Gen\s*$/i);
 
                 if (looseNumberMatch && !isStorage && !isGen && parseInt(looseNumberMatch[1]) > 40) {
-                    // Treated as price line?
                     price = parseInt(looseNumberMatch[1]);
                     namePart = line.substring(0, looseNumberMatch.index).trim();
-
                     if (!namePart && pendingTitle) {
                         namePart = pendingTitle;
-                        pendingTitle = null; // Consumed
+                        pendingTitle = null;
                     }
+                    console.log("  -> Loose number price found:", price);
                 } else {
-                    // Likely a Title line or Description.
+                    console.log("  -> No price found. Setting pendingTitle:", line);
                     pendingTitle = line;
-                    continue;
+                    continue; // Skip to next line
                 }
             }
 
-
-
             // Clean up Name Part
             // 1. Remove "in City, ST" location suffix
-            namePart = namePart.replace(/\s+in\s+[A-Za-z\s\.]+, [A-Z]{2}$/i, '');
+            namePart = namePart.replace(/\s+in\s+[A-Za-z\s\.\-]+, [A-Z]{2}$/i, '');
             // 2. Remove common prefixes that confuse matcher if not exact
             // e.g. "Apple iPad..." -> "iPad..." (Matcher works better with standard starts)
             namePart = namePart.replace(/^Apple\s+/i, '');
             // 3. Remove "Blue", "Silver", "Space Gray", "Gold" colors if at start
             namePart = namePart.replace(/^(Blue|Pink|Silver|Gold|Space Gray|Space Grey)\s+/i, '');
-            // 4. Remove condition/marketing prefixes (New, Like New, Brand New)
+            // Remove descriptors
             namePart = namePart.replace(/^(New|Brand New|Like New|Used|Mint)\s+/i, '');
-
+            // Remove colors roughly (heuristic)
+            namePart = namePart.replace(/\b(Blue|Pink|Yellow|Silver|Gold|Space Gray|Grey|White|Black)\b/gi, '');
             namePart = namePart.trim();
 
             if (!price) continue;
+            if (!namePart) namePart = "Unknown Model";
 
-            if (!namePart) {
-                namePart = "Unknown Model";
-                // This allows the row to be created with the price, 
-                // and the user can use the "Resolve" dropdown to fix the name.
-            }
+            console.log(`  -> ADDING ROW: ${namePart} - $${price}`);
 
-            // --- Process Row ---
-            const matches = findMatches(namePart, modelMapping);
-
-            if (matches && matches.length > 0) {
-                const bestMatch = matches[0];
-                const modelData = modelsData[bestMatch.model_name];
-
-                if (modelData) {
-                    addResultRow({
-                        model: bestMatch.model_name,
-                        score: modelData.score,
-                        price: price,
-                        cpu: modelData.cpu,
-                        released: modelData.released,
-                        max_os: modelData.max_os
-                    }, true);
-                    processedCount++;
-                }
+            // 3. Find Match & Add Row
+            const matches = findMatches(namePart);
+            if (matches.length > 0) {
+                // Exact or fuzzy match found
+                const match = matches[0];
+                // Use the matched model name standard
+                const modelData = modelsData[match.name]; // Use match.name which is the canonical name
+                addResultRow({
+                    model: match.name, // Use the canonical name from the match
+                    price: price,
+                    cpu: modelData ? modelData.cpu : '?',
+                    released: modelData ? modelData.released : '?',
+                    max_os: modelData ? modelData.max_os : '?',
+                    score: modelData ? modelData.score : 0
+                }, true); // true = shouldSave/animate
             } else {
+                // No match found - create incomplete row
                 addResultRow({
                     model: namePart,
                     price: price,
                     incomplete: true
                 }, true);
-                processedCount++;
             }
+            processedCount++;
         }
 
-        if (processedCount > 0) {
-            bulkInput.value = ''; // Clear input on success
-            // updateLeaderboard called inside addResultRow usually, but good to be safe
-            updateLeaderboard();
-            checkEmptyTable();
-            document.getElementById('result-container').scrollIntoView({ behavior: 'smooth' });
+        console.log("Total Processed Rows:", processedCount);
+
+        if (processedCount === 0) {
+            alert('Could not find any valid listings. Try copying closer to the "Title... Price" area. Check console for details.');
         } else {
-            alert('Could not find any valid listings. Try copying closer to the "Title... Price" area.');
+            // Scroll to results
+            document.querySelector('.results-section').scrollIntoView({ behavior: 'smooth' });
         }
+        updateLeaderboard();
+        checkEmptyTable();
     });
 
     // --- Search Logic ---
