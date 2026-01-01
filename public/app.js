@@ -137,9 +137,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // 2. Identify Price
-            // Regex: Looks for $ followed by digits, OR CA$ followed by digits.
-            // Also supports just digits at end of line if reasonable price (e.g. > 20)
-            const priceRegex = /(?:CA\s*|US\s*)?\$([\d,]+)/i;
+            // Regex: Flexible currency prefix (CA, CAD, US, USD, none) 
+            // Followed by optional whitespace, then $ sign (optional for some formats but usually present), then digits.
+            // We want to capture the numeric part.
+            // Matches: "$450", "CA$450", "CA $450", "450$" (maybe?), "CAD 450"
+            const priceRegex = /(?:(?:CA|CAD|US|USD)\s*\$?\s*|\$\s*)?([\d,]+)/i;
             const priceMatch = line.match(priceRegex);
 
             let price = null;
