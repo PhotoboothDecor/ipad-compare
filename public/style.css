@@ -554,3 +554,39 @@ input.price-edit-input[type=number] {
     -moz-appearance: textfield;
     appearance: textfield;
 }
+
+/* Incomplete Row Styling */
+.incomplete-row {
+    position: relative;
+    /* Create stacking context */
+    z-index: 1;
+    /* Default low z-index */
+    background-color: rgba(255, 100, 100, 0.05);
+    /* Slight red tint */
+    animation: breathe 3s infinite ease-in-out;
+}
+
+/* Elevate row when editing to show dropdown over other rows */
+.incomplete-row:focus-within {
+    z-index: 9999;
+    animation: none;
+    /* Optional: Stop animation while editing to avoid distraction/stacking quirks */
+    background-color: #fff;
+    /* Solid background while editing */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* Lift it up */
+}
+
+@keyframes breathe {
+    0% {
+        background-color: rgba(255, 100, 100, 0.05);
+    }
+
+    50% {
+        background-color: rgba(255, 100, 100, 0.15);
+    }
+
+    100% {
+        background-color: rgba(255, 100, 100, 0.05);
+    }
+}
