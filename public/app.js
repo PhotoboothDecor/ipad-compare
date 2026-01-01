@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rawText = bulkInput.value;
         if (!rawText.trim()) return;
 
-        const lines = rawText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        const lines = rawText.split(/\r\n|\r|\n/).map(l => l.trim()).filter(l => l.length > 0);
         let processedCount = 0;
         let pendingTitle = null; // Store a title if we find a line with no price
 
