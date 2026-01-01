@@ -1,28 +1,33 @@
 /* Search Styles */
-.search-container {
+/* Make sure the parent container allows absolute positioning of the dropdown */
+.input-group {
     position: relative;
-    width: 100%;
 }
 
-#search-results {
+#suggestions {
     position: absolute;
     top: 100%;
+    /* Directly below */
     left: 0;
     width: 100%;
+    /* Match input width */
     max-height: 250px;
     overflow-y: auto;
     background: #ffffff;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     border: 1px solid var(--border);
-    border-radius: 0 0 12px 12px;
+    border-top: none;
+    /* Blend with input */
+    border-radius: 0 0 8px 8px;
+    /* Rounded bottom corners */
     list-style: none;
     padding: 0;
-    margin: 4px 0 0;
+    margin: 0;
+    /* Remove gap */
     z-index: 100;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
-#search-results li {
+#suggestions li {
     padding: 12px 16px;
     cursor: pointer;
     font-size: 0.95rem;
@@ -31,26 +36,28 @@
     transition: background 0.2s ease;
 }
 
-#search-results li:last-child {
+#suggestions li:last-child {
     border-bottom: none;
 }
 
-#search-results li:hover {
-    background: var(--card-bg);
-    color: black;
+#suggestions li:hover {
+    background-color: #f8fafc;
+    /* Light gray hover */
+    color: #0f172a;
+    font-weight: 500;
 }
 
-#search-results li strong {
+#suggestions li strong {
     color: var(--accent-gold);
     /* Gold highlight for matches */
 }
 
-/* Scrollbar for results */
-#search-results::-webkit-scrollbar {
+/* Scrollbar for suggestions */
+#suggestions::-webkit-scrollbar {
     width: 6px;
 }
 
-#search-results::-webkit-scrollbar-thumb {
+#suggestions::-webkit-scrollbar-thumb {
     background: #cbd5e1;
     border-radius: 3px;
 }
