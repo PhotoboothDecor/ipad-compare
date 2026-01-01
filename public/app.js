@@ -137,62 +137,63 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // 2. Identify Price
-            // STRICTER REGEX: Must have $ or CA/US/CAD prefix to be a primary match.
-            // avoiding "64GB", "10th Gen" matching as "64" or "10".
-            // Longest first for currency codes to prevent "CAD" matching just "CA"
-            const priceRegex = /(?:(?:CAD|CA|USD|US)\s*\$?\s*|\$)\s*([\d,]+)/i;
-            const priceMatch = line.match(priceRegex);
+            // PERMISSIVE REGEX: Match $... or CA... or just plain numbers if specific conditions met
+            // We'll capture broadly, then validate.
+            // Matches: CA$450, $450, 450 (if strict mode fails, caught by loose logic below)
+            // This regex focuses on EXPLICIT currency indicators to avoid 64GB
+            const priceRegex = /[\$£€¥]|(?:CA|CAD|US|USD)\s*\$?|(?:\bCAD\b|\bUSD\b)/i;
+            const hasCurrencySymbol = line.match(priceRegex);
+
+            // Extract numbers
+            const numberMatch = line.match(/([\d,]+)/);
 
             let price = null;
             let namePart = "";
 
-            if (priceMatch) {
-                // Found an explicit price (e.g. CA$470, $400)
-                const rawPrice = priceMatch[1].replace(/,/g, '');
+            if (hasCurrencySymbol && numberMatch) {
+                // Likely a price line
+                const rawPrice = numberMatch[1].replace(/,/g, '');
                 price = parseInt(rawPrice);
 
-                // Check text BEFORE the price on this line
-                // e.g. "iPad Air $300" -> name="iPad Air"
-                // e.g. "CA$470" -> name="" (empty)
-                const textBeforePrice = line.substring(0, priceMatch.index).trim();
-
-                // If text before price is substantial, use it as name.
-                // If it's just "CA" or empty, rely on pendingTitle.
-                if (textBeforePrice.length > 2 && textBeforePrice.toUpperCase() !== 'CA') {
-                    namePart = textBeforePrice;
-                    pendingTitle = null; // Consumed
-                } else if (pendingTitle) {
-                    // Use the previous line as the title
-                    namePart = pendingTitle;
-                    pendingTitle = null; // Consumed
+                // Validate: If the number is identical to "64" and line contains "GB", abort price
+                if (line.match(new RegExp(rawPrice + "\\s*GB", "i"))) {
+                    price = null;
                 } else {
-                    // No name found on this line or previous. Skip or mark unknown.
-                    // It might be a price update line "CA$450" after "CA$400".
-                    // For now, ignore orphan prices to avoid noise.
-                    continue;
-                }
+                    // Calculate text before price
+                    // finding index is tricky if we use multiple regexes. 
+                    // Let's use the number match index, but ensure it comes AFTER or WITH the symbol?
+                    // Simplified: Text before strict number match.
+                    const textBeforePrice = line.substring(0, numberMatch.index).trim();
 
-            } else {
+                    if (textBeforePrice.length > 2 && textBeforePrice.toUpperCase().replace(/[^A-Z]/g, '').length > 2) {
+                        // Heuristic: If text before price has >2 letters, likely a name. 
+                        // "CA" has 2. "CAD" has 3. 
+                        namePart = textBeforePrice;
+                        pendingTitle = null;
+                    } else if (pendingTitle) {
+                        namePart = pendingTitle;
+                        pendingTitle = null;
+                    } else {
+                        // Orphan price... might be junk or just price. 
+                        // If we skip here, we lose it. 
+                        // Let's assume it's a price for "Unknown" if nothing else?
+                        // No, continue to loop logic.
+                    }
+                }
+            }
+
+            if (!price) {
+                // Fallback to Loose Number logic (same as before)
                 // No explicit price symbol found. 
-                // Check for loose number at END of line? (risky, e.g. "iPad 4")
-                // Only if typical price range > 20? 
+                // Check for loose number at END of line
                 const looseNumberMatch = line.match(/(\d+)$/);
 
                 // VALIDATION: Ensure this loose number isn't "64" (GB) or "2021" (Year) or "10" (Gen)
-                // We do this by checking if the line ENDS with "GB", "Gen", etc.
-                // Actually, looseNumberMatch matches number at END. 
-                // We should also check if the line *text* immediately preceding the number hints at non-price.
-                // But simplest:
-                // 1. Value must be > 40 (avoid "10th gen", "4th gen")
-                // 2. Value shouldn't match typical storage sizes exactly if ambiguous (64, 128, 256, 512). 
-                //    BUT prices *can* be 250. 
-                //    Better check: does the line ending look like "64GB"?
                 const isStorage = line.match(/\d+\s*(gb|mb|tb)\s*$/i);
                 const isGen = line.match(/\d+\s*(st|nd|rd|th)?\s*Gen\s*$/i);
 
                 if (looseNumberMatch && !isStorage && !isGen && parseInt(looseNumberMatch[1]) > 40) {
                     // Treated as price line?
-                    // e.g. "iPad Air 400"
                     price = parseInt(looseNumberMatch[1]);
                     namePart = line.substring(0, looseNumberMatch.index).trim();
 
@@ -202,12 +203,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 } else {
                     // Likely a Title line or Description.
-                    // Store it as pendingTitle for the *next* line to pick up.
-                    // e.g. "Blue iPad in Ottawa, ON"
                     pendingTitle = line;
-                    continue; // Move to next line to look for price
+                    continue;
                 }
             }
+
+
 
             // Clean up Name Part
             // 1. Remove "in City, ST" location suffix
