@@ -141,12 +141,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // We'll capture broadly, then validate.
             // Matches: CA$450, $450, 450 (if strict mode fails, caught by loose logic below)
             // This regex focuses on EXPLICIT currency indicators to avoid 64GB or "case"
-            // Use word boundaries \b for text prefixes!
-            const priceRegex = /[\$£€¥]|(?:\bCA|\bCAD|\bUS|\bUSD)\s*\$?|\$\s*\d/i;
+            // Use word boundaries \b for text prefixes AND SUFFIXES!
+            const priceRegex = /[\$£€¥]|(?:\bCA\b|\bCAD\b|\bUS\b|\bUSD\b)\s*\$?|\$\s*\d/i;
             const hasCurrencySymbol = line.match(priceRegex);
 
             // Extract numbers
             const numberMatch = line.match(/([\d,]+)/);
+
+
 
             let price = null;
             let namePart = "";
@@ -785,6 +787,34 @@ document.addEventListener('DOMContentLoaded', () => {
                     const matches = findMatches(query);
                     if (matches.length > 0) {
                         finalizeResolution(matches[0].name);
+                    }
+                }
+            });
+
+            // Add Focus Listener to show results immediately when clicking
+            resolveInput.addEventListener('focus', () => {
+                const query = resolveInput.value.trim().toLowerCase();
+                if (query.length > 0) {
+                    const matches = findMatches(query);
+                    if (matches.length > 0) {
+                        suggestionsList.innerHTML = '';
+                        matches.forEach(match => {
+                            const li = document.createElement('li');
+                            if (match.matchType === 'number') {
+                                li.innerHTML = `<strong>${match.matchedNumber}</strong> - ${match.name}`;
+                            } else {
+                                li.textContent = match.name;
+                            }
+
+                            li.addEventListener('click', (e) => {
+                                e.stopPropagation();
+                                resolveInput.value = match.name;
+                                suggestionsList.classList.add('hidden');
+                                finalizeResolution(match.name);
+                            });
+                            suggestionsList.appendChild(li);
+                        });
+                        suggestionsList.classList.remove('hidden');
                     }
                 }
             });
