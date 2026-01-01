@@ -141,13 +141,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // 2. Identify Price
-            // Matches: CA$450, $450, 450, CA450 (if strict), USD450
-            // \bCA\b handles "CA " or "CA$" or "CA.". 
-            // \bCA(?=\d) handles "CA450" (CA followed by digit).
-            // This prevents "case" (CA followed by 's') -> 's' is not \d or boundary? 
-            // Wait. 's' is word char. So \bCA matches 'ca' (start). End boundary fails.
-            // So \bCA\b fails on case. \bCA(?=\d) fails on case.
-            const priceRegex = /[\$£€¥]|(?:\bCA\b|\bCAD\b|\bUS\b|\bUSD\b|\bCA(?=\d)|\bCAD(?=\d)|\bUS(?=\d)|\bUSD(?=\d))\s*\$?|\$\s*\d/i;
+            // PARANOID REGEX V4: Avoid \b ambiguity completely.
+            // Require currency code to be at Start of line OR preceded by whitespace.
+            // Require currency code to be followed by End of line OR whitespace OR digit OR dollar sign.
+            // Matches: "CA$450", " CA 450", "US$500", "USD 500"
+            // Ignored: "case" (preceded by space, but followed by 's' -> fails lookahead)
+            // Ignored: "ACAD" (preceded by A -> fails start check)
+            const priceRegex = /[\$£€¥]|(?:^|[\s(])(?:CA|CAD|US|USD)(?=$|[\s)\d\$])|\$\s*\d/i;
             const hasCurrencySymbol = line.match(priceRegex);
 
             // Extract numbers
