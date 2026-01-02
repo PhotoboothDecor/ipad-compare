@@ -224,10 +224,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 3. Find Match & Add Row
             const matches = findMatches(namePart);
+
             if (matches.length > 0) {
                 // Exact or fuzzy match found
                 const match = matches[0];
-                // Use the matched model name standard
                 const modelData = modelsData[match.name]; // Use match.name which is the canonical name
                 addResultRow({
                     model: match.name, // Use the canonical name from the match
@@ -245,7 +245,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     incomplete: true
                 }, true);
             }
+
             processedCount++;
+
+            // Clear pendingTitle so it's not reused for subsequent prices (e.g. crossed out prices)
+            pendingTitle = "";
         }
 
         console.log("Total Processed Rows:", processedCount);
