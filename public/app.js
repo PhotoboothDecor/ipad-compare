@@ -812,7 +812,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Standard Row
             row.innerHTML = `
-                <td class="model-name">${model}</td>
+                <td class="model-name clickable" title="Click to edit model">${model}</td>
                 <td class="price-cell clickable" title="Click to edit price">$${price}</td>
                 <td><span class="badge chip-badge">${cpu}</span></td>
                 <td>${released}</td>
@@ -824,6 +824,85 @@ document.addEventListener('DOMContentLoaded', () => {
                 </td>
                 <td><button class="delete-btn" aria-label="Remove row">×</button></td>
             `;
+
+            // Make Model Name Editable on Click
+            const modelCell = row.querySelector('.model-name');
+            modelCell.addEventListener('click', function () {
+                // If already editing (has input), do nothing
+                if (modelCell.querySelector('input')) return;
+
+                const currentName = modelCell.textContent;
+                modelCell.classList.remove('clickable');
+
+                // Inject the Resolver UI (reused logic from incomplete rows)
+                modelCell.innerHTML = `
+                <div class="model-resolve-wrapper">
+                    <input type="text" class="model-resolve-input" placeholder="Type to search..." value="${currentName}">
+                    <ul class="suggestions-dropdown hidden"></ul>
+                </div>`;
+
+                const resolveInput = modelCell.querySelector('.model-resolve-input');
+                const suggestionsList = modelCell.querySelector('.suggestions-dropdown');
+
+                resolveInput.focus();
+
+                // --- Attach Autocomplete Logic (Duplicated from above for speed/safety) ---
+                const finalizeResolution = (chosenModelName) => {
+                    // Get data for new model
+                    const newMatch = findMatches(chosenModelName)[0]; // Assume exact match if chosen
+                    if (newMatch) {
+                        const newData = modelsData[newMatch.name];
+                        // Re-render row with new data (standard addResultRow call won't work easily here, better to update DOM)
+                        // Actually, easiest is to remove this row and add a new one with the same price!
+                        row.remove();
+                        addResultRow({
+                            model: newMatch.name,
+                            price: price, // Reuse CURRENT price from cell?? No, original price.
+                            // Wait, what if price changed? Use current scope price.
+                            cpu: newData ? newData.cpu : '?',
+                            released: newData ? newData.released : '?',
+                            max_os: newData ? newData.max_os : '?',
+                            score: newData ? newData.score : 0
+                        }, true);
+                        updateLeaderboard();
+                        saveComparisons();
+                    }
+                };
+
+                resolveInput.addEventListener('input', () => {
+                    const query = resolveInput.value.trim().toLowerCase();
+                    suggestionsList.innerHTML = '';
+                    if (query.length > 0) {
+                        const matches = findMatches(query);
+                        matches.forEach(match => {
+                            const li = document.createElement('li');
+                            li.textContent = match.name;
+                            li.addEventListener('click', (e) => {
+                                e.stopPropagation();
+                                finalizeResolution(match.name);
+                            });
+                            suggestionsList.appendChild(li);
+                        });
+                        suggestionsList.classList.remove('hidden');
+                    } else {
+                        suggestionsList.classList.add('hidden');
+                    }
+                });
+
+                resolveInput.addEventListener('focus', () => {
+                    // Immediately show suggestions
+                    const query = resolveInput.value.trim().toLowerCase();
+                    if (query.length > 0) resolveInput.dispatchEvent(new Event('input'));
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!modelCell.contains(e.target)) {
+                        suggestionsList.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Visual Feedback for Max iOS
             // Visual Feedback for Max iOS
             if (max_os === 'Latest') {
                 row.classList.add('max-ios-latest');
