@@ -65,7 +65,8 @@
     },
     "iPad Air (6th generation)": {
         "cpu": "M2",
-        "released": "2024"
+        "released": "2024",
+        "score": 10000
     },
     "iPad Air (7th generation)": {
         "cpu": "M3",
@@ -126,7 +127,8 @@
     },
     "iPad Pro 11-inch (5th generation)": {
         "cpu": "M4",
-        "released": "2024"
+        "released": "2024",
+        "score": 14500
     },
     "iPad Pro 11-inch (6th generation)": {
         "cpu": "M5",
@@ -154,11 +156,13 @@
     },
     "iPad Pro 12.9-inch (6th generation)": {
         "cpu": "M2",
-        "released": "2022"
+        "released": "2022",
+        "score": 10100
     },
     "iPad Pro 13-inch": {
         "cpu": "M4",
-        "released": "2024"
+        "released": "2024",
+        "score": 14500
     },
     "iPad Pro 13-inch (2nd generation)": {
         "cpu": "M5",
