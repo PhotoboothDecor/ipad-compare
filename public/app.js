@@ -59,17 +59,44 @@ document.addEventListener('DOMContentLoaded', () => {
             const snapshot = await db.collection('geekbench_scores').get();
             if (snapshot.empty) {
                 console.warn("No models found in DB");
-                return;
+            } else {
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    modelsData[data.name || doc.id] = {
+                        score: data.multi_core_score || 0,
+                        cpu: data.cpu || 'Unknown',
+                        released: data.released || 'Unknown',
+                        max_os: data.max_os || 'Unknown'
+                    };
+                });
             }
-            snapshot.forEach(doc => {
-                const data = doc.data();
-                modelsData[data.name || doc.id] = {
-                    score: data.multi_core_score || 0,
-                    cpu: data.cpu || 'Unknown',
-                    released: data.released || 'Unknown',
-                    max_os: data.max_os || 'Unknown'
-                };
-            });
+
+            // Fallback: Load local model_specs.json to fill gaps (e.g. scores missing in DB)
+            try {
+                const specsResponse = await fetch('model_specs.json');
+                if (specsResponse.ok) {
+                    const specs = await specsResponse.json();
+                    for (const [name, data] of Object.entries(specs)) {
+                        if (!modelsData[name]) {
+                            // Totally missing from DB -> Add it
+                            modelsData[name] = {
+                                score: data.score || 0,
+                                cpu: data.cpu || 'Unknown',
+                                released: data.released || 'Unknown',
+                                max_os: 'Unknown' // Specs don't have max_os usually?
+                            };
+                        } else {
+                            // Exists in DB, but might have 0 score
+                            if ((!modelsData[name].score || modelsData[name].score === 0) && data.score) {
+                                console.log(`Patching score for ${name} from local specs: ${data.score}`);
+                                modelsData[name].score = data.score;
+                            }
+                        }
+                    }
+                }
+            } catch (err) {
+                console.warn("Could not load model_specs.json for fallback", err);
+            }
         } catch (error) {
             throw new Error(`DB Load Failed: ${error.message}`);
         }

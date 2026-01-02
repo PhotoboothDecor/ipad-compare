@@ -121,7 +121,8 @@
     },
     "iPad Pro 11-inch (4th generation)": {
         "cpu": "M2",
-        "released": "2022"
+        "released": "2022",
+        "score": 9660
     },
     "iPad Pro 11-inch (5th generation)": {
         "cpu": "M4",
