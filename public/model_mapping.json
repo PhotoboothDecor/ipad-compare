@@ -35,6 +35,10 @@
         "model_numbers": [
             "A1822",
             "A1823"
+        ],
+        "aliases": [
+            "5th Gen",
+            "2017"
         ]
     },
     {
@@ -43,6 +47,10 @@
             "A1893",
             "A1954",
             "MR7F2"
+        ],
+        "aliases": [
+            "6th Gen",
+            "2018"
         ]
     },
     {
@@ -52,6 +60,10 @@
             "A2200",
             "A2198",
             "A2199"
+        ],
+        "aliases": [
+            "7th Gen",
+            "2019"
         ]
     },
     {
@@ -61,6 +73,10 @@
             "A2428",
             "A2429",
             "A2430"
+        ],
+        "aliases": [
+            "8th Gen",
+            "2020"
         ]
     },
     {
@@ -197,7 +213,7 @@
         ]
     },
     {
-        "model_name": "iPad Air 11-inch (M2)",
+        "model_name": "iPad Air (6th generation)",
         "model_numbers": [
             "A2902",
             "A2903",
@@ -205,7 +221,7 @@
         ]
     },
     {
-        "model_name": "iPad Air 13-inch (M2)",
+        "model_name": "iPad Air (6th generation)",
         "model_numbers": [
             "A2898",
             "A2899",
@@ -241,6 +257,12 @@
             "A1701",
             "A1709",
             "A1852"
+        ],
+        "aliases": [
+            "iPad Pro 2",
+            "iPad Pro 2nd Gen",
+            "2nd Gen",
+            "iPad Pro (2nd generation) 10.5-inch"
         ]
     },
     {
@@ -344,8 +366,7 @@
         ],
         "aliases": [
             "M4",
-            "2024",
-            "7th Gen"
+            "2024"
         ]
     },
     {
@@ -357,8 +378,7 @@
         ],
         "aliases": [
             "M4",
-            "2024",
-            "7th Gen"
+            "2024"
         ]
     }
 ]

@@ -29,8 +29,8 @@ body {
 }
 
 .container {
-    width: 100%;
-    max-width: 1100px;
+    width: 95%;
+    max-width: 1400px;
     /* Increased from 800px */
     padding: 2rem;
 }
@@ -364,12 +364,12 @@ footer {
 
 .champion-row .model-name {
     font-weight: 700;
-    color: #b45309;
-    /* Darker Gold/Amber for readability on light bg */
+    color: #047857;
+    /* Emerald Green for clear "Good" signal vs Red */
 }
 
 .champion-row .value-cell {
-    color: #b45309;
+    color: #047857;
     text-shadow: none;
 }
 

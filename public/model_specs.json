@@ -29,19 +29,23 @@
     },
     "iPad (8th generation)": {
         "cpu": "A12 Bionic",
-        "released": "2020"
+        "released": "2020",
+        "max_os": "Latest"
     },
     "iPad (9th generation)": {
         "cpu": "A13 Bionic",
-        "released": "2021"
+        "released": "2021",
+        "max_os": "Latest"
     },
     "iPad (10th generation)": {
         "cpu": "A14 Bionic",
-        "released": "2022"
+        "released": "2022",
+        "max_os": "Latest"
     },
     "iPad (11th generation)": {
         "cpu": "A16 Bionic",
-        "released": "2025"
+        "released": "2025",
+        "max_os": "Latest"
     },
     "iPad Air (1st generation)": {
         "cpu": "A7",
@@ -53,24 +57,29 @@
     },
     "iPad Air (3rd generation)": {
         "cpu": "A12 Bionic",
-        "released": "2019"
+        "released": "2019",
+        "max_os": "Latest"
     },
     "iPad Air (4th generation)": {
         "cpu": "A14 Bionic",
-        "released": "2020"
+        "released": "2020",
+        "max_os": "Latest"
     },
     "iPad Air (5th generation)": {
         "cpu": "M1",
-        "released": "2022"
+        "released": "2022",
+        "max_os": "Latest"
     },
     "iPad Air (6th generation)": {
         "cpu": "M2",
         "released": "2024",
+        "max_os": "Latest",
         "score": 10000
     },
     "iPad Air (7th generation)": {
         "cpu": "M3",
-        "released": "2025"
+        "released": "2025",
+        "max_os": "Latest"
     },
     "iPad Mini (1st generation)": {
         "cpu": "A5",
@@ -90,15 +99,18 @@
     },
     "iPad Mini (5th generation)": {
         "cpu": "A12 Bionic",
-        "released": "2019"
+        "released": "2019",
+        "max_os": "Latest"
     },
     "iPad Mini (6th generation)": {
         "cpu": "A15 Bionic",
-        "released": "2021"
+        "released": "2021",
+        "max_os": "Latest"
     },
     "iPad Mini (7th generation)": {
         "cpu": "A17 Pro",
-        "released": "2024"
+        "released": "2024",
+        "max_os": "Latest"
     },
     "iPad Pro 9.7-inch": {
         "cpu": "A9X",
@@ -110,29 +122,35 @@
     },
     "iPad Pro 11-inch (1st generation)": {
         "cpu": "A12X Bionic",
-        "released": "2018"
+        "released": "2018",
+        "max_os": "Latest"
     },
     "iPad Pro 11-inch (2nd generation)": {
         "cpu": "A12Z Bionic",
-        "released": "2020"
+        "released": "2020",
+        "max_os": "Latest"
     },
     "iPad Pro 11-inch (3rd generation)": {
         "cpu": "M1",
-        "released": "2021"
+        "released": "2021",
+        "max_os": "Latest"
     },
     "iPad Pro 11-inch (4th generation)": {
         "cpu": "M2",
         "released": "2022",
+        "max_os": "Latest",
         "score": 9660
     },
     "iPad Pro 11-inch (5th generation)": {
         "cpu": "M4",
         "released": "2024",
+        "max_os": "Latest",
         "score": 14500
     },
     "iPad Pro 11-inch (6th generation)": {
         "cpu": "M5",
-        "released": "2025"
+        "released": "2025",
+        "max_os": "Latest"
     },
     "iPad Pro 12.9-inch (1st generation)": {
         "cpu": "A9X",
@@ -144,28 +162,34 @@
     },
     "iPad Pro 12.9-inch (3rd generation)": {
         "cpu": "A12X Bionic",
-        "released": "2018"
+        "released": "2018",
+        "max_os": "Latest"
     },
     "iPad Pro 12.9-inch (4th generation)": {
         "cpu": "A12Z Bionic",
-        "released": "2020"
+        "released": "2020",
+        "max_os": "Latest"
     },
     "iPad Pro 12.9-inch (5th generation)": {
         "cpu": "M1",
-        "released": "2021"
+        "released": "2021",
+        "max_os": "Latest"
     },
     "iPad Pro 12.9-inch (6th generation)": {
         "cpu": "M2",
         "released": "2022",
+        "max_os": "Latest",
         "score": 10100
     },
     "iPad Pro 13-inch": {
         "cpu": "M4",
         "released": "2024",
+        "max_os": "Latest",
         "score": 14500
     },
     "iPad Pro 13-inch (2nd generation)": {
         "cpu": "M5",
-        "released": "2025"
+        "released": "2025",
+        "max_os": "Latest"
     }
 }

@@ -138,6 +138,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let processedCount = 0;
         let pendingTitle = null;
+        let pendingPrice = null;
+        let lastAdded = null;
 
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i];
@@ -175,19 +177,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // Ignored: "case" (preceded by space, but followed by 's' -> fails lookahead)
             // Ignored: "ACAD" (preceded by A -> fails start check)
             const priceRegex = /[\$£€¥]|(?:^|[\s(])(?:CA|CAD|US|USD)(?=$|[\s)\d\$])|\$\s*\d/i;
-            const hasCurrencySymbol = line.match(priceRegex);
-
-            // Extract numbers
-            const numberMatch = line.match(/([\d,]+)/);
-
-            console.log(`  -> Currency check: ${hasCurrencySymbol}, Number check: ${numberMatch}`);
+            // Improved Regex: Capture the numeric value associated with the currency
+            // Matches: $200, CA$450, CAD 450, $ 200
+            const strictPriceRegex = /(?:[\$£€¥]|(?:^|[\s(])(?:CA|CAD|US|USD))\s*?\$?\s*([\d,]+)/i;
+            const priceMatch = line.match(strictPriceRegex);
 
             let price = null;
             let namePart = "";
 
-            if (hasCurrencySymbol && numberMatch) {
-                // Likely a price line
-                const rawPrice = numberMatch[1].replace(/,/g, '');
+            if (priceMatch) {
+                const rawPrice = priceMatch[1].replace(/,/g, '');
                 price = parseInt(rawPrice);
 
                 // Validate: If the number is identical to "64" and line contains "GB", abort price
@@ -195,22 +194,41 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log("  -> Aborting price, looked like storage size");
                     price = null;
                 } else {
-                    const textBeforePrice = line.substring(0, numberMatch.index).trim();
+                    const textBeforePrice = line.substring(0, priceMatch.index).trim();
                     // Heuristic Name Cleaning
+                    // 1. Check for Embedded Name (e.g. "iPad 10 $400")
                     if (textBeforePrice.length > 2 && textBeforePrice.toUpperCase().replace(/[^A-Z]/g, '').length > 2) {
                         namePart = textBeforePrice;
                         pendingTitle = null;
+                        pendingPrice = null;
                         console.log("  -> Name extracted from prefix:", namePart);
-                    } else if (pendingTitle) {
+                    }
+                    // 2. Check for Pending Title (Title First Case)
+                    else if (pendingTitle) {
                         namePart = pendingTitle;
                         pendingTitle = null;
+                        pendingPrice = null;
                         console.log("  -> Name extracted from pendingTitle:", namePart);
+                    }
+                    // 3. Store as Pending Price (Price First Case)
+                    else {
+                        if (pendingPrice) {
+                            // Flush existing pendingPrice as Unknown (Logic happens in loop end or by processing next line here?)
+                            // Actually, let's just commit it here as Unknown to clear the buffer?
+                            // No, let's stick to the flow: set pendingPrice.
+                            // But what if we overwrite? Let's commit the old one.
+                            console.log("  -> Overwriting orphan pending price, committing old one as Unknown");
+                            addResultRow({ model: "Unknown Model", price: pendingPrice, incomplete: true }, true);
+                        }
+                        console.log(`  -> Storing Pending Price: $${price}`);
+                        pendingPrice = price;
+                        continue; // Skip processing this line further, waiting for next line (title)
                     }
                 }
             }
 
             if (!price) {
-                // Fallback to Loose Number logic
+                // Fallback to Loose Number logic (Only if NO strict price found)
                 const looseNumberMatch = line.match(/(\d+)$/);
                 const isStorage = line.match(/\d+\s*(gb|mb|tb)\s*$/i);
                 const isGen = line.match(/\d+\s*(st|nd|rd|th)?\s*Gen\s*$/i);
@@ -218,15 +236,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (looseNumberMatch && !isStorage && !isGen && parseInt(looseNumberMatch[1]) > 40) {
                     price = parseInt(looseNumberMatch[1]);
                     namePart = line.substring(0, looseNumberMatch.index).trim();
+                    // Loose number logic usually implies Self-Contained line (Name Part + Number at end)
+                    // So we treat it as found.
+                    pendingTitle = null;
+                    pendingPrice = null;
                     if (!namePart && pendingTitle) {
-                        namePart = pendingTitle;
-                        pendingTitle = null;
+                        // This case (Title on prev line, number on this line)
+                        // Actually looseNumberMatch usually means "iPad 10 400".
+                        // If Line is just "400", namePart is empty.
+                        if (pendingTitle) {
+                            namePart = pendingTitle;
+                            pendingTitle = null;
+                        } else {
+                            namePart = "Unknown Model";
+                        }
                     }
                     console.log("  -> Loose number price found:", price);
                 } else {
-                    console.log("  -> No price found. Setting pendingTitle:", line);
-                    pendingTitle = line;
-                    continue; // Skip to next line
+                    // No price found at all
+                    // 1. Check for Pending Price (Price First Case)
+                    if (pendingPrice) {
+                        namePart = line;
+                        price = pendingPrice;
+                        pendingPrice = null;
+                        pendingTitle = null;
+                        console.log(`  -> Matched with Pending Price: $${price}`);
+                    }
+                    // 2. Store as Pending Title (Title First Case)
+                    else {
+                        console.log("  -> No price found. Setting pendingTitle:", line);
+                        pendingTitle = line;
+                        continue; // Skip match logic
+                    }
                 }
             }
 
@@ -252,31 +293,86 @@ document.addEventListener('DOMContentLoaded', () => {
             // 3. Find Match & Add Row
             const matches = findMatches(namePart);
 
+            let modelNameToAdd = namePart;
+            let modelDataToAdd = null;
+
             if (matches.length > 0) {
                 // Exact or fuzzy match found
                 const match = matches[0];
-                const modelData = modelsData[match.name]; // Use match.name which is the canonical name
-                addResultRow({
-                    model: match.name, // Use the canonical name from the match
+                modelNameToAdd = match.name;
+                modelDataToAdd = modelsData[match.name];
+            }
+
+            // --- Deduplication Check (Sequential) ---
+            // If the current item has the SAME NAME (normalized) as the LAST item added,
+            // we assume it's a "crossed out price" duplicate.
+            // We keep the one with the LOWER PRICE.
+
+            let isDuplicateOfLast = false;
+
+            if (lastAdded && lastAdded.name === modelNameToAdd) {
+                isDuplicateOfLast = true;
+                console.log(`  -> Potential Duplicate of Last Item: "${modelNameToAdd}"`);
+
+                if (price < lastAdded.price) {
+                    // NEW price is LOWER (Better). Replace the old one.
+                    console.log(`    -> New Price ($${price}) is LOWER than Old Price ($${lastAdded.price}). REPLACING.`);
+
+                    // Remove the DOM element of the previous row
+                    if (lastAdded.row) {
+                        lastAdded.row.remove();
+                    }
+                    // Continue to add the NEW row below...
+                    processedCount--; // Decrement count since we removed one
+                } else {
+                    // NEW price is HIGHER (Worse). IGNORE this new row.
+                    console.log(`    -> New Price ($${price}) is HIGHER/EQUAL to Old Price ($${lastAdded.price}). IGNORING.`);
+                    pendingTitle = ""; // Clear pending title
+                    continue; // Skip adding
+                }
+            }
+
+            // Add the Row
+            let addedRow;
+            if (modelDataToAdd) {
+                addedRow = addResultRow({
+                    model: modelNameToAdd,
                     price: price,
-                    cpu: modelData ? modelData.cpu : '?',
-                    released: modelData ? modelData.released : '?',
-                    max_os: modelData ? modelData.max_os : '?',
-                    score: modelData ? modelData.score : 0
-                }, true); // true = shouldSave/animate
+                    cpu: modelDataToAdd ? modelDataToAdd.cpu : '?',
+                    released: modelDataToAdd ? modelDataToAdd.released : '?',
+                    max_os: modelDataToAdd ? modelDataToAdd.max_os : '?',
+                    score: modelDataToAdd ? modelDataToAdd.score : 0
+                }, true);
             } else {
-                // No match found - create incomplete row
-                addResultRow({
-                    model: namePart,
+                addedRow = addResultRow({
+                    model: modelNameToAdd,
                     price: price,
                     incomplete: true
                 }, true);
             }
 
+            // Update Last Added
+            lastAdded = {
+                name: modelNameToAdd,
+                price: price,
+                row: addedRow
+            };
+
             processedCount++;
 
             // Clear pendingTitle so it's not reused for subsequent prices (e.g. crossed out prices)
             pendingTitle = "";
+        }
+
+        // Flush leftover Pending Price
+        if (pendingPrice) {
+            console.log("  -> Flushing leftover pending price");
+            addResultRow({
+                model: "Unknown Model",
+                price: pendingPrice,
+                incomplete: true
+            }, true);
+            processedCount++;
         }
 
         console.log("Total Processed Rows:", processedCount);
@@ -313,23 +409,32 @@ document.addEventListener('DOMContentLoaded', () => {
     function findMatches(query) {
         // Tokenize Query (Lowercase for matching)
         const queryLower = query.toLowerCase();
+
+        // 0. BLOCK GENERIC "iPad" / "Apple iPad"
+        // If the query is just "ipad" or "apple ipad", it's too generic to map to a specific generation.
+        // Return empty so it shows as "Unknown" (user sees the raw text), rather than guessing "10th Gen".
+        const cleanQuery = queryLower.replace(/^apple\s+/, '').trim();
+        if (cleanQuery === 'ipad') return [];
+
         const queryTokens = queryLower.split(/\s+/).filter(t => t.length > 0);
         if (queryTokens.length === 0) return [];
+
+        // --- ENFORCE PRODUCT LINE MATCHING ---
+        // If the user explicitly types "mini", "air", or "pro", we MUST match those families.
+        const hasMini = queryLower.includes('mini');
+        const hasAir = queryLower.includes('air');
+        const hasPro = queryLower.includes('pro');
 
         let scoredResults = [];
         const availableModels = Object.keys(modelsData);
 
         // Check for MPN Pattern (Marketing Part Number) e.g. MR7F2CL/A
-        // Starts with M, N, F, P; 
-        // Note: Our query is lowercased.
-        // Regex: Starts with m, n, f, p; followed by alphanumerics; 
-        // simple heuristic: starts with valid char, has length > 5, not "ipad"
         const mpnPattern = /^[mnfp][a-z0-9]{3,}/i;
         const isPotentialMPN = mpnPattern.test(query) && !query.includes('ipad');
 
-        if (isPotentialMPN && scoredResults.length === 0) {
-            // We handle this in render to show specific message if no other matches
-        }
+        // Check for Explicit Screen Size in Query (e.g. "12.9", "11-inch")
+        const screenSizeMatch = queryLower.match(/(\d+(\.\d)?)\s*(-?inch|")/);
+        const queryScreenSize = screenSizeMatch ? parseFloat(screenSizeMatch[1]) : null;
 
         // Deduplication Map: Key = Canonical Name, Value = Result Object
         const uniqueResults = new Map();
@@ -339,7 +444,30 @@ document.addEventListener('DOMContentLoaded', () => {
             if (/^(iPadOS|iOS)\s/i.test(modelName)) return;
 
             const modelLower = modelName.toLowerCase();
+
+            // --- PRODUCT LINE FILTER (POSITIVE & NEGATIVE) ---
+            // 1. Positive: If query has "mini", model MUST have "mini".
+            if (hasMini && !modelLower.includes('mini')) return;
+            if (hasAir && !modelLower.includes('air')) return;
+            if (hasPro && !modelLower.includes('pro')) return;
+
+            // 2. Negative: If query does NOT have "mini", but model IS "mini", PENALIZE.
+            //    If query does NOT have "air", but model IS "air", PENALIZE.
+            //    If query does NOT have "pro", but model IS "pro", PENALIZE.
+            // Exceptions: 
+            // - MPN/Model Number matches (A1234) should bypass this penalty as they are specific.
+            // - We apply this penalty to the score later, or return early if we want strictness.
+            // Let's apply a massive score penalty so it only wins if it's the ONLY mostly-valid option (unlikely)
+            // or if it has an exact A-number match (which we give +200).
+
+            let isNegativeMatch = false;
+            if (!hasMini && modelLower.includes('mini')) isNegativeMatch = true;
+            if (!hasAir && modelLower.includes('air')) isNegativeMatch = true;
+            if (!hasPro && modelLower.includes('pro')) isNegativeMatch = true;
+
             let matchScore = 0;
+            // Apply penalty initially? No, let's subtract at end.
+
             let matchType = 'fuzzy';
             let matchedDetail = null;
 
@@ -352,26 +480,46 @@ document.addEventListener('DOMContentLoaded', () => {
             // 2. Token Matching
             let tokenMatches = 0;
             queryTokens.forEach(token => {
-                if (modelLower.includes(token)) {
-                    tokenMatches++;
+                // STRICT NUMERIC MATCHING
+                // If token contains a digit (e.g. "3", "11"), ensure it's not part of another number (e.g. "13", "11-inch")
+                // Exception: "3" matches "3rd" (starts with 3, next char non-digit)
+                // Exception: "11" matches "11-inch" (starts with 11, next char non-digit)
+                // Rule: Must be preceded by non-digit (or start) AND followed by non-digit (or end).
+                if (/\d/.test(token)) {
+                    // Escape special regex chars in token just in case
+                    const escapedToken = token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    // Look for token bounded by non-digits
+                    const regex = new RegExp(`(?:^|[^0-9])${escapedToken}(?:[^0-9]|$)`, 'i');
+                    if (regex.test(modelLower)) {
+                        tokenMatches++;
+                    }
+                } else {
+                    // Text tokens (e.g. "air", "pro") - standard includes is fine
+                    if (modelLower.includes(token)) {
+                        tokenMatches++;
+                    }
                 }
             });
             matchScore += (tokenMatches * 10);
+
+            // SPECIAL: Screen Size Boost
+            if (queryScreenSize) {
+                // Check if model name contains this size
+                // e.g. "12.9"
+                if (modelLower.includes(queryScreenSize.toString())) {
+                    matchScore += 150; // Huge Boost for matching screen size
+                }
+            }
 
             // 3. A-Number Matching (Check Mapping)
             let canonicalName = modelName; // Default to self
             let isCanonical = false;
 
             const mapping = modelMapping.find(m => {
-                // Check if this modelName IS the canonical name
                 if (m.model_name === modelName) return true;
-
-                // Robust Check: Normalize both strings to handle "iPad (8th)" vs "iPad (8th generation)"
-                // Remove parentheses and lowercase
+                if (m.aliases && m.aliases.includes(modelName)) return true;
                 const mappingNorm = m.model_name.replace(/[()]/g, '').toLowerCase();
                 const modelNorm = modelName.replace(/[()]/g, '').toLowerCase();
-
-                // Check inclusion AND ensure a digit is present (so we don't map "iPad" to everything)
                 if (mappingNorm.includes(modelNorm) && /\d/.test(modelName)) return true;
                 return false;
             });
@@ -385,10 +533,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     const exactNumMatch = mapping.model_numbers.find(num => num.toLowerCase() === query);
                     const partialNumMatch = mapping.model_numbers.find(num => num.toLowerCase().includes(query));
 
+                    // NEW: Reverse Check - Does the QUERY contain the Model Number?
+                    const queryContainsNum = mapping.model_numbers.find(num => {
+                        const n = num.toLowerCase();
+                        if (queryTokens.includes(n)) return true;
+                        if (n.length > 3 && query.includes(n)) return true;
+                        return false;
+                    });
+
                     if (exactNumMatch) {
-                        matchScore += 200; // Exact A-Number is very strong
+                        matchScore += 200;
                         matchType = 'number';
                         matchedDetail = exactNumMatch;
+                    } else if (queryContainsNum) {
+                        matchScore += 200;
+                        matchType = 'number';
+                        matchedDetail = queryContainsNum;
                     } else if (partialNumMatch) {
                         matchScore += 50;
                         if (matchType !== 'number') {
@@ -411,13 +571,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 5. CPU Matching (A-Series, M-Series)
                 const modelData = modelsData[modelName] || {};
                 const cpu = modelData.cpu ? modelData.cpu.toString().toLowerCase() : '';
-                // We only care if the query matches the CPU name specifically
-                // e.g. "a12", "m1"
-                if (cpu.includes(query) || queryTokens.some(t => cpu.includes(t))) {
-                    matchScore += 80; // High relevance for CPU
+
+                // STRICTER CPU MATCHING
+                // 1. Exact Token Match (e.g. "m1" token in query matches "m1" cpu)
+                if (cpu && queryTokens.includes(cpu)) {
+                    matchScore += 80;
                     if (matchType !== 'name' && matchType !== 'number') {
                         matchType = 'cpu';
-                        matchedDetail = modelData.cpu; // Store actual CPU name
+                        matchedDetail = modelData.cpu;
+                    }
+                }
+                // 2. Contains (for multi-word CPUs like "A10 Fusion")
+                //    BUT ensure we don't match "9" to "A9" loosely.
+                else if (cpu && cpu.length > 2 && queryLower.includes(cpu)) {
+                    matchScore += 80;
+                    if (matchType !== 'name' && matchType !== 'number') {
+                        matchType = 'cpu';
+                        matchedDetail = modelData.cpu;
                     }
                 }
 
@@ -433,12 +603,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            if (matchScore > 0) {
-                // DEDUPLICATION STRATEGY
-                // We want to group "iPad Air (6th)" and "iPad Air (6th generation)" together.
-                // 1. If mapping exists, use the mapping's normalized name as the key (strongest link).
-                // 2. If no mapping, use our generating normalizer to create a standard key.
+            // NEGATIVE PENALTY APPLICATION
+            if (isNegativeMatch) {
+                // If we found a specific Model Number match (e.g. A1822), we IGNORE the penalty.
+                // A user query might be "iPad A1822" (no "5th gen"). A1822 IS iPad 5. 
+                // But wait, "iPad A1822" matching "iPad 5" isn't a negative match for "Air/Pro".
+                // Negative match is: Query="iPad 5", Model="iPad Air 5". 
+                // Does "iPad 5" contain "Air"? No. Model has "Air". -> Negative Match.
+                // Does matchType === 'number'? A1822 wouldn't trigger this for Air anyway.
+                // So, primarily, just Apply Penalty.
+                // UNLESS the query explicitly contains the distinguishing word BUT we missed it?
+                // No, we checked hasMini/etc.
 
+                // Only save grace if it's an EXACT Number match which overrides names.
+                if (matchType !== 'number') {
+                    matchScore -= 1000;
+                }
+            }
+
+            // FILTER: Require Minimum Score
+            if (matchScore > 15) {
                 let dedupeKey;
                 if (mapping) {
                     dedupeKey = normalizeModelName(mapping.model_name);
@@ -447,30 +631,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 const newResult = {
-                    name: canonicalName, // Use canonical name for display if available
+                    name: canonicalName,
                     originalName: modelName,
                     matchType: matchType,
                     matchedNumber: matchedDetail,
                     score: modelsData[modelName].score,
                     relevance: matchScore,
                     isCanonical: isCanonical,
-                    normalizedKey: dedupeKey // Store key for debug/logic
+                    normalizedKey: dedupeKey
                 };
-
-                // Logic: 
-                // If we have "iPad Air (6th)" (mapped to nothing) -> Key: "ipad air (6th generation)"
-                // If we have "iPad Air (6th generation)" (mapped to nothing) -> Key: "ipad air (6th generation)"
-                // They share a key -> Deduplication happens!
 
                 if (uniqueResults.has(dedupeKey)) {
                     const existing = uniqueResults.get(dedupeKey);
-
-                    // Merging Logic:
-                    // 1. Prefer the one that is Explicitly Canonical (from mapping source)
                     if (newResult.isCanonical && !existing.isCanonical) {
                         uniqueResults.set(dedupeKey, newResult);
                     }
-                    // 2. If neither is canonical, prefer the one with a "better" name (e.g. contains "generation" vs just number)
                     else if (!existing.isCanonical) {
                         const newHasGen = newResult.name.toLowerCase().includes('generation');
                         const oldHasGen = existing.name.toLowerCase().includes('generation');
@@ -478,7 +653,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (newHasGen && !oldHasGen) {
                             uniqueResults.set(dedupeKey, newResult);
                         } else if (newResult.relevance > existing.relevance + 10) {
-                            // Only overwrite if significantly more relevant (unlikely for dupes)
                             uniqueResults.set(dedupeKey, newResult);
                         }
                     }
@@ -488,14 +662,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Convert Map to Array
         scoredResults = Array.from(uniqueResults.values());
+        scoredResults.sort((a, b) => {
+            if (b.relevance !== a.relevance) {
+                return b.relevance - a.relevance;
+            }
+            return a.name.length - b.name.length;
+        });
 
-        // Filter out low relevance if we have high relevance options
-        // Sort by relevance descending
-        scoredResults.sort((a, b) => b.relevance - a.relevance);
-
-        // Return top 10
         return scoredResults.slice(0, 10);
     }
 
@@ -696,6 +870,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // --- Defaults ---
         const { model, price, score, valueScore, cpu = '-', released = '-', max_os = '-', shouldSave = true, incomplete = false } = data;
+
+        // --- Deduplication Check ---
+        // Check if this specific model + price combo already exists
+        const existingRows = Array.from(comparisonBody.querySelectorAll('tr'));
+        const isDuplicate = existingRows.some(row => {
+            const rowModel = row.dataset.model;
+            // dataset.price is string, price might be number. Compare loosely or convert.
+            const rowPrice = parseFloat(row.dataset.price);
+            // Also normalized model names might differ slightly if not careful, but dataset.model should be consistent
+            return rowModel === model && rowPrice === parseFloat(price);
+        });
+
+        if (isDuplicate) {
+            console.log(`Duplicate detected: ${model} @ $${price}. Skipping.`);
+            return;
+        }
 
         // Calculate value score if missing (e.g. from bulk)
         let finalValueScore = valueScore;
@@ -1003,6 +1193,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (shouldSave) {
             saveComparisons();
         }
+
+        return row;
     }
 
     // Sorts table by Value Score (Low to High) and highlights winner
