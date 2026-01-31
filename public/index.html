@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Used iPad Value Comparer</title>
+    <title>iPad Value Scorer</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="search-style.css">
 
@@ -23,7 +23,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>iPad Value Scorer (Final)</h1>
+            <h1>iPad Value Scorer</h1>
             <p>Find the best bang for your buck.</p>
         </header>
 
@@ -40,6 +40,7 @@
                     <div class="input-group">
                         <label for="model-search">iPad Model</label>
                         <input type="text" id="model-search" placeholder="Loading data..." autocomplete="off">
+                        <input type="hidden" id="selected-model-id">
                         <div id="suggestions" class="suggestions-dropdown hidden"></div>
                     </div>
 

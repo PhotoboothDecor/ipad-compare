@@ -38,7 +38,9 @@
         ],
         "aliases": [
             "5th Gen",
-            "2017"
+            "2017",
+            "5e génération",
+            "5ème génération"
         ]
     },
     {
@@ -50,7 +52,9 @@
         ],
         "aliases": [
             "6th Gen",
-            "2018"
+            "2018",
+            "6e génération",
+            "6ème génération"
         ]
     },
     {
@@ -63,7 +67,9 @@
         ],
         "aliases": [
             "7th Gen",
-            "2019"
+            "2019",
+            "7e génération",
+            "7ème génération"
         ]
     },
     {
@@ -76,7 +82,9 @@
         ],
         "aliases": [
             "8th Gen",
-            "2020"
+            "2020",
+            "8e génération",
+            "8ème génération"
         ]
     },
     {
@@ -89,7 +97,9 @@
         ],
         "aliases": [
             "2021",
-            "9th Gen"
+            "9th Gen",
+            "9e génération",
+            "9ème génération"
         ]
     },
     {
@@ -102,7 +112,9 @@
         ],
         "aliases": [
             "2022",
-            "10th Gen"
+            "10th Gen",
+            "10e génération",
+            "10ème génération"
         ]
     },
     {
@@ -379,6 +391,19 @@
         "aliases": [
             "M4",
             "2024"
+        ]
+    },
+    {
+        "model_name": "iPad mini (A17 Pro)",
+        "model_numbers": [
+            "A2993",
+            "A2995",
+            "A2996"
+        ],
+        "aliases": [
+            "iPad mini 7",
+            "7th Gen",
+            "A17 Pro"
         ]
     }
 ]

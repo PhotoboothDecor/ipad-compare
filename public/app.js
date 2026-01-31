@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchResults = document.getElementById('suggestions');
     const priceInput = document.getElementById('price-input');
     const calculateBtn = document.getElementById('calculate-btn');
+    const selectedModelIdInput = document.getElementById('selected-model-id');
     const resultContainer = document.getElementById('result-container');
     const comparisonBody = document.getElementById('comparison-body');
     const clearAllBtn = document.getElementById('clear-all-btn');
@@ -83,13 +84,28 @@ document.addEventListener('DOMContentLoaded', () => {
                                 score: data.score || 0,
                                 cpu: data.cpu || 'Unknown',
                                 released: data.released || 'Unknown',
-                                max_os: 'Unknown' // Specs don't have max_os usually?
+                                max_os: data.max_os || 'Unknown'
                             };
                         } else {
-                            // Exists in DB, but might have 0 score
-                            if ((!modelsData[name].score || modelsData[name].score === 0) && data.score) {
+                            // Exists in DB, but might have missing data
+                            const current = modelsData[name];
+
+                            // Patch Score
+                            if ((!current.score || current.score === 0) && data.score) {
                                 console.log(`Patching score for ${name} from local specs: ${data.score}`);
-                                modelsData[name].score = data.score;
+                                current.score = data.score;
+                            }
+                            // Patch CPU
+                            if ((!current.cpu || current.cpu === 'Unknown') && data.cpu) {
+                                current.cpu = data.cpu;
+                            }
+                            // Patch Released
+                            if ((!current.released || current.released === 'Unknown') && data.released) {
+                                current.released = data.released;
+                            }
+                            // Patch Max iOS
+                            if ((!current.max_os || current.max_os === 'Unknown') && data.max_os) {
+                                current.max_os = data.max_os;
                             }
                         }
                     }
@@ -889,8 +905,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Calculate value score if missing (e.g. from bulk)
         let finalValueScore = valueScore;
-        if (!finalValueScore && score && price) {
-            finalValueScore = (score / price).toFixed(2);
+        if ((!finalValueScore || finalValueScore === 'NaN' || finalValueScore === 'Infinity') && price) {
+            if (score && score > 0) {
+                finalValueScore = (score / price).toFixed(2);
+            } else {
+                finalValueScore = '0.00';
+            }
         }
         if (incomplete) {
             finalValueScore = 0; // Sort to bottom
