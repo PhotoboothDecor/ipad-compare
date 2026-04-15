@@ -362,8 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Bulk Process Logic (Improved) ---
-    processBulkBtn.addEventListener('click', async () => {
-        const rawText = bulkInput.value;
+    async function processLegacyBulk(rawText) {
         console.log("Bulk Process Started. Input length:", rawText.length);
         if (!rawText.trim()) return;
 
@@ -617,6 +616,71 @@ document.addEventListener('DOMContentLoaded', () => {
             // Scroll to results
             document.querySelector('.results-section').scrollIntoView({ behavior: 'smooth' });
         }
+        updateLeaderboard();
+        checkEmptyTable();
+    }
+
+    processBulkBtn.addEventListener('click', async () => {
+        const rawText = bulkInput.value;
+        if (!rawText.trim()) return;
+
+        // Try Facebook block parser first
+        const blocks = parseFacebookBlocks(rawText);
+
+        if (blocks === null) {
+            // Not a Facebook paste — use legacy parser
+            console.log("No Facebook block structure detected, using legacy parser");
+            await processLegacyBulk(rawText);
+            return;
+        }
+
+        console.log(`Facebook parser: found ${blocks.length} listing blocks`);
+
+        let processedCount = 0;
+
+        for (const block of blocks) {
+            // Pre-filter: skip non-iPad listings
+            if (!isIPadListing(block.rawTitle)) {
+                console.log(`Skipping non-iPad listing: "${block.rawTitle}"`);
+                continue;
+            }
+
+            // Clean title for matching
+            const cleaned = cleanTitle(block.rawTitle);
+            console.log(`Block: "${block.rawTitle}" -> cleaned: "${cleaned}" @ $${block.price}`);
+
+            // Find model match
+            const matches = findMatches(cleaned);
+
+            if (matches.length > 0) {
+                const match = matches[0];
+                const data = modelsData[match.name];
+                addResultRow({
+                    model: match.name,
+                    price: block.price,
+                    cpu: data ? data.cpu : '?',
+                    released: data ? data.released : '?',
+                    max_os: data ? data.max_os : '?',
+                    score: data ? data.score : 0
+                }, true);
+            } else {
+                // Unknown model — show with resolve prompt
+                addResultRow({
+                    model: cleaned || block.rawTitle,
+                    price: block.price,
+                    incomplete: true
+                }, true);
+            }
+
+            processedCount++;
+        }
+
+        console.log(`Facebook parser: processed ${processedCount} iPad listings`);
+
+        if (processedCount === 0) {
+            alert('No iPad listings found in the pasted text. Make sure you\'re copying from Facebook Marketplace search results.');
+        }
+
         updateLeaderboard();
         checkEmptyTable();
     });
@@ -1154,7 +1218,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </td>
                 <td class="price-cell">$${price}</td>
-                <td colspan="3"><span class="needs-info-badge">Identify Model</span></td>
+                <td colspan="3"><span class="needs-info-badge">Identify this model to see its value score</span></td>
                 <td>?</td>
                 <td class="value-cell">
                     <span class="score-val" style="font-size: 0.9em; color: var(--text-muted)">Pending...</span>
