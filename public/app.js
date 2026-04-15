@@ -13,6 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabContents = document.querySelectorAll('.tab-content');
     const bulkInput = document.getElementById('bulk-input');
     const processBulkBtn = document.getElementById('process-bulk-btn');
+    const tableFilterInput = document.getElementById('table-filter');
+    const filterChips = document.querySelectorAll('.filter-chip');
+
+    let currentSort = { column: 'value', direction: 'desc' };
+    let activeFilterType = 'all'; // all, latest, budget, pro
 
     let db;
     let modelsData = {}; // Key: Model Name, Value: { score, cpu, released }
@@ -142,6 +147,226 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById(`${tabId}-tab`).classList.add('active');
         });
     });
+
+    // --- Sorting & Filtering Logic ---
+    const sortHeaders = {
+        'th-model': 'model',
+        'th-price': 'price',
+        'th-year': 'released',
+        'th-score': 'score',
+        'th-value': 'value'
+    };
+
+    Object.entries(sortHeaders).forEach(([id, column]) => {
+        const th = document.getElementById(id);
+        if (th) {
+            th.addEventListener('click', () => {
+                const isCurrent = currentSort.column === column;
+                const newDirection = isCurrent && currentSort.direction === 'desc' ? 'asc' : 'desc';
+
+                currentSort = { column, direction: newDirection };
+
+                // Update UI Header classes
+                document.querySelectorAll('#comparison-table th').forEach(header => {
+                    header.classList.remove('sort-asc', 'sort-desc');
+                });
+                th.classList.add(newDirection === 'asc' ? 'sort-asc' : 'sort-desc');
+
+                updateLeaderboard();
+            });
+        }
+    });
+
+    if (tableFilterInput) {
+        tableFilterInput.addEventListener('input', () => {
+            applyFilters();
+        });
+    }
+
+    filterChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            filterChips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            activeFilterType = chip.dataset.filter;
+            applyFilters();
+        });
+    });
+
+    function applyFilters() {
+        const query = tableFilterInput.value.toLowerCase().trim();
+        const rows = Array.from(comparisonBody.querySelectorAll('tr'));
+
+        rows.forEach(row => {
+            const model = row.dataset.model.toLowerCase();
+            const price = parseFloat(row.dataset.price);
+            const isLatest = row.dataset.max_os === 'Latest';
+            const isPro = model.includes('pro');
+
+            let matchesType = true;
+            if (activeFilterType === 'latest') matchesType = isLatest;
+            else if (activeFilterType === 'budget') matchesType = price < 400;
+            else if (activeFilterType === 'pro') matchesType = isPro;
+
+            const matchesQuery = model.includes(query) || row.dataset.cpu.toLowerCase().includes(query);
+
+            if (matchesType && matchesQuery) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        updateLeaderboard(); // Re-sort and re-highlight winner among visible
+    }
+
+    /**
+     * Parse Facebook Marketplace paste into listing blocks.
+     * Each listing follows the pattern:
+     *   [Title] in [City], [Province]   <- block start
+     *   CA$[price]                      <- current price
+     *   CA$[original price]             <- optional struck-through price
+     *   [Title]                         <- duplicate title (no location)
+     *   [City], [Province]              <- standalone location
+     *   [Just listed]                   <- optional tag
+     *
+     * Returns array of { rawTitle, price } objects, or null if not Facebook format.
+     */
+    function parseFacebookBlocks(rawText) {
+        const lines = rawText.split(/\r\n|\r|\n/).map(l => l.trim()).filter(l => l.length > 0);
+
+        const locationSuffix = /\s+in\s+([\w\s.\-']+),\s*([A-Z]{2})\s*$/;
+
+        const blockStarts = [];
+        for (let i = 0; i < lines.length; i++) {
+            if (locationSuffix.test(lines[i])) {
+                blockStarts.push(i);
+            }
+        }
+
+        if (blockStarts.length < 2) {
+            return null;
+        }
+
+        const listings = [];
+        for (let b = 0; b < blockStarts.length; b++) {
+            const startIdx = blockStarts[b];
+            const endIdx = (b + 1 < blockStarts.length) ? blockStarts[b + 1] : lines.length;
+            const blockLines = lines.slice(startIdx, endIdx);
+
+            const titleLine = blockLines[0];
+            const rawTitle = titleLine.replace(locationSuffix, '').trim();
+
+            const priceRegex = /^(?:CA\$|CAD\s*\$?|US\$|USD\s*\$?|\$)\s*([\d,]+)\s*$/i;
+            const prices = [];
+            for (let j = 1; j < blockLines.length; j++) {
+                const line = blockLines[j];
+                if (/^free$/i.test(line)) continue;
+                const match = line.match(priceRegex);
+                if (match) {
+                    const val = parseInt(match[1].replace(/,/g, ''), 10);
+                    if (val > 0) prices.push(val);
+                }
+            }
+
+            const price = prices.length > 0 ? Math.min(...prices) : null;
+
+            if (price !== null) {
+                listings.push({ rawTitle, price });
+            }
+        }
+
+        return listings;
+    }
+
+    /**
+     * Clean a raw listing title for model matching.
+     * Strips noise (colors, storage, condition, accessories, etc.)
+     * and normalizes French generations and shorthand.
+     */
+    function cleanTitle(raw) {
+        let t = raw;
+
+        t = t.replace(/[\[(](sealed|new|used|mint|trading)[\])]/gi, '');
+        t = t.replace(/^(New|Brand New|Like New|Used|Mint|Sealed)\s+/i, '');
+        t = t.replace(/^Apple\s+/i, '');
+        t = t.replace(/^\$\d+\s+/i, '');
+        t = t.replace(/^(?:CA\$|CAD\s*\$?)\s*\d+\s+/i, '');
+        t = t.replace(/\b\d+\s*(GB|TB|gb|tb)\b/gi, '');
+        t = t.replace(/\b(Blue|Pink|Yellow|Silver|Gold|Space\s*Gr[ae]y|White|Black|Starlight|Purple|Red)\b/gi, '');
+        t = t.replace(/\b(Wi-?Fi|WiFi|Cellular|Wi-?Fi\s*\+\s*Cellular|4G\s*LTE|LTE)\b/gi, '');
+        t = t.replace(/\b(Like New|Condition|pristine condition|Fully functional|very good battery|Fully clean|abd ready)\b/gi, '');
+        t = t.replace(/\+\s*.*$/i, '');
+        t = t.replace(/\bwith\s+(?!Wi).*$/i, '');
+        t = t.replace(/\bfor\s+(sale|parts)\b/gi, '');
+        t = t.replace(/Released:\s*\w+\s*\d{4}/gi, '');
+        t = t.replace(/Wi-?Fi\s*Model/gi, '');
+
+        // Normalize French generations
+        t = t.replace(/(\d+)(?:ème|e|ère)\s*(?:génération|gen\.?)/gi, (_, num) => {
+            return num + getSuffix(parseInt(num)) + ' generation';
+        });
+
+        // Normalize "GEN." / "Gen" with period
+        t = t.replace(/(\d+)(?:ST|ND|RD|TH)?\s*GEN\.?\s*/gi, (_, num) => {
+            return num + getSuffix(parseInt(num)) + ' generation ';
+        });
+
+        t = t.replace(/^TRADING\s*\|\s*/i, '');
+        t = t.replace(/\s*[•·]\s*/g, ' ');
+
+        // Normalize year-as-generation for Pro models
+        const proYearMap = {
+            '2018': { '11': 'iPad Pro 11-inch (1st generation)', '12.9': 'iPad Pro 12.9-inch (3rd generation)', default: 'iPad Pro 11-inch (1st generation)' },
+            '2020': { '11': 'iPad Pro 11-inch (2nd generation)', '12.9': 'iPad Pro 12.9-inch (4th generation)', default: 'iPad Pro 11-inch (2nd generation)' },
+            '2021': { '11': 'iPad Pro 11-inch (3rd generation)', '12.9': 'iPad Pro 12.9-inch (5th generation)', default: 'iPad Pro 11-inch (3rd generation)' },
+            '2022': { '11': 'iPad Pro 11-inch (4th generation)', '12.9': 'iPad Pro 12.9-inch (6th generation)', default: 'iPad Pro 11-inch (4th generation)' },
+            '2024': { '11': 'iPad Pro 11-inch (M4)', '13': 'iPad Pro 13-inch (M4)', default: 'iPad Pro 11-inch (M4)' },
+            '2025': { '11': 'iPad Pro 11-inch (M5)', '13': 'iPad Pro 13-inch (M5)', default: 'iPad Pro 11-inch (M5)' },
+        };
+        const proYearMatch = t.match(/ipad\s*pro\s*([\d.]+)?.*?\b(20\d{2})\b/i);
+        if (proYearMatch) {
+            const size = proYearMatch[1] || null;
+            const year = proYearMatch[2];
+            const yearEntry = proYearMap[year];
+            if (yearEntry) {
+                const sizeKey = size ? Object.keys(yearEntry).find(k => size.startsWith(k)) : null;
+                t = sizeKey ? yearEntry[sizeKey] : yearEntry.default;
+                return t;
+            }
+        }
+
+        t = t.replace(/[.\-–—,;:!]+\s*$/, '');
+        t = t.replace(/\s+/g, ' ').trim();
+
+        return t;
+    }
+
+    /** Helper: English ordinal suffix for a number */
+    function getSuffix(n) {
+        const s = ['th', 'st', 'nd', 'rd'];
+        const v = n % 100;
+        return (s[(v - 20) % 10] || s[v] || s[0]);
+    }
+
+    /**
+     * Pre-filter: determine if a listing title is actually an iPad for sale
+     * (not an accessory, not Samsung, etc.)
+     * Returns false if the listing should be skipped entirely.
+     */
+    function isIPadListing(rawTitle) {
+        const t = rawTitle.toLowerCase();
+
+        if (!t.includes('ipad')) return false;
+
+        if (/\bfor\s+ipad\b/i.test(rawTitle)) return false;
+        if (/\bcase\b.*\bipad\b/i.test(rawTitle) && !/\bipad\b.*\bcase\b/i.test(rawTitle)) return false;
+
+        if (/^samsung\b/i.test(rawTitle)) return false;
+        if (/^logitech\b/i.test(rawTitle)) return false;
+        if (/^microsoft\b/i.test(rawTitle)) return false;
+
+        return true;
+    }
 
     // --- Bulk Process Logic (Improved) ---
     processBulkBtn.addEventListener('click', async () => {
@@ -1101,7 +1326,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             max_os: newData ? newData.max_os : '?',
                             score: newData ? newData.score : 0
                         }, true);
-                        updateLeaderboard();
+                        applyFilters();
                         saveComparisons();
                     }
                 };
@@ -1208,7 +1433,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultContainer.classList.remove('hidden');
         clearAllBtn.classList.remove('hidden');
 
-        updateLeaderboard();
+        applyFilters();
 
         if (shouldSave) {
             saveComparisons();
@@ -1217,29 +1442,50 @@ document.addEventListener('DOMContentLoaded', () => {
         return row;
     }
 
-    // Sorts table by Value Score (Low to High) and highlights winner
+    // Sorts table based on currentSort and highlights winner among visible
     function updateLeaderboard() {
         const rows = Array.from(comparisonBody.querySelectorAll('tr'));
-
         if (rows.length === 0) return;
 
-        // Sort rows: Higher valueScore is better (Points per Dollar)
+        const { column, direction } = currentSort;
+
+        // Sort rows
         rows.sort((a, b) => {
-            return parseFloat(b.dataset.value) - parseFloat(a.dataset.value);
+            let valA, valB;
+
+            if (column === 'model') {
+                valA = a.dataset.model.toLowerCase();
+                valB = b.dataset.model.toLowerCase();
+            } else {
+                valA = parseFloat(a.dataset[column]) || 0;
+                valB = parseFloat(b.dataset[column]) || 0;
+            }
+
+            if (valA < valB) return direction === 'asc' ? -1 : 1;
+            if (valA > valB) return direction === 'asc' ? 1 : -1;
+            return 0;
         });
 
         // Re-append in order
         rows.forEach(row => comparisonBody.appendChild(row));
 
-        // Highlight Winner
+        // Highlight Winner among VISIBLE rows
         rows.forEach(row => {
             row.classList.remove('champion-row');
             const trophy = row.querySelector('.trophy-icon');
             if (trophy) trophy.textContent = '';
         });
 
-        if (rows.length > 0) {
-            const winner = rows[0];
+        const visibleRows = rows.filter(r => r.style.display !== 'none');
+        if (visibleRows.length > 0) {
+            // The first visible row is the "winner" based on current sort
+            // BUT usually we only want to highlight if sorting by Value Score?
+            // User probably wants the best value score to always be highlighted if it's visible.
+            // Let's find the absolute best value score among visible rows.
+            const winner = visibleRows.reduce((prev, curr) => {
+                return (parseFloat(curr.dataset.value) > parseFloat(prev.dataset.value)) ? curr : prev;
+            });
+
             winner.classList.add('champion-row');
             const trophy = winner.querySelector('.trophy-icon');
             if (trophy) trophy.textContent = ' 🏆'; // Trophy Emoji
