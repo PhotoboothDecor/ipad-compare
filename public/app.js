@@ -234,7 +234,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function parseFacebookBlocks(rawText) {
         const lines = rawText.split(/\r\n|\r|\n/).map(l => l.trim()).filter(l => l.length > 0);
 
-        const locationSuffix = /\s+in\s+([\w\s.\-']+),\s*([A-Z]{2})\s*$/;
+        const locationSuffix = /\s+in\s+([\w\u00C0-\u024F\s.\-']+),\s*([A-Z]{2})\s*$/;
+        const priceRegex = /^(?:CA\$|CAD\s*\$?|US\$|USD\s*\$?|\$)\s*([\d,]+)\s*$/i;
 
         const blockStarts = [];
         for (let i = 0; i < lines.length; i++) {
@@ -243,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        if (blockStarts.length < 2) {
+        if (blockStarts.length < 1) {
             return null;
         }
 
@@ -256,7 +257,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const titleLine = blockLines[0];
             const rawTitle = titleLine.replace(locationSuffix, '').trim();
 
-            const priceRegex = /^(?:CA\$|CAD\s*\$?|US\$|USD\s*\$?|\$)\s*([\d,]+)\s*$/i;
             const prices = [];
             for (let j = 1; j < blockLines.length; j++) {
                 const line = blockLines[j];
@@ -303,12 +303,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Normalize French generations
         t = t.replace(/(\d+)(?:ème|e|ère)\s*(?:génération|gen\.?)/gi, (_, num) => {
-            return num + getSuffix(parseInt(num)) + ' generation';
+            return getOrdinal(parseInt(num)) + ' generation';
         });
 
         // Normalize "GEN." / "Gen" with period
         t = t.replace(/(\d+)(?:ST|ND|RD|TH)?\s*GEN\.?\s*/gi, (_, num) => {
-            return num + getSuffix(parseInt(num)) + ' generation ';
+            return getOrdinal(parseInt(num)) + ' generation ';
         });
 
         t = t.replace(/^TRADING\s*\|\s*/i, '');
@@ -339,13 +339,6 @@ document.addEventListener('DOMContentLoaded', () => {
         t = t.replace(/\s+/g, ' ').trim();
 
         return t;
-    }
-
-    /** Helper: English ordinal suffix for a number */
-    function getSuffix(n) {
-        const s = ['th', 'st', 'nd', 'rd'];
-        const v = n % 100;
-        return (s[(v - 20) % 10] || s[v] || s[0]);
     }
 
     /**
