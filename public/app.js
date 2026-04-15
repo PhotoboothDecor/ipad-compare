@@ -306,8 +306,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return getOrdinal(parseInt(num)) + ' generation';
         });
 
-        // Normalize "GEN." / "Gen" with period
-        t = t.replace(/(\d+)(?:ST|ND|RD|TH)?\s*GEN\.?\s*/gi, (_, num) => {
+        // Normalize "GEN." / "Gen" / "Generation" shorthand
+        t = t.replace(/(\d+)(?:ST|ND|RD|TH)?\s*GEN(?:ERATION)?\.?\s*/gi, (_, num) => {
             return getOrdinal(parseInt(num)) + ' generation ';
         });
 
