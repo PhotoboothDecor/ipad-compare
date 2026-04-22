@@ -2,13 +2,15 @@ name: Daily Geekbench Scrape
 
 on:
   schedule:
-    # Run every day at midnight UTC
     - cron: '0 0 * * *'
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -23,10 +25,30 @@ jobs:
           cd scripts
           npm install
 
-      - name: Run Scraper
+      - name: Run Apple Scraper (model numbers + max OS)
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd scripts
+          node scrape_apple.js
+
+      - name: Run Geekbench Scraper (scores + self-healing)
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd scripts
           node scrape.js
-          node scrape_wiki.js
+
+      - name: Auto-commit updated data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/model_mapping.json public/model_specs.json
+          if git diff --cached --quiet; then
+            echo "No data file changes to commit"
+          else
+            git commit -m "chore(auto-update): sync model data [skip ci]"
+            git push
+          fi

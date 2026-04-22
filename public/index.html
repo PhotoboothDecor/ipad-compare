@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Used iPad Value Comparer</title>
+    <title>iPad Value Scorer</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="search-style.css">
 
@@ -17,7 +17,7 @@
     <script defer src="/__/firebase/10.7.1/firebase-app-compat.js"></script>
     <script defer src="/__/firebase/10.7.1/firebase-firestore-compat.js"></script>
     <!-- <script defer src="/__/firebase/init.js"></script> Removed: Using explicit config in app.js -->
-    <script defer src="app.js?v=4"></script>
+    <script defer src="app.js?v=9"></script>
 </head>
 
 <body>
@@ -29,22 +29,41 @@
 
         <main>
             <div class="card">
-                <div class="input-group">
-                    <label for="model-search">iPad Model</label>
-                    <div class="search-container">
-                        <input type="text" id="model-search" placeholder="Loading data..." disabled>
-                        <ul id="search-results" class="hidden"></ul>
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="basic">Single</button>
+                    <button class="tab-btn" data-tab="pro">Bulk</button>
+                </div>
+
+                <!-- Basic Tab (Single Entry) -->
+                <div id="basic-tab" class="tab-content active">
+                    <div class="input-group">
+                        <label for="model-search">iPad Model</label>
+                        <input type="text" id="model-search" placeholder="Loading data..." autocomplete="off">
+                        <input type="hidden" id="selected-model-id">
+                        <div id="suggestions" class="suggestions-dropdown hidden"></div>
                     </div>
-                    <!-- Hidden input to store the selected model ID -->
-                    <input type="hidden" id="selected-model-id">
+
+                    <div class="input-group">
+                        <label for="price-input">Price ($)</label>
+                        <input type="number" id="price-input" inputmode="numeric" placeholder="e.g. 300">
+                    </div>
+
+                    <button id="calculate-btn">Calculate Value</button>
                 </div>
 
-                <div class="input-group">
-                    <label for="price-input">Price ($)</label>
-                    <input type="number" id="price-input" placeholder="e.g. 300" min="0" step="1">
+                <!-- Pro Tab (Bulk Entry) -->
+                <div id="pro-tab" class="tab-content">
+                    <div class="input-group">
+                        <label for="bulk-input">Paste Listing Titles & Prices</label>
+                        <p class="helper-text">Copy multiple lines from Marketplace. Start each line with the model
+                            name.</p>
+                        <textarea id="bulk-input" rows="6" placeholder="iPad Air 4 $350
+iPad Pro 12.9 3rd gen 450
+iPad 9th Gen 200"></textarea>
+                    </div>
+                    <button id="process-bulk-btn">Process List</button>
                 </div>
-
-                <button id="calculate-btn">Calculate Value</button>
             </div>
 
             <!-- Instructions (Visible when empty) -->
@@ -61,16 +80,32 @@
             </div>
 
             <div class="result-container hidden" id="result-container">
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <div class="filter-input-wrapper">
+                        <input type="text" id="table-filter" placeholder="Filter results (e.g. 'Air', 'M1')...">
+                        <span class="filter-icon">🔍</span>
+                    </div>
+                    <div class="quick-filters">
+                        <button class="filter-chip" data-filter="latest">Latest iOS</button>
+                        <button class="filter-chip" data-filter="budget">Budget (<$400)< /button>
+                                <button class="filter-chip" data-filter="pro">Pro Models</button>
+                                <button class="filter-chip active" data-filter="all">All</button>
+                    </div>
+                </div>
+
                 <table id="comparison-table">
                     <thead>
                         <tr>
-                            <th>Model</th>
-                            <th>Price</th>
-                            <th>Chip</th>
-                            <th>Year</th>
-                            <th>Max iOS</th>
-                            <th>Geekbench</th>
-                            <th class="highlight">Value Score (Pts/$)</th>
+                            <th id="th-model" class="sortable">Model <span class="sort-icon"></span></th>
+                            <th id="th-price" class="sortable">Price <span class="sort-icon"></span></th>
+                            <th id="th-chip">Chip</th>
+                            <th id="th-year" class="sortable">Year <span class="sort-icon"></span></th>
+                            <th id="th-ios">Max iOS</th>
+                            <th id="th-score" class="sortable">Geekbench <span class="sort-icon"></span></th>
+                            <th id="th-value" class="sortable highlight sort-desc">Value Score <span
+                                    class="sort-icon"></span>
+                            </th>
                             <th></th>
                         </tr>
                     </thead>

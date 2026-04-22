@@ -1,364 +1,453 @@
 [
-    {
-        "model_name": "iPad (1st generation)",
-        "model_numbers": [
-            "A1219",
-            "A1337"
-        ]
-    },
-    {
-        "model_name": "iPad 2",
-        "model_numbers": [
-            "A1395",
-            "A1396",
-            "A1397"
-        ]
-    },
-    {
-        "model_name": "iPad (3rd generation)",
-        "model_numbers": [
-            "A1416",
-            "A1430",
-            "A1403"
-        ]
-    },
-    {
-        "model_name": "iPad (4th generation)",
-        "model_numbers": [
-            "A1458",
-            "A1459",
-            "A1460"
-        ]
-    },
-    {
-        "model_name": "iPad (5th generation)",
-        "model_numbers": [
-            "A1822",
-            "A1823"
-        ]
-    },
-    {
-        "model_name": "iPad (6th generation)",
-        "model_numbers": [
-            "A1893",
-            "A1954",
-            "MR7F2"
-        ]
-    },
-    {
-        "model_name": "iPad (7th generation)",
-        "model_numbers": [
-            "A2197",
-            "A2200",
-            "A2198",
-            "A2199"
-        ]
-    },
-    {
-        "model_name": "iPad (8th generation)",
-        "model_numbers": [
-            "A2270",
-            "A2428",
-            "A2429",
-            "A2430"
-        ]
-    },
-    {
-        "model_name": "iPad (9th generation)",
-        "model_numbers": [
-            "A2602",
-            "A2604",
-            "A2603",
-            "A2605"
-        ],
-        "aliases": [
-            "2021",
-            "9th Gen"
-        ]
-    },
-    {
-        "model_name": "iPad (10th generation)",
-        "model_numbers": [
-            "A2696",
-            "A2757",
-            "A2777",
-            "A3162"
-        ],
-        "aliases": [
-            "2022",
-            "10th Gen"
-        ]
-    },
-    {
-        "model_name": "iPad mini (1st generation)",
-        "model_numbers": [
-            "A1432",
-            "A1454",
-            "A1455"
-        ]
-    },
-    {
-        "model_name": "iPad mini 2",
-        "model_numbers": [
-            "A1489",
-            "A1490",
-            "A1491"
-        ]
-    },
-    {
-        "model_name": "iPad mini 3",
-        "model_numbers": [
-            "A1599",
-            "A1600",
-            "A1601"
-        ]
-    },
-    {
-        "model_name": "iPad mini 4",
-        "model_numbers": [
-            "A1538",
-            "A1550"
-        ]
-    },
-    {
-        "model_name": "iPad mini (5th generation)",
-        "model_numbers": [
-            "A2133",
-            "A2124",
-            "A2126",
-            "A2125"
-        ],
-        "aliases": [
-            "2019",
-            "5th Gen"
-        ]
-    },
-    {
-        "model_name": "iPad mini (6th generation)",
-        "model_numbers": [
-            "A2567",
-            "A2568",
-            "A2569"
-        ],
-        "aliases": [
-            "2021",
-            "6th Gen"
-        ]
-    },
-    {
-        "model_name": "iPad Air (1st generation)",
-        "model_numbers": [
-            "A1474",
-            "A1475",
-            "A1476"
-        ]
-    },
-    {
-        "model_name": "iPad Air 2",
-        "model_numbers": [
-            "A1566",
-            "A1567"
-        ]
-    },
-    {
-        "model_name": "iPad Air (3rd generation)",
-        "model_numbers": [
-            "A2152",
-            "A2123",
-            "A2153",
-            "A2154"
-        ]
-    },
-    {
-        "model_name": "iPad Air (4th generation)",
-        "model_numbers": [
-            "A2316",
-            "A2324",
-            "A2325",
-            "A2072"
-        ],
-        "aliases": [
-            "2020",
-            "4th Gen",
-            "A14"
-        ]
-    },
-    {
-        "model_name": "iPad Air (5th generation)",
-        "model_numbers": [
-            "A2588",
-            "A2589",
-            "A2591"
-        ],
-        "aliases": [
-            "2022",
-            "M1",
-            "5th Gen"
-        ]
-    },
-    {
-        "model_name": "iPad Air 11-inch (M2)",
-        "model_numbers": [
-            "A2902",
-            "A2903",
-            "A2904"
-        ]
-    },
-    {
-        "model_name": "iPad Air 13-inch (M2)",
-        "model_numbers": [
-            "A2898",
-            "A2899",
-            "A2900"
-        ]
-    },
-    {
-        "model_name": "iPad Pro 12.9-inch (1st generation)",
-        "model_numbers": [
-            "A1584",
-            "A1652"
-        ]
-    },
-    {
-        "model_name": "iPad Pro 9.7-inch",
-        "model_numbers": [
-            "A1673",
-            "A1674",
-            "A1675"
-        ]
-    },
-    {
-        "model_name": "iPad Pro 12.9-inch (2nd generation)",
-        "model_numbers": [
-            "A1670",
-            "A1671",
-            "A1821"
-        ]
-    },
-    {
-        "model_name": "iPad Pro 10.5-inch",
-        "model_numbers": [
-            "A1701",
-            "A1709",
-            "A1852"
-        ]
-    },
-    {
-        "model_name": "iPad Pro 11-inch (1st generation)",
-        "model_numbers": [
-            "A1980",
-            "A2013",
-            "A1934",
-            "A1979"
-        ]
-    },
-    {
-        "model_name": "iPad Pro 12.9-inch (3rd generation)",
-        "model_numbers": [
-            "A1876",
-            "A2014",
-            "A1895",
-            "A1983"
-        ]
-    },
-    {
-        "model_name": "iPad Pro 11-inch (2nd generation)",
-        "model_numbers": [
-            "A2228",
-            "A2068",
-            "A2230",
-            "A2231"
-        ]
-    },
-    {
-        "model_name": "iPad Pro 12.9-inch (4th generation)",
-        "model_numbers": [
-            "A2229",
-            "A2069",
-            "A2232",
-            "A2233"
-        ]
-    },
-    {
-        "model_name": "iPad Pro 11-inch (3rd generation)",
-        "model_numbers": [
-            "A2377",
-            "A2459",
-            "A2301",
-            "A2460"
-        ],
-        "aliases": [
-            "M1",
-            "2021",
-            "3rd Gen"
-        ]
-    },
-    {
-        "model_name": "iPad Pro 12.9-inch (5th generation)",
-        "model_numbers": [
-            "A2378",
-            "A2461",
-            "A2379",
-            "A2462"
-        ],
-        "aliases": [
-            "M1",
-            "2021",
-            "5th Gen"
-        ]
-    },
-    {
-        "model_name": "iPad Pro 11-inch (4th generation)",
-        "model_numbers": [
-            "A2759",
-            "A2761",
-            "A2435",
-            "A2762"
-        ],
-        "aliases": [
-            "M2",
-            "2022",
-            "4th Gen"
-        ]
-    },
-    {
-        "model_name": "iPad Pro 12.9-inch (6th generation)",
-        "model_numbers": [
-            "A2436",
-            "A2437",
-            "A2764",
-            "A2766"
-        ],
-        "aliases": [
-            "M2",
-            "2022",
-            "6th Gen"
-        ]
-    },
-    {
-        "model_name": "iPad Pro 11-inch (M4)",
-        "model_numbers": [
-            "A2836",
-            "A2837",
-            "A3006"
-        ],
-        "aliases": [
-            "M4",
-            "2024",
-            "7th Gen"
-        ]
-    },
-    {
-        "model_name": "iPad Pro 13-inch (M4)",
-        "model_numbers": [
-            "A2925",
-            "A2926",
-            "A3007"
-        ],
-        "aliases": [
-            "M4",
-            "2024",
-            "7th Gen"
-        ]
-    }
+  {
+    "model_name": "iPad (1st generation)",
+    "model_numbers": [
+      "A1219",
+      "A1337"
+    ]
+  },
+  {
+    "model_name": "iPad 2",
+    "model_numbers": [
+      "A1395",
+      "A1396",
+      "A1397"
+    ]
+  },
+  {
+    "model_name": "iPad (3rd generation)",
+    "model_numbers": [
+      "A1416",
+      "A1430",
+      "A1403"
+    ]
+  },
+  {
+    "model_name": "iPad (4th generation)",
+    "model_numbers": [
+      "A1458",
+      "A1459",
+      "A1460"
+    ]
+  },
+  {
+    "model_name": "iPad (5th generation)",
+    "model_numbers": [
+      "A1822",
+      "A1823"
+    ],
+    "aliases": [
+      "5th Gen",
+      "2017",
+      "5e g\u00e9n\u00e9ration",
+      "5\u00e8me g\u00e9n\u00e9ration"
+    ]
+  },
+  {
+    "model_name": "iPad (6th generation)",
+    "model_numbers": [
+      "A1893",
+      "A1954",
+      "MR7F2"
+    ],
+    "aliases": [
+      "6th Gen",
+      "2018",
+      "6e g\u00e9n\u00e9ration",
+      "6\u00e8me g\u00e9n\u00e9ration"
+    ]
+  },
+  {
+    "model_name": "iPad (7th generation)",
+    "model_numbers": [
+      "A2197",
+      "A2200",
+      "A2198",
+      "A2199"
+    ],
+    "aliases": [
+      "7th Gen",
+      "2019",
+      "7e g\u00e9n\u00e9ration",
+      "7\u00e8me g\u00e9n\u00e9ration"
+    ]
+  },
+  {
+    "model_name": "iPad (8th generation)",
+    "model_numbers": [
+      "A2270",
+      "A2428",
+      "A2429",
+      "A2430"
+    ],
+    "aliases": [
+      "8th Gen",
+      "2020",
+      "8e g\u00e9n\u00e9ration",
+      "8\u00e8me g\u00e9n\u00e9ration"
+    ]
+  },
+  {
+    "model_name": "iPad (9th generation)",
+    "model_numbers": [
+      "A2602",
+      "A2604",
+      "A2603",
+      "A2605"
+    ],
+    "aliases": [
+      "2021",
+      "9th Gen",
+      "9e g\u00e9n\u00e9ration",
+      "9\u00e8me g\u00e9n\u00e9ration"
+    ]
+  },
+  {
+    "model_name": "iPad (10th generation)",
+    "model_numbers": [
+      "A2696",
+      "A2757",
+      "A2777",
+      "A3162"
+    ],
+    "aliases": [
+      "2022",
+      "10th Gen",
+      "10e g\u00e9n\u00e9ration",
+      "10\u00e8me g\u00e9n\u00e9ration"
+    ]
+  },
+  {
+    "model_name": "iPad mini (1st generation)",
+    "model_numbers": [
+      "A1432",
+      "A1454",
+      "A1455"
+    ]
+  },
+  {
+    "model_name": "iPad mini 2",
+    "model_numbers": [
+      "A1489",
+      "A1490",
+      "A1491"
+    ]
+  },
+  {
+    "model_name": "iPad mini 3",
+    "model_numbers": [
+      "A1599",
+      "A1600",
+      "A1601"
+    ]
+  },
+  {
+    "model_name": "iPad mini 4",
+    "model_numbers": [
+      "A1538",
+      "A1550"
+    ]
+  },
+  {
+    "model_name": "iPad mini (5th generation)",
+    "model_numbers": [
+      "A2133",
+      "A2124",
+      "A2126",
+      "A2125"
+    ],
+    "aliases": [
+      "2019",
+      "5th Gen"
+    ]
+  },
+  {
+    "model_name": "iPad mini (6th generation)",
+    "model_numbers": [
+      "A2567",
+      "A2568",
+      "A2569"
+    ],
+    "aliases": [
+      "2021",
+      "6th Gen"
+    ]
+  },
+  {
+    "model_name": "iPad Air (1st generation)",
+    "model_numbers": [
+      "A1474",
+      "A1475",
+      "A1476"
+    ]
+  },
+  {
+    "model_name": "iPad Air 2",
+    "model_numbers": [
+      "A1566",
+      "A1567"
+    ]
+  },
+  {
+    "model_name": "iPad Air (3rd generation)",
+    "model_numbers": [
+      "A2152",
+      "A2123",
+      "A2153",
+      "A2154"
+    ]
+  },
+  {
+    "model_name": "iPad Air (4th generation)",
+    "model_numbers": [
+      "A2316",
+      "A2324",
+      "A2325",
+      "A2072"
+    ],
+    "aliases": [
+      "2020",
+      "4th Gen",
+      "A14"
+    ]
+  },
+  {
+    "model_name": "iPad Air (5th generation)",
+    "model_numbers": [
+      "A2588",
+      "A2589",
+      "A2591"
+    ],
+    "aliases": [
+      "2022",
+      "M1",
+      "5th Gen"
+    ]
+  },
+  {
+    "model_name": "iPad Air 11-inch (M2)",
+    "model_numbers": [
+      "A2902",
+      "A2903",
+      "A2904"
+    ],
+    "aliases": [
+      "iPad Air (6th generation)",
+      "Air 11 M2",
+      "Air M2 11",
+      "6th generation Air"
+    ]
+  },
+  {
+    "model_name": "iPad Air 13-inch (M2)",
+    "model_numbers": [
+      "A2898",
+      "A2899",
+      "A2900"
+    ],
+    "aliases": [
+      "iPad Air (6th generation) 13",
+      "Air 13 M2",
+      "Air M2 13"
+    ]
+  },
+  {
+    "model_name": "iPad (11th generation)",
+    "model_numbers": [
+      "A3286",
+      "A3287",
+      "A3288",
+      "A3289"
+    ],
+    "aliases": [
+      "2025",
+      "11th Gen"
+    ]
+  },
+  {
+    "model_name": "iPad Air 11-inch (M3)",
+    "model_numbers": [],
+    "aliases": [
+      "iPad Air (7th generation)",
+      "Air 11 M3",
+      "Air M3 11",
+      "7th generation Air"
+    ]
+  },
+  {
+    "model_name": "iPad Air 13-inch (M3)",
+    "model_numbers": [],
+    "aliases": [
+      "iPad Air (7th generation) 13",
+      "Air 13 M3",
+      "Air M3 13"
+    ]
+  },
+  {
+    "model_name": "iPad Pro 12.9-inch (1st generation)",
+    "model_numbers": [
+      "A1584",
+      "A1652"
+    ]
+  },
+  {
+    "model_name": "iPad Pro 9.7-inch",
+    "model_numbers": [
+      "A1673",
+      "A1674",
+      "A1675"
+    ]
+  },
+  {
+    "model_name": "iPad Pro 12.9-inch (2nd generation)",
+    "model_numbers": [
+      "A1670",
+      "A1671",
+      "A1821"
+    ]
+  },
+  {
+    "model_name": "iPad Pro 10.5-inch",
+    "model_numbers": [
+      "A1701",
+      "A1709",
+      "A1852"
+    ],
+    "aliases": [
+      "iPad Pro 2",
+      "iPad Pro 2nd Gen",
+      "2nd Gen",
+      "iPad Pro (2nd generation) 10.5-inch"
+    ]
+  },
+  {
+    "model_name": "iPad Pro 11-inch (1st generation)",
+    "model_numbers": [
+      "A1980",
+      "A2013",
+      "A1934",
+      "A1979"
+    ]
+  },
+  {
+    "model_name": "iPad Pro 12.9-inch (3rd generation)",
+    "model_numbers": [
+      "A1876",
+      "A2014",
+      "A1895",
+      "A1983"
+    ]
+  },
+  {
+    "model_name": "iPad Pro 11-inch (2nd generation)",
+    "model_numbers": [
+      "A2228",
+      "A2068",
+      "A2230",
+      "A2231"
+    ]
+  },
+  {
+    "model_name": "iPad Pro 12.9-inch (4th generation)",
+    "model_numbers": [
+      "A2229",
+      "A2069",
+      "A2232",
+      "A2233"
+    ]
+  },
+  {
+    "model_name": "iPad Pro 11-inch (3rd generation)",
+    "model_numbers": [
+      "A2377",
+      "A2459",
+      "A2301",
+      "A2460"
+    ],
+    "aliases": [
+      "M1",
+      "2021",
+      "3rd Gen"
+    ]
+  },
+  {
+    "model_name": "iPad Pro 12.9-inch (5th generation)",
+    "model_numbers": [
+      "A2378",
+      "A2461",
+      "A2379",
+      "A2462"
+    ],
+    "aliases": [
+      "M1",
+      "2021",
+      "5th Gen"
+    ]
+  },
+  {
+    "model_name": "iPad Pro 11-inch (4th generation)",
+    "model_numbers": [
+      "A2759",
+      "A2761",
+      "A2435",
+      "A2762"
+    ],
+    "aliases": [
+      "M2",
+      "2022",
+      "4th Gen"
+    ]
+  },
+  {
+    "model_name": "iPad Pro 12.9-inch (6th generation)",
+    "model_numbers": [
+      "A2436",
+      "A2437",
+      "A2764",
+      "A2766"
+    ],
+    "aliases": [
+      "M2",
+      "2022",
+      "6th Gen"
+    ]
+  },
+  {
+    "model_name": "iPad Pro 11-inch (M4)",
+    "model_numbers": [
+      "A2836",
+      "A2837",
+      "A3006"
+    ],
+    "aliases": [
+      "M4",
+      "2024"
+    ]
+  },
+  {
+    "model_name": "iPad Pro 13-inch (M4)",
+    "model_numbers": [
+      "A2925",
+      "A2926",
+      "A3007"
+    ],
+    "aliases": [
+      "M4",
+      "2024"
+    ]
+  },
+  {
+    "model_name": "iPad mini (A17 Pro)",
+    "model_numbers": [
+      "A2993",
+      "A2995",
+      "A2996"
+    ],
+    "aliases": [
+      "iPad mini (7th generation)",
+      "iPad mini 7",
+      "7th Gen",
+      "A17 Pro"
+    ]
+  }
 ]

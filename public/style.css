@@ -29,8 +29,8 @@ body {
 }
 
 .container {
-    width: 100%;
-    max-width: 1100px;
+    width: 95%;
+    max-width: 1400px;
     /* Increased from 800px */
     padding: 2rem;
 }
@@ -59,7 +59,7 @@ header p {
     border-radius: 1rem;
     padding: 2rem;
     border: 1px solid var(--border);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     margin-bottom: 2rem;
     max-width: 600px;
     /* Keep input form focused/narrower */
@@ -185,6 +185,79 @@ button:hover {
     transform: translateY(0);
 }
 
+/* --- Filter Bar --- */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.filter-input-wrapper {
+    position: relative;
+    flex: 1;
+    min-width: 250px;
+}
+
+#table-filter {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    font-size: 0.95rem;
+    background: #ffffff;
+    transition: all 0.2s;
+}
+
+#table-filter:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.filter-icon {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+.quick-filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.filter-chip {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-chip:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.filter-chip.active {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+}
+
 /* Table Styles - Fixed Nesting Issue & Layout */
 .result-container {
     margin-top: 2rem;
@@ -219,8 +292,10 @@ th:nth-child(1),
 td:nth-child(1) {
     text-align: left;
     /* Align Model Name Left */
-    width: 40%;
-    /* Give Model the most space */
+    width: 50%;
+    /* Give Model significantly more space */
+    min-width: 300px;
+    /* Ensure strictly minimum width */
 }
 
 th:nth-child(2),
@@ -245,6 +320,10 @@ td:nth-child(5) {
 }
 
 th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--card-bg);
     border-bottom: 2px solid var(--border);
     font-weight: 600;
     color: var(--primary);
@@ -253,6 +332,31 @@ th {
     letter-spacing: 1.5px;
     white-space: nowrap;
     /* Prevent headers binding */
+}
+
+th.sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+
+th.sortable:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.sort-icon {
+    display: inline-block;
+    width: 12px;
+    margin-left: 4px;
+    font-size: 0.75rem;
+}
+
+th.sort-asc .sort-icon::after {
+    content: "↑";
+}
+
+th.sort-desc .sort-icon::after {
+    content: "↓";
 }
 
 td {
@@ -362,12 +466,12 @@ footer {
 
 .champion-row .model-name {
     font-weight: 700;
-    color: #b45309;
-    /* Darker Gold/Amber for readability on light bg */
+    color: #047857;
+    /* Emerald Green for clear "Good" signal vs Red */
 }
 
 .champion-row .value-cell {
-    color: #b45309;
+    color: #047857;
     text-shadow: none;
 }
 
@@ -412,6 +516,117 @@ footer {
     color: var(--text-muted);
 }
 
+/* Tabs Styling */
+/* Tabs Styling: Segmented Control */
+.tabs {
+    display: flex;
+    background-color: #f1f5f9;
+    /* Light gray track */
+    padding: 4px;
+    border-radius: 50px;
+    /* Pill shape */
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    background: transparent;
+    border: none;
+    border-radius: 50px;
+    /* Pill shape to match container */
+    color: var(--text-muted);
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Smooth transition */
+    margin-bottom: 0;
+}
+
+.tab-btn:hover {
+    background-color: #1e293b;
+    /* Dark Slate */
+    color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.tab-btn.active {
+    background-color: white;
+    color: #1e293b;
+    /* Dark Slate */
+    font-weight: 700;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    /* Lifted effect */
+    border-bottom: none;
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Pro Tab Elements */
+textarea#bulk-input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+    background: var(--bg);
+    /* Match inputs */
+}
+
+.helper-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: -0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+#process-bulk-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(90deg, #d4af37 0%, #aa8c2c 100%);
+    /* Gold Gradient */
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#process-bulk-btn:hover {
+    background: linear-gradient(90deg, #eacda3 0%, #d6ae7b 100%);
+    /* Lighter Gold */
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px -10px rgba(212, 175, 55, 0.5);
+}
+
 .champion-row .chip-badge {
     color: #b45309;
     background: rgba(212, 175, 55, 0.2);
@@ -439,4 +654,191 @@ input.price-edit-input::-webkit-inner-spin-button {
 /* Remove spinners for Firefox */
 input.price-edit-input[type=number] {
     -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* Incomplete Row Styling */
+.incomplete-row {
+    position: relative;
+    /* Create stacking context */
+    z-index: 1;
+    /* Default low z-index */
+    background-color: rgba(255, 100, 100, 0.05);
+    /* Slight red tint */
+    animation: breathe 3s infinite ease-in-out;
+}
+
+/* Elevate row when editing to show dropdown over other rows */
+.incomplete-row:focus-within {
+    z-index: 9999;
+    animation: none;
+    /* Optional: Stop animation while editing to avoid distraction/stacking quirks */
+    background-color: #fff;
+    /* Solid background while editing */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    /* Lift it up */
+}
+
+@keyframes breathe {
+    0% {
+        background-color: rgba(255, 100, 100, 0.05);
+    }
+
+    50% {
+        background-color: rgba(255, 100, 100, 0.15);
+    }
+
+    100% {
+        background-color: rgba(255, 100, 100, 0.05);
+    }
+}
+
+/* Matched Badge for Search Results */
+.matched-badge {
+    margin-left: 0.5rem;
+    font-size: 0.75rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.chip-badge {
+    background: rgba(0, 0, 0, 0.05);
+    /* Default gray */
+    color: var(--text-muted);
+}
+
+.year-badge {
+    background: rgba(212, 175, 55, 0.15);
+    /* Gold tint */
+    color: #b45309;
+    /* Dark gold */
+    font-weight: 600;
+}
+
+/* ===== RESPONSIVE / MOBILE ===== */
+@media (max-width: 768px) {
+    /* --- Layout --- */
+    body {
+        align-items: flex-start;
+    }
+
+    .container {
+        width: 100%;
+        padding: 0.75rem;
+    }
+
+    /* --- Header --- */
+    header {
+        margin-bottom: 1rem;
+    }
+
+    header h1 {
+        font-size: 1.6rem;
+    }
+
+    header p {
+        font-size: 0.9rem;
+    }
+
+    /* --- Card / Input Area --- */
+    .card {
+        padding: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        /* softer shadow on mobile */
+    }
+
+    /* Ensure tab buttons are tall enough to tap (44px min) */
+    .tab-btn {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.9rem;
+        min-height: 44px;
+    }
+
+    /* Bulk textarea: shorter on mobile, bulk is paste-and-go */
+    textarea#bulk-input {
+        rows: 4;
+        min-height: 100px;
+    }
+
+    /* --- Filter Bar --- */
+    .filter-bar {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0.75rem;
+    }
+
+    .filter-input-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .quick-filters {
+        width: 100%;
+    }
+
+    /* Ensure filter chips meet 44px tap target */
+    .filter-chip {
+        font-size: 0.8rem;
+        padding: 0.625rem 0.875rem;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* --- Table --- */
+
+    /* Remove enforced min-width so table fits screen */
+    table {
+        min-width: 0;
+    }
+
+    th {
+        padding: 0.625rem 0.5rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.5px;
+        /* reduce cramping on small headers */
+    }
+
+    td {
+        padding: 0.875rem 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    /* Model column: allow wrapping, constrain width */
+    th:nth-child(1),
+    td:nth-child(1) {
+        min-width: 0;
+        max-width: 45vw;
+        white-space: normal;
+        word-break: break-word;
+        line-height: 1.3;
+    }
+
+    /* Value score: emphasize it more since we hide context columns */
+    .value-cell {
+        font-size: 1.2rem;
+        font-weight: 900;
+    }
+
+    /* Enlarge delete button tap target to 44×44 */
+    button.delete-btn {
+        width: 44px !important;
+        height: 44px !important;
+    }
+
+    /* Hide: Chip (3), Year (4), Max iOS (5), Geekbench (6) on mobile */
+    th:nth-child(3),
+    td:nth-child(3),
+    th:nth-child(4),
+    td:nth-child(4),
+    th:nth-child(5),
+    td:nth-child(5),
+    th:nth-child(6),
+    td:nth-child(6) {
+        display: none;
+    }
 }
