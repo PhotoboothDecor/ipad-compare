@@ -40,7 +40,7 @@ function generateAliases(modelName) {
     const genMatch = modelName.match(/(\d+)(?:st|nd|rd|th)\s*generation/i);
     const genNum = genMatch ? genMatch[1] : null;
 
-    const chipMatch = modelName.match(/\((M\d+|A\d+\s*Pro?)\)/i);
+    const chipMatch = modelName.match(/\((M\d+|A\d+\s*X?|A\d+\s*Pro?)\)/i);
     const chip = chipMatch ? chipMatch[1] : null;
 
     const sizeMatch = modelName.match(/([\d.]+)-inch/);
@@ -51,13 +51,23 @@ function generateAliases(modelName) {
         aliases.push(`${family} ${genNum}`);
         aliases.push(`${genNum}${suffix} Gen ${family}`);
         aliases.push(`iPad ${family} ${genNum}`);
+        // Also generate screen-size format if chip is present, for new naming convention
+        if (chip && size) {
+            aliases.push(`iPad ${family} ${size}-inch (${chip})`);
+        }
     }
     if (family && chip) {
         aliases.push(`${family} ${chip}`);
-        if (size) aliases.push(`${family} ${size} ${chip}`);
+        if (size) {
+            aliases.push(`${family} ${size} ${chip}`);
+            // Screen-size format variants that Apple compat pages may use
+            aliases.push(`iPad ${family} ${size}-inch (${chip})`);
+            aliases.push(`iPad ${family} ${size}-inch ${chip}`);
+        }
     }
 
-    return aliases;
+    // Deduplicate
+    return [...new Set(aliases)];
 }
 
 function getOrdinalSuffix(n) {

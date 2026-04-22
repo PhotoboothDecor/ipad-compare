@@ -88,12 +88,15 @@ async function scrapeMaxOS() {
     return versionModels;
 }
 
-function getMaxOS(normalizedName, versionModels) {
+function getMaxOS(normalizedName, versionModels, normalizedAliases = []) {
     const versions = Object.keys(versionModels).sort((a, b) => parseInt(b) - parseInt(a));
+    const namesToCheck = [normalizedName, ...normalizedAliases];
 
     for (const version of versions) {
         const models = versionModels[version];
-        const found = models.some(m => m.includes(normalizedName) || normalizedName.includes(m));
+        const found = namesToCheck.some(name =>
+            models.some(m => m.includes(name) || name.includes(m))
+        );
         if (found) {
             if (version === versions[0]) return "Latest";
             return `iPadOS ${version}`;
@@ -128,9 +131,11 @@ async function main() {
 
         for (const entry of modelMapping) {
             const normName = normalize(entry.model_name);
+            const normAliases = (entry.aliases || []).map(a => normalize(a));
 
             const match = Object.entries(appleModels).find(([key]) => {
-                return key.includes(normName) || normName.includes(key);
+                if (key.includes(normName) || normName.includes(key)) return true;
+                return normAliases.some(alias => key.includes(alias) || alias.includes(key));
             });
 
             if (match) {
@@ -151,7 +156,8 @@ async function main() {
 
         for (const entry of modelMapping) {
             const normName = normalize(entry.model_name);
-            const maxOS = getMaxOS(normName, versionModels);
+            const normAliases = (entry.aliases || []).map(a => normalize(a));
+            const maxOS = getMaxOS(normName, versionModels, normAliases);
 
             if (maxOS !== "Unknown") {
                 const docRef = db.collection("geekbench_scores").doc(entry.model_name);

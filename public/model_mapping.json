@@ -252,6 +252,38 @@
     ]
   },
   {
+    "model_name": "iPad (11th generation)",
+    "model_numbers": [
+      "A3286",
+      "A3287",
+      "A3288",
+      "A3289"
+    ],
+    "aliases": [
+      "2025",
+      "11th Gen"
+    ]
+  },
+  {
+    "model_name": "iPad Air 11-inch (M3)",
+    "model_numbers": [],
+    "aliases": [
+      "iPad Air (7th generation)",
+      "Air 11 M3",
+      "Air M3 11",
+      "7th generation Air"
+    ]
+  },
+  {
+    "model_name": "iPad Air 13-inch (M3)",
+    "model_numbers": [],
+    "aliases": [
+      "iPad Air (7th generation) 13",
+      "Air 13 M3",
+      "Air M3 13"
+    ]
+  },
+  {
     "model_name": "iPad Pro 12.9-inch (1st generation)",
     "model_numbers": [
       "A1584",
@@ -412,6 +444,7 @@
       "A2996"
     ],
     "aliases": [
+      "iPad mini (7th generation)",
       "iPad mini 7",
       "7th Gen",
       "A17 Pro"
