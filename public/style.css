@@ -59,7 +59,7 @@ header p {
     border-radius: 1rem;
     padding: 2rem;
     border: 1px solid var(--border);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     margin-bottom: 2rem;
     max-width: 600px;
     /* Keep input form focused/narrower */
@@ -185,6 +185,79 @@ button:hover {
     transform: translateY(0);
 }
 
+/* --- Filter Bar --- */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.filter-input-wrapper {
+    position: relative;
+    flex: 1;
+    min-width: 250px;
+}
+
+#table-filter {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    font-size: 0.95rem;
+    background: #ffffff;
+    transition: all 0.2s;
+}
+
+#table-filter:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.filter-icon {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+.quick-filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.filter-chip {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-chip:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.filter-chip.active {
+    background: var(--primary);
+    color: #ffffff;
+    border-color: var(--primary);
+}
+
 /* Table Styles - Fixed Nesting Issue & Layout */
 .result-container {
     margin-top: 2rem;
@@ -247,6 +320,10 @@ td:nth-child(5) {
 }
 
 th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: var(--card-bg);
     border-bottom: 2px solid var(--border);
     font-weight: 600;
     color: var(--primary);
@@ -255,6 +332,31 @@ th {
     letter-spacing: 1.5px;
     white-space: nowrap;
     /* Prevent headers binding */
+}
+
+th.sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+
+th.sortable:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.sort-icon {
+    display: inline-block;
+    width: 12px;
+    margin-left: 4px;
+    font-size: 0.75rem;
+}
+
+th.sort-asc .sort-icon::after {
+    content: "↑";
+}
+
+th.sort-desc .sort-icon::after {
+    content: "↓";
 }
 
 td {
@@ -615,4 +717,128 @@ input.price-edit-input[type=number] {
     color: #b45309;
     /* Dark gold */
     font-weight: 600;
+}
+
+/* ===== RESPONSIVE / MOBILE ===== */
+@media (max-width: 768px) {
+    /* --- Layout --- */
+    body {
+        align-items: flex-start;
+    }
+
+    .container {
+        width: 100%;
+        padding: 0.75rem;
+    }
+
+    /* --- Header --- */
+    header {
+        margin-bottom: 1rem;
+    }
+
+    header h1 {
+        font-size: 1.6rem;
+    }
+
+    header p {
+        font-size: 0.9rem;
+    }
+
+    /* --- Card / Input Area --- */
+    .card {
+        padding: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        /* softer shadow on mobile */
+    }
+
+    /* Ensure tab buttons are tall enough to tap (44px min) */
+    .tab-btn {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.9rem;
+        min-height: 44px;
+    }
+
+    /* Bulk textarea: shorter on mobile, bulk is paste-and-go */
+    textarea#bulk-input {
+        rows: 4;
+        min-height: 100px;
+    }
+
+    /* --- Filter Bar --- */
+    .filter-bar {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0.75rem;
+    }
+
+    .filter-input-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .quick-filters {
+        width: 100%;
+    }
+
+    /* Ensure filter chips meet 44px tap target */
+    .filter-chip {
+        font-size: 0.8rem;
+        padding: 0.625rem 0.875rem;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* --- Table --- */
+
+    /* Remove enforced min-width so table fits screen */
+    table {
+        min-width: 0;
+    }
+
+    th {
+        padding: 0.625rem 0.5rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.5px;
+        /* reduce cramping on small headers */
+    }
+
+    td {
+        padding: 0.875rem 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    /* Model column: allow wrapping, constrain width */
+    th:nth-child(1),
+    td:nth-child(1) {
+        min-width: 0;
+        max-width: 45vw;
+        white-space: normal;
+        word-break: break-word;
+        line-height: 1.3;
+    }
+
+    /* Value score: emphasize it more since we hide context columns */
+    .value-cell {
+        font-size: 1.2rem;
+        font-weight: 900;
+    }
+
+    /* Enlarge delete button tap target to 44×44 */
+    button.delete-btn {
+        width: 44px !important;
+        height: 44px !important;
+    }
+
+    /* Hide: Chip (3), Year (4), Max iOS (5), Geekbench (6) on mobile */
+    th:nth-child(3),
+    td:nth-child(3),
+    th:nth-child(4),
+    td:nth-child(4),
+    th:nth-child(5),
+    td:nth-child(5),
+    th:nth-child(6),
+    td:nth-child(6) {
+        display: none;
+    }
 }

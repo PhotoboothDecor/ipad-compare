@@ -353,6 +353,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (/\bfor\s+ipad\b/i.test(rawTitle)) return false;
         if (/\bcase\b.*\bipad\b/i.test(rawTitle) && !/\bipad\b.*\bcase\b/i.test(rawTitle)) return false;
+        if (/\baccessor(?:y|ies)\s+bundle\b/i.test(rawTitle)) return false;
+        if (/\bipad\b.*\baccessor(?:y|ies)\b/i.test(rawTitle)) return false;
 
         if (/^samsung\b/i.test(rawTitle)) return false;
         if (/^logitech\b/i.test(rawTitle)) return false;

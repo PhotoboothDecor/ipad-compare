@@ -34,10 +34,9 @@
 }
 
 /* Table context specific override */
-/* Table context specific override */
 .model-resolve-wrapper .suggestions-dropdown {
-    min-width: 350px;
-    /* Force wider dropdown in tables */
+    min-width: clamp(240px, 90vw, 350px);
+    /* Wide on desktop, safe on mobile */
     z-index: 9999;
     /* Ensure on top of other rows */
     background: #ffffff;

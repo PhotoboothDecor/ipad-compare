@@ -46,7 +46,7 @@
 
                     <div class="input-group">
                         <label for="price-input">Price ($)</label>
-                        <input type="number" id="price-input" placeholder="e.g. 300">
+                        <input type="number" id="price-input" inputmode="numeric" placeholder="e.g. 300">
                     </div>
 
                     <button id="calculate-btn">Calculate Value</button>
@@ -80,16 +80,32 @@ iPad 9th Gen 200"></textarea>
             </div>
 
             <div class="result-container hidden" id="result-container">
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <div class="filter-input-wrapper">
+                        <input type="text" id="table-filter" placeholder="Filter results (e.g. 'Air', 'M1')...">
+                        <span class="filter-icon">🔍</span>
+                    </div>
+                    <div class="quick-filters">
+                        <button class="filter-chip" data-filter="latest">Latest iOS</button>
+                        <button class="filter-chip" data-filter="budget">Budget (<$400)< /button>
+                                <button class="filter-chip" data-filter="pro">Pro Models</button>
+                                <button class="filter-chip active" data-filter="all">All</button>
+                    </div>
+                </div>
+
                 <table id="comparison-table">
                     <thead>
                         <tr>
-                            <th>Model</th>
-                            <th>Price</th>
-                            <th>Chip</th>
-                            <th>Year</th>
-                            <th>Max iOS</th>
-                            <th>Geekbench</th>
-                            <th class="highlight">Value Score (Pts/$)</th>
+                            <th id="th-model" class="sortable">Model <span class="sort-icon"></span></th>
+                            <th id="th-price" class="sortable">Price <span class="sort-icon"></span></th>
+                            <th id="th-chip">Chip</th>
+                            <th id="th-year" class="sortable">Year <span class="sort-icon"></span></th>
+                            <th id="th-ios">Max iOS</th>
+                            <th id="th-score" class="sortable">Geekbench <span class="sort-icon"></span></th>
+                            <th id="th-value" class="sortable highlight sort-desc">Value Score <span
+                                    class="sort-icon"></span>
+                            </th>
                             <th></th>
                         </tr>
                     </thead>
