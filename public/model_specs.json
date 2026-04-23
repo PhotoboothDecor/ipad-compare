@@ -1,31 +1,38 @@
 {
     "iPad (1st generation)": {
         "cpu": "A4",
-        "released": "2010"
+        "released": "2010",
+        "max_os": "Latest"
     },
     "iPad 2": {
         "cpu": "A5",
-        "released": "2011"
+        "released": "2011",
+        "max_os": "Latest"
     },
     "iPad (3rd generation)": {
         "cpu": "A5X",
-        "released": "2012"
+        "released": "2012",
+        "max_os": "Latest"
     },
     "iPad (4th generation)": {
         "cpu": "A6X",
-        "released": "2012"
+        "released": "2012",
+        "max_os": "Latest"
     },
     "iPad (5th generation)": {
         "cpu": "A9",
-        "released": "2017"
+        "released": "2017",
+        "max_os": "Latest"
     },
     "iPad (6th generation)": {
         "cpu": "A10 Fusion",
-        "released": "2018"
+        "released": "2018",
+        "max_os": "Latest"
     },
     "iPad (7th generation)": {
         "cpu": "A10 Fusion",
-        "released": "2019"
+        "released": "2019",
+        "max_os": "Latest"
     },
     "iPad (8th generation)": {
         "cpu": "A12 Bionic",
@@ -49,11 +56,13 @@
     },
     "iPad Air (1st generation)": {
         "cpu": "A7",
-        "released": "2013"
+        "released": "2013",
+        "max_os": "Latest"
     },
     "iPad Air 2": {
         "cpu": "A8X",
-        "released": "2014"
+        "released": "2014",
+        "max_os": "Latest"
     },
     "iPad Air (3rd generation)": {
         "cpu": "A12 Bionic",
@@ -105,15 +114,18 @@
     },
     "iPad mini (1st generation)": {
         "cpu": "A5",
-        "released": "2012"
+        "released": "2012",
+        "max_os": "Latest"
     },
     "iPad mini 2": {
         "cpu": "A7",
-        "released": "2013"
+        "released": "2013",
+        "max_os": "Latest"
     },
     "iPad mini 3": {
         "cpu": "A7",
-        "released": "2014"
+        "released": "2014",
+        "max_os": "Latest"
     },
     "iPad mini (A17 Pro)": {
         "cpu": "A17 Pro",
@@ -123,7 +135,8 @@
     },
     "iPad mini 4": {
         "cpu": "A8",
-        "released": "2015"
+        "released": "2015",
+        "max_os": "Latest"
     },
     "iPad mini (5th generation)": {
         "cpu": "A12 Bionic",
@@ -142,11 +155,13 @@
     },
     "iPad Pro 9.7-inch": {
         "cpu": "A9X",
-        "released": "2016"
+        "released": "2016",
+        "max_os": "Latest"
     },
     "iPad Pro 10.5-inch": {
         "cpu": "A10X Fusion",
-        "released": "2017"
+        "released": "2017",
+        "max_os": "Latest"
     },
     "iPad Pro 11-inch (1st generation)": {
         "cpu": "A12X Bionic",
@@ -177,11 +192,13 @@
     },
     "iPad Pro 12.9-inch (1st generation)": {
         "cpu": "A9X",
-        "released": "2015"
+        "released": "2015",
+        "max_os": "Latest"
     },
     "iPad Pro 12.9-inch (2nd generation)": {
         "cpu": "A10X Fusion",
-        "released": "2017"
+        "released": "2017",
+        "max_os": "Latest"
     },
     "iPad Pro 12.9-inch (3rd generation)": {
         "cpu": "A12X Bionic",
@@ -209,5 +226,61 @@
         "released": "2024",
         "max_os": "Latest",
         "score": 14500
+    },
+    "iPad Pro (12.9-inch)": {
+        "cpu": "A9X",
+        "released": "2026",
+        "max_os": "Latest",
+        "score": 1248,
+        "geekbench_version": 6
+    },
+    "iPad Pro (11-inch)": {
+        "cpu": "A12X Bionic",
+        "released": "2026",
+        "max_os": "Latest",
+        "score": 4577,
+        "geekbench_version": 6
+    },
+    "iPad Pro (11-inch, 4th generation)": {
+        "cpu": "M2",
+        "released": "2026",
+        "max_os": "Latest",
+        "score": 9812,
+        "geekbench_version": 6
+    },
+    "iPad Pro (12.9-inch, 6th generation)": {
+        "cpu": "M2",
+        "released": "2026",
+        "max_os": "Latest",
+        "score": 9894,
+        "geekbench_version": 6
+    },
+    "iPad Air 11-inch (7th generation)": {
+        "cpu": "M3",
+        "released": "2026",
+        "max_os": "Latest",
+        "score": 11699,
+        "geekbench_version": 6
+    },
+    "iPad Air 13-inch (7th generation)": {
+        "cpu": "M3",
+        "released": "2026",
+        "max_os": "Latest",
+        "score": 11691,
+        "geekbench_version": 6
+    },
+    "iPad Pro 11-inch (M5)": {
+        "cpu": "M5",
+        "released": "2026",
+        "max_os": "Latest",
+        "score": 15543,
+        "geekbench_version": 6
+    },
+    "iPad Pro 13-inch (M5)": {
+        "cpu": "M5",
+        "released": "2026",
+        "max_os": "Latest",
+        "score": 15701,
+        "geekbench_version": 6
     }
 }
