@@ -1,5 +1,6 @@
 const admin = require("firebase-admin");
 const axios = require("axios");
+const { execFileSync } = require('child_process');
 
 const fs = require('fs');
 const path = require('path');
@@ -80,11 +81,23 @@ function normalize(str) {
     return str.toLowerCase().replace(/[()]/g, '').replace(/\s+/g, ' ').trim();
 }
 
+// Geekbench is behind Cloudflare's managed challenge, which TLS-fingerprints clients.
+// axios/openssl gets blocked with 403. We shell out to curl-impersonate (installed in
+// CI via daily-scrape.yml) which mimics a real Chrome TLS handshake.
+function fetchGeekbench() {
+    const stdout = execFileSync('curl_chrome131', [
+        '-sS',
+        '--fail',
+        '--max-time', '30',
+        GEEKBENCH_URL
+    ], { encoding: 'utf8', maxBuffer: 50 * 1024 * 1024 });
+    return JSON.parse(stdout);
+}
+
 async function runScrape() {
     try {
         console.log("Starting Geekbench scrape...");
-        const response = await axios.get(GEEKBENCH_URL);
-        const data = response.data;
+        const data = fetchGeekbench();
         const devices = data.devices;
 
         if (!devices) {
