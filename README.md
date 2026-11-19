@@ -28,7 +28,7 @@ All three are in `.github/workflows/`.
 
 | Workflow | When | What it does |
 |---|---|---|
-| `ci.yml` (CI) | Every pull request and every push to `main` | Runs the unit tests and checks `public/catalog.json` against the previous version. On a push to `main` it then deploys the site to Firebase Hosting. If tests or deploy fail it opens a "Deploy failed" issue and pings healthchecks.io. |
+| `ci.yml` (CI) | Every pull request and every push to `main` | Runs the unit tests and checks `public/catalog.json` against the previous version. On a push to `main` it then deploys the site to Firebase Hosting. If tests or deploy fail on a push to `main` (not on pull requests) it opens a "Deploy failed" issue and sends a healthchecks.io fail ping. |
 | `apple-check.yml` (Apple check) | Daily at 09:00 UTC, or by hand | Compares the catalog with Apple's pages. If something changed it opens or updates a pull request "Catalog update from Apple". If a new model has no score it opens or updates a "Scores needed" issue. Pings healthchecks.io at start and end; on failure it opens an "Apple check failed" issue. |
 | `keepalive.yml` | 1st of each month | GitHub switches off scheduled workflows after 60 days without repo activity. This re-enables the Apple check so the daily schedule never lapses. |
 
@@ -36,7 +36,9 @@ All three are in `.github/workflows/`.
 
 1. Open the pull request. The description is a plain summary of what changed (new models, new model
    numbers, changed max iPadOS version, and so on).
-2. Check that the "CI" check on the PR is green. It validates the catalog; do not merge if it is red.
+2. Validation already ran inside the Apple check before the PR was opened. No "CI" check appears on this
+   PR; that is normal (GitHub does not run checks for PRs created by its own bot). The full tests and
+   validation run again when you merge, before the deploy, and a failure there sends a "Deploy failed" alert.
 3. If the summary looks right, click **Merge pull request**. Merging to `main` deploys the site
    automatically (a minute or two). Check the Actions tab if you want to watch it.
 4. If something looks wrong, close the PR and ask Claude to look at it. Nothing changes on the live site
@@ -57,8 +59,19 @@ A new model appeared on Apple's pages and has no Geekbench score yet (it shows a
    Useful extras: `--dry-run` shows what would change without writing; `--captured YYYY-MM-DD` sets the
    chart's date (default is today); `--accept-large-changes` is needed only if the script refuses because
    a score moved a lot, so look at the numbers first. It also accepts a `web.archive.org` link instead of a file.
-4. It edits `public/catalog.json`. Put that change on a branch and open a pull request, then merge it
-   as above. Or skip all this: give the saved file to Claude and ask it to import the scores.
+4. It edits `public/catalog.json`. Put that change on a branch and open a pull request (needs the `gh`
+   tool, or open the PR on github.com after the push):
+
+   ```
+   git switch -c scores-YYYY-MM-DD
+   git add public/catalog.json
+   git commit -m "data: import Geekbench scores"
+   git push -u origin HEAD
+   gh pr create --fill
+   ```
+
+   CI runs on this PR; merge it when green. Or skip all this: give the saved file to Claude and ask it
+   to import the scores.
 
 ## "I got an alert email / a 'failed' issue" — what now
 
@@ -84,7 +97,8 @@ Needs Node 22 or newer.
 
 ```
 cd scripts && npm ci && npm test      # unit tests
-node scripts/validate.js              # validate public/catalog.json (from the repo root)
+cd ..                                 # back to the repo root for the rest
+node scripts/validate.js              # validate public/catalog.json
 node scripts/smoke/smoke.mjs          # headless browser check of the site; downloads Playwright on first run
 npx serve public                      # view the site at the address it prints
 ```
@@ -111,8 +125,9 @@ The old live site still reads Firestore until the new site is deployed, so the o
 
 1. Merge the branch to `main`. Wait for the deploy to finish, then open the live site and confirm it works
    (models and scores show).
-2. Only then run `firebase deploy --only firestore:rules`. This locks Firestore (rules now deny all access).
-   Doing it before step 1 would break the old site.
+2. Only then lock Firestore (rules now deny all access). Doing it before step 1 would break the old site.
+   Once: `npm install -g firebase-tools`, then `firebase login` with the Google account that owns project
+   `ipad-compare`. Then, from the repo root (where `firebase.json` is): `firebase deploy --only firestore:rules`.
 3. After 7 healthy days, delete the `geekbench_scores` collection in the Firebase console
    (Firestore Database). A backup is kept in `data/archive/firestore-geekbench_scores-2026-11-19.json`.
 4. Delete the old `FIREBASE_SERVICE_ACCOUNT` repo secret; nothing uses it any more.
