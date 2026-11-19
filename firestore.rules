@@ -1,10 +1,7 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /geekbench_scores/{model} {
-      allow read: if true;
-      allow write: if false; // Only admin (functions) can write
-    }
+    // Data now lives in public/catalog.json; Firestore is retired and all access is denied.
     match /{document=**} {
       allow read, write: if false;
     }
