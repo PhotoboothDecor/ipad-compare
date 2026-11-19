@@ -271,3 +271,28 @@ test('CLI no-op run prints "No score changes" and does not rewrite the file', ()
   assert.match(r.stdout, /No score changes/);
   assert.equal(fs.readFileSync(p, 'utf8'), orig);
 });
+
+test('parseChart takes single and multi from the same (lowest-multi) variant, GB6 and GB7', () => {
+  const cheerio = require('cheerio');
+  for (const f of ['gb6-2026-07-18.html', 'gb7-2026-10-31.html', 'gb7-2026-11-19.html']) {
+    const $ = cheerio.load(read(f));
+    const rows = (tab) => $(`#${tab} tr`).toArray().map((tr) => ({
+      name: $(tr).find('td.name a').first().text().replace(/\s+/g, ' ').trim(),
+      key: $(tr).find('td.name a').first().attr('href'),
+      score: parseInt($(tr).find('td.score').first().text().trim(), 10),
+    })).filter((r) => /^iPad/.test(r.name));
+    const single = new Map(rows('single-core').map((r) => [r.key, r.score]));
+    const chart = parseChart(read(f));
+    let variants = 0;
+    for (const d of chart.devices) {
+      const same = rows('multi-core').filter((r) => r.name === d.name);
+      const pick = same.reduce((a, b) => (b.score < a.score ? b : a));
+      if (same.length > 1) variants++;
+      assert.equal(d.multi, pick.score, `${f} ${d.name} multi`);
+      assert.equal(d.single, single.get(pick.key), `${f} ${d.name} single from same variant`);
+    }
+    assert.ok(variants > 0, `${f} has variant pairs`);
+  }
+  const p = gb7b.devices.find((d) => d.name === 'iPad Pro 13-inch (M4)');
+  assert.deepEqual([p.single, p.multi], [3217, 13431]);
+});
