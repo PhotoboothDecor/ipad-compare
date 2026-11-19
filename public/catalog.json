@@ -1,0 +1,1730 @@
+{
+  "schema_version": 1,
+  "updated": "2026-11-19",
+  "latest_ipados": 27,
+  "models": [
+    {
+      "id": "ipad-pro-13-m5",
+      "name": "iPad Pro 13-inch (M5)",
+      "family": "pro",
+      "size_in": 13,
+      "chip": "M5",
+      "released": 2025,
+      "generation": 8,
+      "a_numbers": [
+        "A3360",
+        "A3361",
+        "A3362"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipad84f213e7",
+      "names": {
+        "apple": [
+          "iPad Pro 13-inch (M5)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Pro 13-inch 8th generation",
+          "iPad Pro 13-inch 8th gen",
+          "iPad Pro 13 8th generation",
+          "iPad Pro 13 8th gen",
+          "iPad Pro M5 13-inch",
+          "iPad Pro 13 M5",
+          "iPad Pro M5 13"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 15725,
+        "gb6_single": 4145,
+        "source": "gb6",
+        "gb7_multi": 15276,
+        "gb7_single": 3558,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-pro-11-m5",
+      "name": "iPad Pro 11-inch (M5)",
+      "family": "pro",
+      "size_in": 11,
+      "chip": "M5",
+      "released": 2025,
+      "generation": 6,
+      "a_numbers": [
+        "A3357",
+        "A3358",
+        "A3359"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipad46738ed0",
+      "names": {
+        "apple": [
+          "iPad Pro 11-inch (M5)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Pro 11-inch 6th generation",
+          "iPad Pro 11-inch 6th gen",
+          "iPad Pro 11 6th generation",
+          "iPad Pro 11 6th gen",
+          "iPad Pro M5 11-inch",
+          "iPad Pro 11 M5",
+          "iPad Pro M5 11"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 15581,
+        "gb6_single": 4140,
+        "source": "gb6",
+        "gb7_multi": 15081,
+        "gb7_single": 3549,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-pro-13-m4",
+      "name": "iPad Pro 13-inch (M4)",
+      "family": "pro",
+      "size_in": 13,
+      "chip": "M4",
+      "released": 2024,
+      "generation": 7,
+      "a_numbers": [
+        "A2925",
+        "A2926",
+        "A3007"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipad0b29e50c",
+      "names": {
+        "apple": [
+          "iPad Pro 13-inch (M4)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Pro 13-inch 7th generation",
+          "iPad Pro 13-inch 7th gen",
+          "iPad Pro 13 7th generation",
+          "iPad Pro 13 7th gen",
+          "iPad Pro M4 13-inch",
+          "iPad Pro 13 M4",
+          "iPad Pro M4 13"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 13511,
+        "gb6_single": 3690,
+        "source": "gb6",
+        "gb7_multi": 13431,
+        "gb7_single": 3217,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-pro-11-m4",
+      "name": "iPad Pro 11-inch (M4)",
+      "family": "pro",
+      "size_in": 11,
+      "chip": "M4",
+      "released": 2024,
+      "generation": 5,
+      "a_numbers": [
+        "A2836",
+        "A2837",
+        "A3006"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipaded0ae0b7",
+      "names": {
+        "apple": [
+          "iPad Pro 11-inch (M4)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Pro 11-inch 5th generation",
+          "iPad Pro 11-inch 5th gen",
+          "iPad Pro 11 5th generation",
+          "iPad Pro 11 5th gen",
+          "iPad Pro M4 11-inch",
+          "iPad Pro 11 M4",
+          "iPad Pro M4 11"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 13259,
+        "gb6_single": 3673,
+        "source": "gb6",
+        "gb7_multi": 13246,
+        "gb7_single": 3211,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-pro-12-9-6th-generation",
+      "name": "iPad Pro 12.9-inch (6th generation)",
+      "family": "pro",
+      "size_in": 12.9,
+      "chip": "M2",
+      "released": 2022,
+      "generation": 6,
+      "a_numbers": [
+        "A2436",
+        "A2437",
+        "A2764",
+        "A2766"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipad1d813fe1",
+      "names": {
+        "apple": [
+          "iPad Pro 12.9-inch (6th generation)"
+        ],
+        "geekbench": [
+          "iPad Pro (12.9-inch, 6th generation)"
+        ],
+        "aliases": [
+          "iPad Pro 12.9-inch 6th gen",
+          "iPad Pro 12.9 6th generation",
+          "iPad Pro 12.9 6th gen",
+          "iPad Pro 12.9-inch M2",
+          "iPad Pro M2 12.9-inch",
+          "iPad Pro 12.9 M2",
+          "iPad Pro M2 12.9"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 9900,
+        "gb6_single": 2608,
+        "source": "gb6",
+        "gb7_multi": 9919,
+        "gb7_single": 2355,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-pro-11-4th-generation",
+      "name": "iPad Pro 11-inch (4th generation)",
+      "family": "pro",
+      "size_in": 11,
+      "chip": "M2",
+      "released": 2022,
+      "generation": 4,
+      "a_numbers": [
+        "A2435",
+        "A2759",
+        "A2761",
+        "A2762"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipad9e0e9495",
+      "names": {
+        "apple": [
+          "iPad Pro 11-inch (4th generation)"
+        ],
+        "geekbench": [
+          "iPad Pro (11-inch, 4th generation)"
+        ],
+        "aliases": [
+          "iPad Pro 11-inch 4th gen",
+          "iPad Pro 11 4th generation",
+          "iPad Pro 11 4th gen",
+          "iPad Pro 11-inch M2",
+          "iPad Pro M2 11-inch",
+          "iPad Pro 11 M2",
+          "iPad Pro M2 11"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 9820,
+        "gb6_single": 2585,
+        "source": "gb6",
+        "gb7_multi": 9954,
+        "gb7_single": 2353,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-pro-12-9-5th-generation",
+      "name": "iPad Pro 12.9-inch (5th generation)",
+      "family": "pro",
+      "size_in": 12.9,
+      "chip": "M1",
+      "released": 2021,
+      "generation": 5,
+      "a_numbers": [
+        "A2378",
+        "A2379",
+        "A2461",
+        "A2462"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipad636fb1f8",
+      "names": {
+        "apple": [
+          "iPad Pro 12.9-inch (5th generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Pro 12.9-inch 5th gen",
+          "iPad Pro 12.9 5th generation",
+          "iPad Pro 12.9 5th gen",
+          "iPad Pro 12.9-inch M1",
+          "iPad Pro M1 12.9-inch",
+          "iPad Pro 12.9 M1",
+          "iPad Pro M1 12.9"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 8408,
+        "gb6_single": 2319,
+        "source": "gb6",
+        "gb7_multi": 8676,
+        "gb7_single": 2169,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-pro-11-3rd-generation",
+      "name": "iPad Pro 11-inch (3rd generation)",
+      "family": "pro",
+      "size_in": 11,
+      "chip": "M1",
+      "released": 2021,
+      "generation": 3,
+      "a_numbers": [
+        "A2301",
+        "A2377",
+        "A2459",
+        "A2460"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipad8e73d172",
+      "names": {
+        "apple": [
+          "iPad Pro 11-inch (3rd generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Pro 11-inch 3rd gen",
+          "iPad Pro 11 3rd generation",
+          "iPad Pro 11 3rd gen",
+          "iPad Pro 11-inch M1",
+          "iPad Pro M1 11-inch",
+          "iPad Pro 11 M1",
+          "iPad Pro M1 11"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 8360,
+        "gb6_single": 2317,
+        "source": "gb6",
+        "gb7_multi": 8563,
+        "gb7_single": 2170,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-pro-12-9-4th-generation",
+      "name": "iPad Pro 12.9-inch (4th generation)",
+      "family": "pro",
+      "size_in": 12.9,
+      "chip": "A12Z",
+      "released": 2020,
+      "generation": 4,
+      "a_numbers": [
+        "A2069",
+        "A2229",
+        "A2232",
+        "A2233"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipadb86e5a78",
+      "names": {
+        "apple": [
+          "iPad Pro 12.9-inch (4th generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Pro 12.9-inch 4th gen",
+          "iPad Pro 12.9 4th generation",
+          "iPad Pro 12.9 4th gen"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 4665,
+        "gb6_single": 1342,
+        "source": "gb6",
+        "gb7_multi": 5029,
+        "gb7_single": 1375,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-pro-11-2nd-generation",
+      "name": "iPad Pro 11-inch (2nd generation)",
+      "family": "pro",
+      "size_in": 11,
+      "chip": "A12Z",
+      "released": 2020,
+      "generation": 2,
+      "a_numbers": [
+        "A2068",
+        "A2228",
+        "A2230",
+        "A2231"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipadb765d4f3",
+      "names": {
+        "apple": [
+          "iPad Pro 11-inch (2nd generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Pro 11-inch 2nd gen",
+          "iPad Pro 11 2nd generation",
+          "iPad Pro 11 2nd gen"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 4656,
+        "gb6_single": 1334,
+        "source": "gb6",
+        "gb7_multi": 5108,
+        "gb7_single": 1388,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-pro-12-9-3rd-generation",
+      "name": "iPad Pro 12.9-inch (3rd generation)",
+      "family": "pro",
+      "size_in": 12.9,
+      "chip": "A12X",
+      "released": 2018,
+      "generation": 3,
+      "a_numbers": [
+        "A1876",
+        "A1895",
+        "A1983",
+        "A2014"
+      ],
+      "max_os_major": 26,
+      "apple_topic_id": "ipadb5e9e117",
+      "names": {
+        "apple": [
+          "iPad Pro 12.9-inch (3rd generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Pro 12.9-inch 3rd gen",
+          "iPad Pro 12.9 3rd generation",
+          "iPad Pro 12.9 3rd gen"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 4477,
+        "gb6_single": 1326,
+        "source": "gb6",
+        "gb7_multi": 4862,
+        "gb7_single": 1344,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-pro-11",
+      "name": "iPad Pro 11-inch",
+      "family": "pro",
+      "size_in": 11,
+      "chip": "A12X",
+      "released": 2018,
+      "generation": 1,
+      "a_numbers": [
+        "A1934",
+        "A1979",
+        "A1980",
+        "A2013"
+      ],
+      "max_os_major": 26,
+      "apple_topic_id": "ipadff761780",
+      "names": {
+        "apple": [
+          "iPad Pro 11-inch",
+          "iPad Pro 11-inch (1st generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Pro 11-inch 1st gen",
+          "iPad Pro 11 1st generation",
+          "iPad Pro 11 1st gen"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 4577,
+        "gb6_single": 1328,
+        "source": "gb6",
+        "gb7_multi": 4785,
+        "gb7_single": 1336,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-pro-12-9-2nd-generation",
+      "name": "iPad Pro 12.9-inch (2nd generation)",
+      "family": "pro",
+      "size_in": 12.9,
+      "chip": "A10X",
+      "released": 2017,
+      "generation": 2,
+      "a_numbers": [
+        "A1670",
+        "A1671",
+        "A1821"
+      ],
+      "max_os_major": 17,
+      "apple_topic_id": "ipad2933fd48",
+      "names": {
+        "apple": [
+          "iPad Pro 12.9-inch (2nd generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Pro 12.9-inch 2nd gen",
+          "iPad Pro 12.9 2nd generation",
+          "iPad Pro 12.9 2nd gen"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 2259,
+        "gb6_single": 931,
+        "source": "gb6",
+        "gb7_multi": null,
+        "gb7_single": null,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-pro-10-5",
+      "name": "iPad Pro (10.5-inch)",
+      "family": "pro",
+      "size_in": 10.5,
+      "chip": "A10X",
+      "released": 2017,
+      "generation": null,
+      "a_numbers": [
+        "A1701",
+        "A1709",
+        "A1852"
+      ],
+      "max_os_major": 17,
+      "apple_topic_id": "ipade4b70084",
+      "names": {
+        "apple": [
+          "iPad Pro (10.5-inch)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Pro 10.5",
+          "iPad Pro (2nd generation) 10.5-inch"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 2210,
+        "gb6_single": 940,
+        "source": "gb6",
+        "gb7_multi": null,
+        "gb7_single": null,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-pro-9-7",
+      "name": "iPad Pro (9.7-inch)",
+      "family": "pro",
+      "size_in": 9.7,
+      "chip": "A9X",
+      "released": 2016,
+      "generation": null,
+      "a_numbers": [
+        "A1673",
+        "A1674",
+        "A1675"
+      ],
+      "max_os_major": 16,
+      "apple_topic_id": "ipad18825ab1",
+      "names": {
+        "apple": [
+          "iPad Pro (9.7-inch)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Pro 9.7"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 1099,
+        "gb6_single": 739,
+        "source": "gb6",
+        "gb7_multi": null,
+        "gb7_single": null,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-pro-12-9",
+      "name": "iPad Pro (12.9-inch)",
+      "family": "pro",
+      "size_in": 12.9,
+      "chip": "A9X",
+      "released": 2015,
+      "generation": 1,
+      "a_numbers": [
+        "A1584",
+        "A1652"
+      ],
+      "max_os_major": 16,
+      "apple_topic_id": "ipad0012b470",
+      "names": {
+        "apple": [
+          "iPad Pro (12.9-inch)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Pro 12.9-inch 1st generation",
+          "iPad Pro 12.9-inch 1st gen",
+          "iPad Pro 12.9 1st generation",
+          "iPad Pro 12.9 1st gen"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 1248,
+        "gb6_single": 749,
+        "source": "gb6",
+        "gb7_multi": null,
+        "gb7_single": null,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-air-13-m4",
+      "name": "iPad Air 13-inch (M4)",
+      "family": "air",
+      "size_in": 13,
+      "chip": "M4",
+      "released": 2026,
+      "generation": 8,
+      "a_numbers": [
+        "A3461",
+        "A3462",
+        "A3464"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipade5cbf6ca",
+      "names": {
+        "apple": [
+          "iPad Air 13-inch (M4)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Air 13-inch 8th generation",
+          "iPad Air 13-inch 8th gen",
+          "iPad Air M4 13-inch",
+          "iPad Air 13 8th generation",
+          "iPad Air 13 8th gen",
+          "iPad Air 13 M4",
+          "iPad Air M4 13"
+        ]
+      },
+      "score_status": "pending",
+      "score": null
+    },
+    {
+      "id": "ipad-air-11-m4",
+      "name": "iPad Air 11-inch (M4)",
+      "family": "air",
+      "size_in": 11,
+      "chip": "M4",
+      "released": 2026,
+      "generation": 8,
+      "a_numbers": [
+        "A3459",
+        "A3460",
+        "A3463"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipad507cbe11",
+      "names": {
+        "apple": [
+          "iPad Air 11-inch (M4)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Air 11-inch 8th generation",
+          "iPad Air 11-inch 8th gen",
+          "iPad Air M4 11-inch",
+          "iPad Air 11 8th generation",
+          "iPad Air 11 8th gen",
+          "iPad Air 11 M4",
+          "iPad Air M4 11"
+        ]
+      },
+      "score_status": "pending",
+      "score": null
+    },
+    {
+      "id": "ipad-air-13-m3",
+      "name": "iPad Air 13-inch (M3)",
+      "family": "air",
+      "size_in": 13,
+      "chip": "M3",
+      "released": 2025,
+      "generation": 7,
+      "a_numbers": [
+        "A3268",
+        "A3269",
+        "A3271"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipadaeee8168",
+      "names": {
+        "apple": [
+          "iPad Air 13-inch (M3)"
+        ],
+        "geekbench": [
+          "iPad Air 13-inch (7th generation)"
+        ],
+        "aliases": [
+          "iPad Air 13-inch 7th gen",
+          "iPad Air M3 13-inch",
+          "iPad Air 13 7th generation",
+          "iPad Air 13 7th gen",
+          "iPad Air 13 M3",
+          "iPad Air M3 13",
+          "iPad Air (7th generation) 13",
+          "Air 13 M3",
+          "Air M3 13"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 11690,
+        "gb6_single": 3050,
+        "source": "gb6",
+        "gb7_multi": 11936,
+        "gb7_single": 2746,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-air-11-m3",
+      "name": "iPad Air 11-inch (M3)",
+      "family": "air",
+      "size_in": 11,
+      "chip": "M3",
+      "released": 2025,
+      "generation": 7,
+      "a_numbers": [
+        "A3266",
+        "A3267",
+        "A3270"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipad89b6d8bc",
+      "names": {
+        "apple": [
+          "iPad Air 11-inch (M3)"
+        ],
+        "geekbench": [
+          "iPad Air 11-inch (7th generation)"
+        ],
+        "aliases": [
+          "iPad Air 11-inch 7th gen",
+          "iPad Air M3 11-inch",
+          "iPad Air 11 7th generation",
+          "iPad Air 11 7th gen",
+          "iPad Air 11 M3",
+          "iPad Air M3 11",
+          "Air 11 M3",
+          "Air M3 11"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 11703,
+        "gb6_single": 3050,
+        "source": "gb6",
+        "gb7_multi": 11831,
+        "gb7_single": 2749,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-air-13-m2",
+      "name": "iPad Air 13-inch (M2)",
+      "family": "air",
+      "size_in": 13,
+      "chip": "M2",
+      "released": 2024,
+      "generation": 6,
+      "a_numbers": [
+        "A2898",
+        "A2899",
+        "A2900"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipad050d3a0b",
+      "names": {
+        "apple": [
+          "iPad Air 13-inch (M2)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Air 13-inch 6th generation",
+          "iPad Air 13-inch 6th gen",
+          "iPad Air M2 13-inch",
+          "iPad Air 13 6th generation",
+          "iPad Air 13 6th gen",
+          "iPad Air 13 M2",
+          "iPad Air M2 13",
+          "iPad Air (6th generation) 13",
+          "Air 13 M2",
+          "Air M2 13"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 9860,
+        "gb6_single": 2602,
+        "source": "gb6",
+        "gb7_multi": 9939,
+        "gb7_single": 2361,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-air-11-m2",
+      "name": "iPad Air 11-inch (M2)",
+      "family": "air",
+      "size_in": 11,
+      "chip": "M2",
+      "released": 2024,
+      "generation": 6,
+      "a_numbers": [
+        "A2902",
+        "A2903",
+        "A2904"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipada5152b19",
+      "names": {
+        "apple": [
+          "iPad Air 11-inch (M2)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Air 11-inch 6th generation",
+          "iPad Air 11-inch 6th gen",
+          "iPad Air M2 11-inch",
+          "iPad Air 11 6th generation",
+          "iPad Air 11 6th gen",
+          "iPad Air 11 M2",
+          "iPad Air M2 11",
+          "Air 11 M2",
+          "Air M2 11"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 9839,
+        "gb6_single": 2599,
+        "source": "gb6",
+        "gb7_multi": 9926,
+        "gb7_single": 2356,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-air-5th-generation",
+      "name": "iPad Air (5th generation)",
+      "family": "air",
+      "size_in": null,
+      "chip": "M1",
+      "released": 2022,
+      "generation": 5,
+      "a_numbers": [
+        "A2588",
+        "A2589",
+        "A2591"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipadaf1251d3",
+      "names": {
+        "apple": [
+          "iPad Air (5th generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Air 5th gen",
+          "iPad Air 5"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 8307,
+        "gb6_single": 2302,
+        "source": "gb6",
+        "gb7_multi": 8533,
+        "gb7_single": 2146,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-air-4th-generation",
+      "name": "iPad Air (4th generation)",
+      "family": "air",
+      "size_in": null,
+      "chip": "A14",
+      "released": 2020,
+      "generation": 4,
+      "a_numbers": [
+        "A2072",
+        "A2316",
+        "A2324",
+        "A2325"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipadb5f6c2d0",
+      "names": {
+        "apple": [
+          "iPad Air (4th generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Air 4th gen",
+          "iPad Air 4"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 4994,
+        "gb6_single": 2086,
+        "source": "gb6",
+        "gb7_multi": 4714,
+        "gb7_single": 1909,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-air-3rd-generation",
+      "name": "iPad Air (3rd generation)",
+      "family": "air",
+      "size_in": null,
+      "chip": "A12",
+      "released": 2019,
+      "generation": 3,
+      "a_numbers": [
+        "A2123",
+        "A2152",
+        "A2153",
+        "A2154"
+      ],
+      "max_os_major": 26,
+      "apple_topic_id": "ipad69cea00a",
+      "names": {
+        "apple": [
+          "iPad Air (3rd generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Air 3rd gen",
+          "iPad Air 3"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 2935,
+        "gb6_single": 1325,
+        "source": "gb6",
+        "gb7_multi": 2960,
+        "gb7_single": 1209,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-air-2",
+      "name": "iPad Air 2",
+      "family": "air",
+      "size_in": null,
+      "chip": "A8X",
+      "released": 2014,
+      "generation": 2,
+      "a_numbers": [
+        "A1566",
+        "A1567"
+      ],
+      "max_os_major": 15,
+      "apple_topic_id": "ipad339ac24e",
+      "names": {
+        "apple": [
+          "iPad Air 2"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Air 2nd generation",
+          "iPad Air 2nd gen"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 948,
+        "gb6_single": 441,
+        "source": "gb6",
+        "gb7_multi": null,
+        "gb7_single": null,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-air",
+      "name": "iPad Air",
+      "family": "air",
+      "size_in": null,
+      "chip": "A7",
+      "released": 2013,
+      "generation": 1,
+      "a_numbers": [
+        "A1474",
+        "A1475",
+        "A1476"
+      ],
+      "max_os_major": 12,
+      "apple_topic_id": null,
+      "names": {
+        "apple": [
+          "iPad Air"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad Air 1st generation",
+          "iPad Air 1st gen",
+          "iPad Air 1"
+        ]
+      },
+      "score_status": "unsupported",
+      "score": null
+    },
+    {
+      "id": "ipad-mini-a20-pro",
+      "name": "iPad mini (A20 Pro)",
+      "family": "mini",
+      "size_in": null,
+      "chip": "A20 Pro",
+      "released": 2026,
+      "generation": 8,
+      "a_numbers": [
+        "A3595",
+        "A3596",
+        "A3597"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "g0mrwneq8sk5",
+      "names": {
+        "apple": [
+          "iPad mini (A20 Pro)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad mini 8th generation",
+          "iPad mini 8th gen",
+          "iPad mini 8"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 10992,
+        "gb6_single": 4460,
+        "source": "gb7-converted",
+        "gb7_multi": 10377,
+        "gb7_single": 3958,
+        "ratio_multi": 0.9441,
+        "ratio_single": 0.8875,
+        "captured": "2026-11-19"
+      }
+    },
+    {
+      "id": "ipad-mini-a17-pro",
+      "name": "iPad mini (A17 Pro)",
+      "family": "mini",
+      "size_in": null,
+      "chip": "A17 Pro",
+      "released": 2024,
+      "generation": 7,
+      "a_numbers": [
+        "A2993",
+        "A2995",
+        "A2996"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipad66ed6260",
+      "names": {
+        "apple": [
+          "iPad mini (A17 Pro)"
+        ],
+        "geekbench": [
+          "iPad mini (7th generation)"
+        ],
+        "aliases": [
+          "iPad mini 7th gen",
+          "iPad mini 7"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 7242,
+        "gb6_single": 2910,
+        "source": "gb6",
+        "gb7_multi": 6768,
+        "gb7_single": 2538,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-mini-6th-generation",
+      "name": "iPad mini (6th generation)",
+      "family": "mini",
+      "size_in": null,
+      "chip": "A15",
+      "released": 2021,
+      "generation": 6,
+      "a_numbers": [
+        "A2567",
+        "A2568",
+        "A2569"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipaddf1b27a7",
+      "names": {
+        "apple": [
+          "iPad mini (6th generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad mini 6th gen",
+          "iPad mini 6"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 5363,
+        "gb6_single": 2128,
+        "source": "gb6",
+        "gb7_multi": 5007,
+        "gb7_single": 1906,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-mini-5th-generation",
+      "name": "iPad mini (5th generation)",
+      "family": "mini",
+      "size_in": null,
+      "chip": "A12",
+      "released": 2019,
+      "generation": 5,
+      "a_numbers": [
+        "A2124",
+        "A2125",
+        "A2126",
+        "A2133"
+      ],
+      "max_os_major": 26,
+      "apple_topic_id": "ipad0c15e4c4",
+      "names": {
+        "apple": [
+          "iPad mini (5th generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad mini 5th gen",
+          "iPad mini 5"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 2872,
+        "gb6_single": 1320,
+        "source": "gb6",
+        "gb7_multi": 2841,
+        "gb7_single": 1216,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-mini-4",
+      "name": "iPad mini 4",
+      "family": "mini",
+      "size_in": null,
+      "chip": "A8",
+      "released": 2015,
+      "generation": 4,
+      "a_numbers": [
+        "A1538",
+        "A1550"
+      ],
+      "max_os_major": 15,
+      "apple_topic_id": "ipada2872868",
+      "names": {
+        "apple": [
+          "iPad mini 4"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad mini 4th generation",
+          "iPad mini 4th gen"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 602,
+        "gb6_single": 412,
+        "source": "gb6",
+        "gb7_multi": null,
+        "gb7_single": null,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-mini-3",
+      "name": "iPad mini 3",
+      "family": "mini",
+      "size_in": null,
+      "chip": "A7",
+      "released": 2014,
+      "generation": 3,
+      "a_numbers": [
+        "A1599",
+        "A1600",
+        "A1601"
+      ],
+      "max_os_major": 12,
+      "apple_topic_id": null,
+      "names": {
+        "apple": [
+          "iPad mini 3"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad mini 3rd generation",
+          "iPad mini 3rd gen"
+        ]
+      },
+      "score_status": "unsupported",
+      "score": null
+    },
+    {
+      "id": "ipad-mini-2",
+      "name": "iPad mini 2",
+      "family": "mini",
+      "size_in": null,
+      "chip": "A7",
+      "released": 2013,
+      "generation": 2,
+      "a_numbers": [
+        "A1489",
+        "A1490",
+        "A1491"
+      ],
+      "max_os_major": 12,
+      "apple_topic_id": null,
+      "names": {
+        "apple": [
+          "iPad mini 2"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad mini 2nd generation",
+          "iPad mini 2nd gen"
+        ]
+      },
+      "score_status": "unsupported",
+      "score": null
+    },
+    {
+      "id": "ipad-mini",
+      "name": "iPad mini",
+      "family": "mini",
+      "size_in": null,
+      "chip": "A5",
+      "released": 2012,
+      "generation": 1,
+      "a_numbers": [
+        "A1432",
+        "A1454",
+        "A1455"
+      ],
+      "max_os_major": 9,
+      "apple_topic_id": null,
+      "names": {
+        "apple": [
+          "iPad mini"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad mini 1st generation",
+          "iPad mini 1st gen",
+          "iPad mini 1"
+        ]
+      },
+      "score_status": "unsupported",
+      "score": null
+    },
+    {
+      "id": "ipad-a16",
+      "name": "iPad (A16)",
+      "family": "ipad",
+      "size_in": null,
+      "chip": "A16",
+      "released": 2025,
+      "generation": 11,
+      "a_numbers": [
+        "A3354",
+        "A3355",
+        "A3356"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipad72d777dc",
+      "names": {
+        "apple": [
+          "iPad (A16)"
+        ],
+        "geekbench": [
+          "iPad (11th generation)"
+        ],
+        "aliases": [
+          "iPad 11th gen",
+          "iPad 11"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 6079,
+        "gb6_single": 2606,
+        "source": "gb6",
+        "gb7_multi": 5797,
+        "gb7_single": 2353,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-10th-generation",
+      "name": "iPad (10th generation)",
+      "family": "ipad",
+      "size_in": null,
+      "chip": "A14",
+      "released": 2022,
+      "generation": 10,
+      "a_numbers": [
+        "A2696",
+        "A2757",
+        "A2777",
+        "A3162"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipad1868a02c",
+      "names": {
+        "apple": [
+          "iPad (10th generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad 10th gen",
+          "iPad 10"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 4721,
+        "gb6_single": 2051,
+        "source": "gb6",
+        "gb7_multi": 4416,
+        "gb7_single": 1851,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-9th-generation",
+      "name": "iPad (9th generation)",
+      "family": "ipad",
+      "size_in": null,
+      "chip": "A13",
+      "released": 2021,
+      "generation": 9,
+      "a_numbers": [
+        "A2602",
+        "A2603",
+        "A2604",
+        "A2605"
+      ],
+      "max_os_major": 27,
+      "apple_topic_id": "ipada6b7a0b6",
+      "names": {
+        "apple": [
+          "iPad (9th generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad 9th gen",
+          "iPad 9"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 3832,
+        "gb6_single": 1735,
+        "source": "gb6",
+        "gb7_multi": 3622,
+        "gb7_single": 1490,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-8th-generation",
+      "name": "iPad (8th generation)",
+      "family": "ipad",
+      "size_in": null,
+      "chip": "A12",
+      "released": 2020,
+      "generation": 8,
+      "a_numbers": [
+        "A2270",
+        "A2428",
+        "A2429",
+        "A2430"
+      ],
+      "max_os_major": 26,
+      "apple_topic_id": "ipad336cfd09",
+      "names": {
+        "apple": [
+          "iPad (8th generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad 8th gen",
+          "iPad 8"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 2800,
+        "gb6_single": 1305,
+        "source": "gb6",
+        "gb7_multi": 2723,
+        "gb7_single": 1189,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-7th-generation",
+      "name": "iPad (7th generation)",
+      "family": "ipad",
+      "size_in": null,
+      "chip": "A10",
+      "released": 2019,
+      "generation": 7,
+      "a_numbers": [
+        "A2197",
+        "A2198",
+        "A2199",
+        "A2200"
+      ],
+      "max_os_major": 18,
+      "apple_topic_id": "ipada3ae0131",
+      "names": {
+        "apple": [
+          "iPad (7th generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad 7th gen",
+          "iPad 7"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 1373,
+        "gb6_single": 858,
+        "source": "gb6",
+        "gb7_multi": null,
+        "gb7_single": null,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-6th-generation",
+      "name": "iPad (6th generation)",
+      "family": "ipad",
+      "size_in": null,
+      "chip": "A10",
+      "released": 2018,
+      "generation": 6,
+      "a_numbers": [
+        "A1893",
+        "A1954"
+      ],
+      "max_os_major": 17,
+      "apple_topic_id": "ipad385b4339",
+      "names": {
+        "apple": [
+          "iPad (6th generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad 6th gen",
+          "iPad 6"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 1131,
+        "gb6_single": 830,
+        "source": "gb6",
+        "gb7_multi": null,
+        "gb7_single": null,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-5th-generation",
+      "name": "iPad (5th generation)",
+      "family": "ipad",
+      "size_in": null,
+      "chip": "A9",
+      "released": 2017,
+      "generation": 5,
+      "a_numbers": [
+        "A1822",
+        "A1823"
+      ],
+      "max_os_major": 16,
+      "apple_topic_id": "ipad85bd1631",
+      "names": {
+        "apple": [
+          "iPad (5th generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad 5th gen",
+          "iPad 5"
+        ]
+      },
+      "score_status": "ok",
+      "score": {
+        "gb6_multi": 984,
+        "gb6_single": 633,
+        "source": "gb6",
+        "gb7_multi": null,
+        "gb7_single": null,
+        "ratio_multi": null,
+        "ratio_single": null,
+        "captured": "2026-07-18"
+      }
+    },
+    {
+      "id": "ipad-4th-generation",
+      "name": "iPad (4th generation)",
+      "family": "ipad",
+      "size_in": null,
+      "chip": "A6X",
+      "released": 2012,
+      "generation": 4,
+      "a_numbers": [
+        "A1458",
+        "A1459",
+        "A1460"
+      ],
+      "max_os_major": 10,
+      "apple_topic_id": null,
+      "names": {
+        "apple": [
+          "iPad (4th generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad 4th gen",
+          "iPad 4"
+        ]
+      },
+      "score_status": "unsupported",
+      "score": null
+    },
+    {
+      "id": "ipad-3rd-generation",
+      "name": "iPad (3rd generation)",
+      "family": "ipad",
+      "size_in": null,
+      "chip": "A5X",
+      "released": 2012,
+      "generation": 3,
+      "a_numbers": [
+        "A1403",
+        "A1416",
+        "A1430"
+      ],
+      "max_os_major": 9,
+      "apple_topic_id": null,
+      "names": {
+        "apple": [
+          "iPad (3rd generation)"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad 3rd gen",
+          "iPad 3"
+        ]
+      },
+      "score_status": "unsupported",
+      "score": null
+    },
+    {
+      "id": "ipad-2",
+      "name": "iPad 2",
+      "family": "ipad",
+      "size_in": null,
+      "chip": "A5",
+      "released": 2011,
+      "generation": 2,
+      "a_numbers": [
+        "A1395",
+        "A1396",
+        "A1397"
+      ],
+      "max_os_major": 9,
+      "apple_topic_id": null,
+      "names": {
+        "apple": [
+          "iPad 2"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad 2nd generation",
+          "iPad 2nd gen"
+        ]
+      },
+      "score_status": "unsupported",
+      "score": null
+    },
+    {
+      "id": "ipad-original",
+      "name": "iPad",
+      "family": "ipad",
+      "size_in": null,
+      "chip": "A4",
+      "released": 2010,
+      "generation": 1,
+      "a_numbers": [
+        "A1219",
+        "A1337"
+      ],
+      "max_os_major": 5,
+      "apple_topic_id": null,
+      "names": {
+        "apple": [
+          "iPad"
+        ],
+        "geekbench": [],
+        "aliases": [
+          "iPad 1st generation",
+          "iPad 1st gen",
+          "iPad 1",
+          "iPad original"
+        ]
+      },
+      "score_status": "unsupported",
+      "score": null
+    }
+  ]
+}
