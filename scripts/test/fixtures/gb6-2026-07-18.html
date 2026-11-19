@@ -1,0 +1,4809 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<meta content='width=device-width, initial-scale=1, user-scalable=no' name='viewport'>
+<meta content='yes' name='apple-mobile-web-app-capable'>
+<meta name="csrf-param" content="authenticity_token" />
+<meta name="csrf-token" content="e+wUx925GpIAcrsxREhmn8ohjDNYhu3t4U9xXBeO9d4Hy37j+iAh8UWTOAuUY1WTKdMRL7KbBU4USXh90Wl6FQ==" />
+<script src="/assets/application-e6396391cb5c72be649766457befbfe7760759c10978dacb2e5ddcf0606dd022.js"></script>
+<link rel="stylesheet" media="screen" href="/assets/application-96e959c034d725b87d3a20301030100c286f486885530615b4aab3bccc515041.css" />
+<title>iOS Benchmarks
+ - Geekbench</title>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  
+    ga('create', 'UA-83282280-2', 'auto');
+    ga('send', 'pageview');
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NP04Y57Z6W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NP04Y57Z6W');
+</script>
+<!-- Hotjar Tracking Code for Geekbench Browser -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:390387,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+<link rel="icon" type="image/png" href="/assets/rosedale-favicon-87f1249ad68dcfa8fb13716412eb3769cd386c3249fd2bbb501085b01670b12a.png" />
+
+<link rel="stylesheet" media="screen" href="/assets/geekbench6-de582fcc3cbb2e58918a7d81d2de0fd7edd2f6f310ad395ad3cb85301c517e7e.css" />
+<link rel="stylesheet" media="screen" href="/assets/banff-17ff5a7ff44829ae17a3691738d2521206904256794645772fb431d9eab2cbfa.css" />
+</head>
+<body class='rosedale'>
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <img height="30" alt="Geekbench Browser" src="/assets/browser-dark-4d9f1af82043f60fd55f5385de9dedf44baec6247dac9f8e738de9eee84bf084.svg" />
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownGeekbench6" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Geekbench 6</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownGeekbench6">
+              <a class="dropdown-item" href="/v6/cpu/singlecore">Top Single-Core Results</a>
+              <a class="dropdown-item" href="/v6/cpu/multicore">Top Multi-Core Results</a>
+              <a class="dropdown-item" href="/v6/cpu">Recent CPU Results</a>
+              <div class="dropdown-divider">
+              </div>
+              <a class="dropdown-item" href="/v6/compute">Recent GPU Results</a>
+            </div>
+          </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownGeekbenchAI" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Geekbench AI</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownGeekbenchAI">
+            <a class="dropdown-item" href="/ai/v1">Recent Results</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBenchmarkCharts" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Benchmark Charts</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownBenchmarkCharts">
+            <a class="dropdown-item" href="/android-benchmarks">Android Benchmark Chart</a>
+            <a class="dropdown-item" href="/ios-benchmarks">iOS Benchmark Chart</a>
+            <a class="dropdown-item" href="/mac-benchmarks">Mac Benchmark Chart</a>
+            <a class="dropdown-item" href="/processor-benchmarks">Processor Benchmark Chart</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/ai-benchmarks">AI Benchmark Chart</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/metal-benchmarks">Metal Benchmark Chart</a>
+            <a class="dropdown-item" href="/opencl-benchmarks">OpenCL Benchmark Chart</a>
+            <a class="dropdown-item" href="/vulkan-benchmarks">Vulkan Benchmark Chart</a>
+          </div>
+        </li>
+        <form action="/search" class="form-inline my-2 my-lg-0">
+          <input name="q" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 14 14">
+          <path d="M2 6a4 4 0 1 1 4 4 4.004 4.004 0 0 1-4-4m11.707 6.293l-2.822-2.822a6.019 6.019 0 1 0-1.414 1.414l2.822 2.822a1 1 0 0 0 1.414-1.414" fill="#FFFFFF"></path></svg>
+        </form>
+      </ul>
+      <ul class="navbar-nav ml-auto right">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAccount" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownAccount">
+              <a class="dropdown-item" href="/user/new">Sign Up</a>
+              <a class="dropdown-item" href="/session/new">Log In</a>
+            </div>
+          </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class='container' id='wrap'>
+<div class='row'>
+<div class='primary col-lg-9 order-lg-first'>
+<div class='page-header'>
+<h1>iPhone, iPad, and iPod Benchmarks</h1>
+</div>
+<p>
+Welcome to the Geekbench iPhone, iPad, and iPod Benchmark Chart.  The data on this chart is gathered from user-submitted <a href="https://www.geekbench.com/">Geekbench 6</a> results from the <a href="https://browser.geekbench.com/">Geekbench Browser</a>.  To make sure the results accurately reflect the average performance of each device, the chart only includes iPhones, iPads, and iPods with at least five unique results in the Geekbench Browser.
+</p>
+<p>
+<a href="https://www.geekbench.com/">Geekbench 6</a> scores are calibrated against a baseline score of 2500 (which is the score of an Intel Core i7-12700).  Higher scores are better, with double the score indicating double the performance.
+</p>
+<p>
+If you're curious how your iPhone, iPad, or iPod compares, you can <a href="https://apps.apple.com/us/app/geekbench-6/id1565728895">download Geekbench 6</a> and run it on your iOS device to find out its score.
+</p>
+<p>
+This chart was last updated about 1 hour ago.
+</p>
+<hr>
+<div class='tabbable'>
+<ul class='nav nav-pills'>
+<li class='nav-item'>
+<a class='nav-link active' data-toggle='tab' href='#single-core' id='single-core-tab'>Single Core</a>
+</li>
+<li class='nav-item'>
+<a class='nav-link' data-toggle='tab' href='#multi-core' id='multi-core-tab'>Multi-Core</a>
+</li>
+<li class='nav-item'>
+<a class='nav-link' data-toggle='tab' href='#metal' id='metal-tab'>Metal</a>
+</li>
+</ul>
+<div class='tab-content'>
+<div class='tab-pane fade show active' id='single-core'>
+<div class='table-wrapper'>
+<table class='table benchmark-chart-table' id='ios'>
+<thead class='stacked-heading'>
+<tr>
+<th class='name'>Device</th>
+<th class='score'>Score</th>
+<th class='graph'></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-13-inch-m5-9c-cpu'>
+iPad Pro 13-inch (M5)
+</a>
+<div class='description'>
+Apple M5
+</div>
+</td>
+<td class='score'>
+4145
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:100%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-m5-9c-cpu'>
+iPad Pro 11-inch (M5)
+</a>
+<div class='description'>
+Apple M5
+</div>
+</td>
+<td class='score'>
+4140
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:99%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-17-pro-max'>
+iPhone 17 Pro Max
+</a>
+<div class='description'>
+Apple A19 Pro
+</div>
+</td>
+<td class='score'>
+3785
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:91%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-17-pro'>
+iPhone 17 Pro
+</a>
+<div class='description'>
+Apple A19 Pro
+</div>
+</td>
+<td class='score'>
+3770
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:90%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-13-inch-m4-10c-cpu'>
+iPad Pro 13-inch (M4)
+</a>
+<div class='description'>
+Apple M4
+</div>
+</td>
+<td class='score'>
+3706
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:89%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-13-inch-m4-9c-cpu'>
+iPad Pro 13-inch (M4)
+</a>
+<div class='description'>
+Apple M4
+</div>
+</td>
+<td class='score'>
+3690
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:89%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-m4-10c-cpu'>
+iPad Pro 11-inch (M4)
+</a>
+<div class='description'>
+Apple M4
+</div>
+</td>
+<td class='score'>
+3684
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:88%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-m4-9c-cpu'>
+iPad Pro 11-inch (M4)
+</a>
+<div class='description'>
+Apple M4
+</div>
+</td>
+<td class='score'>
+3673
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:88%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-air'>
+iPhone Air
+</a>
+<div class='description'>
+Apple A19 Pro
+</div>
+</td>
+<td class='score'>
+3672
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:88%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-17'>
+iPhone 17
+</a>
+<div class='description'>
+Apple A19
+</div>
+</td>
+<td class='score'>
+3607
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:87%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-16-pro'>
+iPhone 16 Pro
+</a>
+<div class='description'>
+Apple A18 Pro
+</div>
+</td>
+<td class='score'>
+3444
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:83%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-16-pro-max'>
+iPhone 16 Pro Max
+</a>
+<div class='description'>
+Apple A18 Pro
+</div>
+</td>
+<td class='score'>
+3425
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:82%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-16-plus'>
+iPhone 16 Plus
+</a>
+<div class='description'>
+Apple A18
+</div>
+</td>
+<td class='score'>
+3320
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:80%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-16'>
+iPhone 16
+</a>
+<div class='description'>
+Apple A18
+</div>
+</td>
+<td class='score'>
+3317
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:80%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-16e'>
+iPhone 16e
+</a>
+<div class='description'>
+Apple A18
+</div>
+</td>
+<td class='score'>
+3240
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:78%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-11-inch-7th-generation'>
+iPad Air 11-inch (7th generation)
+</a>
+<div class='description'>
+Apple M3
+</div>
+</td>
+<td class='score'>
+3050
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:73%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-13-inch-7th-generation'>
+iPad Air 13-inch (7th generation)
+</a>
+<div class='description'>
+Apple M3
+</div>
+</td>
+<td class='score'>
+3050
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:73%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-mini-7th-generation'>
+iPad mini (7th generation)
+</a>
+<div class='description'>
+Apple A17 Pro
+</div>
+</td>
+<td class='score'>
+2910
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:70%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-15-pro'>
+iPhone 15 Pro
+</a>
+<div class='description'>
+Apple A17 Pro
+</div>
+</td>
+<td class='score'>
+2880
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:69%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-15-pro-max'>
+iPhone 15 Pro Max
+</a>
+<div class='description'>
+Apple A17 Pro
+</div>
+</td>
+<td class='score'>
+2875
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:69%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-14-pro'>
+iPhone 14 Pro
+</a>
+<div class='description'>
+Apple A16 Bionic
+</div>
+</td>
+<td class='score'>
+2617
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:63%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-14-pro-max'>
+iPhone 14 Pro Max
+</a>
+<div class='description'>
+Apple A16 Bionic
+</div>
+</td>
+<td class='score'>
+2608
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:62%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad14-5'>
+iPad Pro (12.9-inch, 6th generation)
+</a>
+<div class='description'>
+Apple M2
+</div>
+</td>
+<td class='score'>
+2608
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:62%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-11th-generation'>
+iPad (11th generation)
+</a>
+<div class='description'>
+Apple A16
+</div>
+</td>
+<td class='score'>
+2606
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:62%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-13-inch-m2'>
+iPad Air 13-inch (M2)
+</a>
+<div class='description'>
+Apple M2
+</div>
+</td>
+<td class='score'>
+2602
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:62%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-11-inch-m2'>
+iPad Air 11-inch (M2)
+</a>
+<div class='description'>
+Apple M2
+</div>
+</td>
+<td class='score'>
+2599
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:62%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-4th-generation'>
+iPad Pro (11-inch, 4th generation)
+</a>
+<div class='description'>
+Apple M2
+</div>
+</td>
+<td class='score'>
+2585
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:62%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-15-plus'>
+iPhone 15 Plus
+</a>
+<div class='description'>
+Apple A16 Bionic
+</div>
+</td>
+<td class='score'>
+2553
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:61%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-15'>
+iPhone 15
+</a>
+<div class='description'>
+Apple A16 Bionic
+</div>
+</td>
+<td class='score'>
+2551
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:61%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-13-pro-max'>
+iPhone 13 Pro Max
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+2350
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:56%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-13-pro'>
+iPhone 13 Pro
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+2349
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:56%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-12-9-inch-5th-generation'>
+iPad Pro (12.9-inch 5th generation)
+</a>
+<div class='description'>
+Apple M1
+</div>
+</td>
+<td class='score'>
+2319
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:55%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-3rd-generation'>
+iPad Pro (11-inch 3rd generation)
+</a>
+<div class='description'>
+Apple M1
+</div>
+</td>
+<td class='score'>
+2317
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:55%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-5th-generation'>
+iPad Air (5th generation)
+</a>
+<div class='description'>
+Apple M1
+</div>
+</td>
+<td class='score'>
+2302
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:55%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-14'>
+iPhone 14
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+2277
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:54%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-14-plus'>
+iPhone 14 Plus
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+2274
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:54%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-se-3rd-generation'>
+iPhone SE (3rd generation)
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+2269
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:54%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-13-mini'>
+iPhone 13 mini
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+2225
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:53%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-13'>
+iPhone 13
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+2214
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:53%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-12-pro-max'>
+iPhone 12 Pro Max
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+2129
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:51%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-mini-6th-generation'>
+iPad mini (6th generation)
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+2128
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:51%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-4th-generation'>
+iPad Air (4th generation)
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+2086
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:50%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-12-pro'>
+iPhone 12 Pro
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+2083
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:50%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-10th-generation'>
+iPad (10th generation)
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+2051
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:49%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-12-mini'>
+iPhone 12 Mini
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+2034
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:49%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-12'>
+iPhone 12
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+2030
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:48%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-9th-generation'>
+iPad (9th generation)
+</a>
+<div class='description'>
+Apple A13 Bionic
+</div>
+</td>
+<td class='score'>
+1735
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:41%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-11-pro-max'>
+iPhone 11 Pro Max
+</a>
+<div class='description'>
+Apple A13 Bionic
+</div>
+</td>
+<td class='score'>
+1717
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:41%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-11'>
+iPhone 11
+</a>
+<div class='description'>
+Apple A13 Bionic
+</div>
+</td>
+<td class='score'>
+1703
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:41%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-11-pro'>
+iPhone 11 Pro
+</a>
+<div class='description'>
+Apple A13 Bionic
+</div>
+</td>
+<td class='score'>
+1702
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:41%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-se-2nd-generation'>
+iPhone SE (2nd generation)
+</a>
+<div class='description'>
+Apple A13 Bionic
+</div>
+</td>
+<td class='score'>
+1669
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:40%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-12-9-inch-4th-generation'>
+iPad Pro 12.9-inch (4th generation)
+</a>
+<div class='description'>
+Apple A12Z Bionic
+</div>
+</td>
+<td class='score'>
+1342
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:32%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-2nd-generation'>
+iPad Pro 11-inch (2nd generation)
+</a>
+<div class='description'>
+Apple A12Z Bionic
+</div>
+</td>
+<td class='score'>
+1334
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:32%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro-11"></div>
+<a href='/ios_devices/ipad-pro-11-inch'>
+iPad Pro (11-inch)
+</a>
+<div class='description'>
+Apple A12X Bionic
+</div>
+</td>
+<td class='score'>
+1328
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:32%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro-129-2018"></div>
+<a href='/ios_devices/ipad-pro-12-9-inch-3rd-generation'>
+iPad Pro (12.9-inch 3rd Generation)
+</a>
+<div class='description'>
+Apple A12X Bionic
+</div>
+</td>
+<td class='score'>
+1326
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:31%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-3rd-generation'>
+iPad Air (3rd generation)
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+1325
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:31%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-mini-5th-generation'>
+iPad mini (5th generation)
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+1320
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:31%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-8th-generation'>
+iPad (8th generation)
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+1305
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:31%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-xs-max"></div>
+<a href='/ios_devices/iphone-xs-max'>
+iPhone XS Max
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+1287
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:31%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-xs"></div>
+<a href='/ios_devices/iphone-xs'>
+iPhone XS
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+1285
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:31%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-xr"></div>
+<a href='/ios_devices/iphone-xr'>
+iPhone XR
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+1248
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:30%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-8-plus"></div>
+<a href='/ios_devices/iphone-8-plus'>
+iPhone 8 Plus
+</a>
+<div class='description'>
+Apple A11 Bionic
+</div>
+</td>
+<td class='score'>
+1058
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:25%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-x-space-gray"></div>
+<a href='/ios_devices/iphone-x'>
+iPhone X
+</a>
+<div class='description'>
+Apple A11 Bionic
+</div>
+</td>
+<td class='score'>
+1052
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:25%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-8"></div>
+<a href='/ios_devices/iphone-8'>
+iPhone 8
+</a>
+<div class='description'>
+Apple A11 Bionic
+</div>
+</td>
+<td class='score'>
+1037
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:25%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro-105"></div>
+<a href='/ios_devices/ipad-pro-10-5-inch'>
+iPad Pro (10.5-inch)
+</a>
+<div class='description'>
+Apple A10X Fusion
+</div>
+</td>
+<td class='score'>
+940
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:22%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro-129-mid-2017"></div>
+<a href='/ios_devices/ipad-pro-12-9-inch-2nd-generation'>
+iPad Pro (12.9-inch 2nd Generation)
+</a>
+<div class='description'>
+Apple A10X Fusion
+</div>
+</td>
+<td class='score'>
+931
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:22%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-7th-generation'>
+iPad (7th generation)
+</a>
+<div class='description'>
+Apple A10 Fusion
+</div>
+</td>
+<td class='score'>
+858
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:20%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-6th-generation'>
+iPad (6th generation)
+</a>
+<div class='description'>
+Apple A10 Fusion
+</div>
+</td>
+<td class='score'>
+830
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:20%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-7-plus"></div>
+<a href='/ios_devices/iphone-7-plus'>
+iPhone 7 Plus
+</a>
+<div class='description'>
+Apple A10 Fusion
+</div>
+</td>
+<td class='score'>
+814
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:19%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-7"></div>
+<a href='/ios_devices/iphone-7'>
+iPhone 7
+</a>
+<div class='description'>
+Apple A10 Fusion
+</div>
+</td>
+<td class='score'>
+785
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:18%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro"></div>
+<a href='/ios_devices/ipad-pro-12-9-inch'>
+iPad Pro (12.9-inch)
+</a>
+<div class='description'>
+Apple A9X
+</div>
+</td>
+<td class='score'>
+749
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:18%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro-97"></div>
+<a href='/ios_devices/ipad-pro-9-7-inch'>
+iPad Pro (9.7-inch)
+</a>
+<div class='description'>
+Apple A9X
+</div>
+</td>
+<td class='score'>
+739
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:17%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-5th-generation'>
+iPad (5th generation)
+</a>
+<div class='description'>
+Apple A9
+</div>
+</td>
+<td class='score'>
+633
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:15%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipod-7th-generation'>
+iPod (7th generation)
+</a>
+<div class='description'>
+Apple A10 Fusion
+</div>
+</td>
+<td class='score'>
+628
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:15%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-se"></div>
+<a href='/ios_devices/iphone-se'>
+iPhone SE
+</a>
+<div class='description'>
+Apple A9
+</div>
+</td>
+<td class='score'>
+618
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:14%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-6s-silver"></div>
+<a href='/ios_devices/iphone-6s'>
+iPhone 6s
+</a>
+<div class='description'>
+Apple A9
+</div>
+</td>
+<td class='score'>
+605
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:14%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-6s-plus-silver"></div>
+<a href='/ios_devices/iphone-6s-plus'>
+iPhone 6s Plus
+</a>
+<div class='description'>
+Apple A9
+</div>
+</td>
+<td class='score'>
+604
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:14%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-air-2-gold"></div>
+<a href='/ios_devices/ipad-air-2'>
+iPad Air 2
+</a>
+<div class='description'>
+Apple A8X
+</div>
+</td>
+<td class='score'>
+441
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:10%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-mini-4"></div>
+<a href='/ios_devices/ipad-mini-4'>
+iPad mini 4
+</a>
+<div class='description'>
+Apple A8
+</div>
+</td>
+<td class='score'>
+412
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:9%'>
+&nbsp;
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+<div class='tab-pane fade' id='multi-core'>
+<div class='table-wrapper'>
+<table class='table benchmark-chart-table' id='ios'>
+<thead class='stacked-heading'>
+<tr>
+<th class='name'>Device</th>
+<th class='score'>Score</th>
+<th class='graph'></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-13-inch-m5-9c-cpu'>
+iPad Pro 13-inch (M5)
+</a>
+<div class='description'>
+Apple M5
+</div>
+</td>
+<td class='score'>
+15725
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:100%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-m5-9c-cpu'>
+iPad Pro 11-inch (M5)
+</a>
+<div class='description'>
+Apple M5
+</div>
+</td>
+<td class='score'>
+15581
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:99%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-13-inch-m4-10c-cpu'>
+iPad Pro 13-inch (M4)
+</a>
+<div class='description'>
+Apple M4
+</div>
+</td>
+<td class='score'>
+13828
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:87%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-m4-10c-cpu'>
+iPad Pro 11-inch (M4)
+</a>
+<div class='description'>
+Apple M4
+</div>
+</td>
+<td class='score'>
+13611
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:86%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-13-inch-m4-9c-cpu'>
+iPad Pro 13-inch (M4)
+</a>
+<div class='description'>
+Apple M4
+</div>
+</td>
+<td class='score'>
+13511
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:85%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-m4-9c-cpu'>
+iPad Pro 11-inch (M4)
+</a>
+<div class='description'>
+Apple M4
+</div>
+</td>
+<td class='score'>
+13259
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:84%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-11-inch-7th-generation'>
+iPad Air 11-inch (7th generation)
+</a>
+<div class='description'>
+Apple M3
+</div>
+</td>
+<td class='score'>
+11703
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:74%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-13-inch-7th-generation'>
+iPad Air 13-inch (7th generation)
+</a>
+<div class='description'>
+Apple M3
+</div>
+</td>
+<td class='score'>
+11690
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:74%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad14-5'>
+iPad Pro (12.9-inch, 6th generation)
+</a>
+<div class='description'>
+Apple M2
+</div>
+</td>
+<td class='score'>
+9900
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:62%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-13-inch-m2'>
+iPad Air 13-inch (M2)
+</a>
+<div class='description'>
+Apple M2
+</div>
+</td>
+<td class='score'>
+9860
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:62%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-11-inch-m2'>
+iPad Air 11-inch (M2)
+</a>
+<div class='description'>
+Apple M2
+</div>
+</td>
+<td class='score'>
+9839
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:62%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-17-pro-max'>
+iPhone 17 Pro Max
+</a>
+<div class='description'>
+Apple A19 Pro
+</div>
+</td>
+<td class='score'>
+9837
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:62%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-4th-generation'>
+iPad Pro (11-inch, 4th generation)
+</a>
+<div class='description'>
+Apple M2
+</div>
+</td>
+<td class='score'>
+9820
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:62%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-17-pro'>
+iPhone 17 Pro
+</a>
+<div class='description'>
+Apple A19 Pro
+</div>
+</td>
+<td class='score'>
+9807
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:62%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-air'>
+iPhone Air
+</a>
+<div class='description'>
+Apple A19 Pro
+</div>
+</td>
+<td class='score'>
+9441
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:60%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-17'>
+iPhone 17
+</a>
+<div class='description'>
+Apple A19
+</div>
+</td>
+<td class='score'>
+9246
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:58%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-16-pro'>
+iPhone 16 Pro
+</a>
+<div class='description'>
+Apple A18 Pro
+</div>
+</td>
+<td class='score'>
+8641
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:54%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-16-pro-max'>
+iPhone 16 Pro Max
+</a>
+<div class='description'>
+Apple A18 Pro
+</div>
+</td>
+<td class='score'>
+8540
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:54%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-12-9-inch-5th-generation'>
+iPad Pro (12.9-inch 5th generation)
+</a>
+<div class='description'>
+Apple M1
+</div>
+</td>
+<td class='score'>
+8408
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:53%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-3rd-generation'>
+iPad Pro (11-inch 3rd generation)
+</a>
+<div class='description'>
+Apple M1
+</div>
+</td>
+<td class='score'>
+8360
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:53%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-16'>
+iPhone 16
+</a>
+<div class='description'>
+Apple A18
+</div>
+</td>
+<td class='score'>
+8309
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:52%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-5th-generation'>
+iPad Air (5th generation)
+</a>
+<div class='description'>
+Apple M1
+</div>
+</td>
+<td class='score'>
+8307
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:52%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-16-plus'>
+iPhone 16 Plus
+</a>
+<div class='description'>
+Apple A18
+</div>
+</td>
+<td class='score'>
+8288
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:52%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-16e'>
+iPhone 16e
+</a>
+<div class='description'>
+Apple A18
+</div>
+</td>
+<td class='score'>
+8003
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:50%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-mini-7th-generation'>
+iPad mini (7th generation)
+</a>
+<div class='description'>
+Apple A17 Pro
+</div>
+</td>
+<td class='score'>
+7242
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:46%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-15-pro'>
+iPhone 15 Pro
+</a>
+<div class='description'>
+Apple A17 Pro
+</div>
+</td>
+<td class='score'>
+7199
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:45%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-15-pro-max'>
+iPhone 15 Pro Max
+</a>
+<div class='description'>
+Apple A17 Pro
+</div>
+</td>
+<td class='score'>
+7164
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:45%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-14-pro'>
+iPhone 14 Pro
+</a>
+<div class='description'>
+Apple A16 Bionic
+</div>
+</td>
+<td class='score'>
+6713
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:42%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-14-pro-max'>
+iPhone 14 Pro Max
+</a>
+<div class='description'>
+Apple A16 Bionic
+</div>
+</td>
+<td class='score'>
+6681
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:42%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-15-plus'>
+iPhone 15 Plus
+</a>
+<div class='description'>
+Apple A16 Bionic
+</div>
+</td>
+<td class='score'>
+6356
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:40%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-15'>
+iPhone 15
+</a>
+<div class='description'>
+Apple A16 Bionic
+</div>
+</td>
+<td class='score'>
+6338
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:40%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-11th-generation'>
+iPad (11th generation)
+</a>
+<div class='description'>
+Apple A16
+</div>
+</td>
+<td class='score'>
+6079
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:38%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-13-pro-max'>
+iPhone 13 Pro Max
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+5759
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:36%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-13-pro'>
+iPhone 13 Pro
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+5741
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:36%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-14'>
+iPhone 14
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+5575
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:35%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-14-plus'>
+iPhone 14 Plus
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+5574
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:35%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-se-3rd-generation'>
+iPhone SE (3rd generation)
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+5450
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:34%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-mini-6th-generation'>
+iPad mini (6th generation)
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+5363
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:34%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-13-mini'>
+iPhone 13 mini
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+5235
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:33%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-13'>
+iPhone 13
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+5234
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:33%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-4th-generation'>
+iPad Air (4th generation)
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+4994
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:31%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-12-pro-max'>
+iPhone 12 Pro Max
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+4974
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:31%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-12-pro'>
+iPhone 12 Pro
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+4749
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:30%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-10th-generation'>
+iPad (10th generation)
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+4721
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:30%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-12-9-inch-4th-generation'>
+iPad Pro 12.9-inch (4th generation)
+</a>
+<div class='description'>
+Apple A12Z Bionic
+</div>
+</td>
+<td class='score'>
+4665
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:29%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-2nd-generation'>
+iPad Pro 11-inch (2nd generation)
+</a>
+<div class='description'>
+Apple A12Z Bionic
+</div>
+</td>
+<td class='score'>
+4656
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:29%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-12-mini'>
+iPhone 12 Mini
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+4586
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:29%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro-11"></div>
+<a href='/ios_devices/ipad-pro-11-inch'>
+iPad Pro (11-inch)
+</a>
+<div class='description'>
+Apple A12X Bionic
+</div>
+</td>
+<td class='score'>
+4577
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:29%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-12'>
+iPhone 12
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+4577
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:29%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro-129-2018"></div>
+<a href='/ios_devices/ipad-pro-12-9-inch-3rd-generation'>
+iPad Pro (12.9-inch 3rd Generation)
+</a>
+<div class='description'>
+Apple A12X Bionic
+</div>
+</td>
+<td class='score'>
+4477
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:28%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-11-pro-max'>
+iPhone 11 Pro Max
+</a>
+<div class='description'>
+Apple A13 Bionic
+</div>
+</td>
+<td class='score'>
+3843
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:24%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-9th-generation'>
+iPad (9th generation)
+</a>
+<div class='description'>
+Apple A13 Bionic
+</div>
+</td>
+<td class='score'>
+3832
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:24%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-11-pro'>
+iPhone 11 Pro
+</a>
+<div class='description'>
+Apple A13 Bionic
+</div>
+</td>
+<td class='score'>
+3768
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:23%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-11'>
+iPhone 11
+</a>
+<div class='description'>
+Apple A13 Bionic
+</div>
+</td>
+<td class='score'>
+3642
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:23%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-se-2nd-generation'>
+iPhone SE (2nd generation)
+</a>
+<div class='description'>
+Apple A13 Bionic
+</div>
+</td>
+<td class='score'>
+3017
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:19%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-3rd-generation'>
+iPad Air (3rd generation)
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+2935
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:18%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-mini-5th-generation'>
+iPad mini (5th generation)
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+2872
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:18%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-8th-generation'>
+iPad (8th generation)
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+2800
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:17%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-xs-max"></div>
+<a href='/ios_devices/iphone-xs-max'>
+iPhone XS Max
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+2664
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:16%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-xs"></div>
+<a href='/ios_devices/iphone-xs'>
+iPhone XS
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+2653
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:16%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-8-plus"></div>
+<a href='/ios_devices/iphone-8-plus'>
+iPhone 8 Plus
+</a>
+<div class='description'>
+Apple A11 Bionic
+</div>
+</td>
+<td class='score'>
+2263
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:14%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro-129-mid-2017"></div>
+<a href='/ios_devices/ipad-pro-12-9-inch-2nd-generation'>
+iPad Pro (12.9-inch 2nd Generation)
+</a>
+<div class='description'>
+Apple A10X Fusion
+</div>
+</td>
+<td class='score'>
+2259
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:14%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-xr"></div>
+<a href='/ios_devices/iphone-xr'>
+iPhone XR
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+2255
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:14%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro-105"></div>
+<a href='/ios_devices/ipad-pro-10-5-inch'>
+iPad Pro (10.5-inch)
+</a>
+<div class='description'>
+Apple A10X Fusion
+</div>
+</td>
+<td class='score'>
+2210
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:14%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-x-space-gray"></div>
+<a href='/ios_devices/iphone-x'>
+iPhone X
+</a>
+<div class='description'>
+Apple A11 Bionic
+</div>
+</td>
+<td class='score'>
+2064
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:13%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-8"></div>
+<a href='/ios_devices/iphone-8'>
+iPhone 8
+</a>
+<div class='description'>
+Apple A11 Bionic
+</div>
+</td>
+<td class='score'>
+1720
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:10%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-7th-generation'>
+iPad (7th generation)
+</a>
+<div class='description'>
+Apple A10 Fusion
+</div>
+</td>
+<td class='score'>
+1373
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:8%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro"></div>
+<a href='/ios_devices/ipad-pro-12-9-inch'>
+iPad Pro (12.9-inch)
+</a>
+<div class='description'>
+Apple A9X
+</div>
+</td>
+<td class='score'>
+1248
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:7%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-7-plus"></div>
+<a href='/ios_devices/iphone-7-plus'>
+iPhone 7 Plus
+</a>
+<div class='description'>
+Apple A10 Fusion
+</div>
+</td>
+<td class='score'>
+1156
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:7%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-6th-generation'>
+iPad (6th generation)
+</a>
+<div class='description'>
+Apple A10 Fusion
+</div>
+</td>
+<td class='score'>
+1131
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:7%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro-97"></div>
+<a href='/ios_devices/ipad-pro-9-7-inch'>
+iPad Pro (9.7-inch)
+</a>
+<div class='description'>
+Apple A9X
+</div>
+</td>
+<td class='score'>
+1099
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:6%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipod-7th-generation'>
+iPod (7th generation)
+</a>
+<div class='description'>
+Apple A10 Fusion
+</div>
+</td>
+<td class='score'>
+1027
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:6%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-5th-generation'>
+iPad (5th generation)
+</a>
+<div class='description'>
+Apple A9
+</div>
+</td>
+<td class='score'>
+984
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:6%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-7"></div>
+<a href='/ios_devices/iphone-7'>
+iPhone 7
+</a>
+<div class='description'>
+Apple A10 Fusion
+</div>
+</td>
+<td class='score'>
+969
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:6%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-air-2-gold"></div>
+<a href='/ios_devices/ipad-air-2'>
+iPad Air 2
+</a>
+<div class='description'>
+Apple A8X
+</div>
+</td>
+<td class='score'>
+948
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:6%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-se"></div>
+<a href='/ios_devices/iphone-se'>
+iPhone SE
+</a>
+<div class='description'>
+Apple A9
+</div>
+</td>
+<td class='score'>
+936
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:5%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-6s-silver"></div>
+<a href='/ios_devices/iphone-6s'>
+iPhone 6s
+</a>
+<div class='description'>
+Apple A9
+</div>
+</td>
+<td class='score'>
+878
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:5%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-6s-plus-silver"></div>
+<a href='/ios_devices/iphone-6s-plus'>
+iPhone 6s Plus
+</a>
+<div class='description'>
+Apple A9
+</div>
+</td>
+<td class='score'>
+861
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:5%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-mini-4"></div>
+<a href='/ios_devices/ipad-mini-4'>
+iPad mini 4
+</a>
+<div class='description'>
+Apple A8
+</div>
+</td>
+<td class='score'>
+602
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:3%'>
+&nbsp;
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+<div class='tab-pane fade' id='metal'>
+<div class='table-wrapper'>
+<table class='table benchmark-chart-table' id='ios'>
+<thead class='stacked-heading'>
+<tr>
+<th class='name'>Device</th>
+<th class='score'>Score</th>
+<th class='graph'></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-m5-9c-cpu'>
+iPad Pro 11-inch (M5)
+</a>
+<div class='description'>
+Apple M5
+</div>
+</td>
+<td class='score'>
+74434
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:100%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-13-inch-m5-9c-cpu'>
+iPad Pro 13-inch (M5)
+</a>
+<div class='description'>
+Apple M5
+</div>
+</td>
+<td class='score'>
+74371
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:99%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-m4-10c-cpu'>
+iPad Pro 11-inch (M4)
+</a>
+<div class='description'>
+Apple M4
+</div>
+</td>
+<td class='score'>
+54791
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:73%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-13-inch-m4-9c-cpu'>
+iPad Pro 13-inch (M4)
+</a>
+<div class='description'>
+Apple M4
+</div>
+</td>
+<td class='score'>
+54571
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:73%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-m4-9c-cpu'>
+iPad Pro 11-inch (M4)
+</a>
+<div class='description'>
+Apple M4
+</div>
+</td>
+<td class='score'>
+54565
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:73%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-13-inch-m4-10c-cpu'>
+iPad Pro 13-inch (M4)
+</a>
+<div class='description'>
+Apple M4
+</div>
+</td>
+<td class='score'>
+54446
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:73%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad14-5'>
+iPad Pro (12.9-inch, 6th generation)
+</a>
+<div class='description'>
+Apple M2
+</div>
+</td>
+<td class='score'>
+46294
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:62%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-4th-generation'>
+iPad Pro (11-inch, 4th generation)
+</a>
+<div class='description'>
+Apple M2
+</div>
+</td>
+<td class='score'>
+46172
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:62%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-17-pro-max'>
+iPhone 17 Pro Max
+</a>
+<div class='description'>
+Apple A19 Pro
+</div>
+</td>
+<td class='score'>
+45795
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:61%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-17-pro'>
+iPhone 17 Pro
+</a>
+<div class='description'>
+Apple A19 Pro
+</div>
+</td>
+<td class='score'>
+45732
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:61%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-13-inch-7th-generation'>
+iPad Air 13-inch (7th generation)
+</a>
+<div class='description'>
+Apple M3
+</div>
+</td>
+<td class='score'>
+45154
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:60%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-11-inch-7th-generation'>
+iPad Air 11-inch (7th generation)
+</a>
+<div class='description'>
+Apple M3
+</div>
+</td>
+<td class='score'>
+44456
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:59%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-11-inch-m2'>
+iPad Air 11-inch (M2)
+</a>
+<div class='description'>
+Apple M2
+</div>
+</td>
+<td class='score'>
+42320
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:56%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-13-inch-m2'>
+iPad Air 13-inch (M2)
+</a>
+<div class='description'>
+Apple M2
+</div>
+</td>
+<td class='score'>
+42279
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:56%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-air'>
+iPhone Air
+</a>
+<div class='description'>
+Apple A19 Pro
+</div>
+</td>
+<td class='score'>
+38124
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:51%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-17'>
+iPhone 17
+</a>
+<div class='description'>
+Apple A19
+</div>
+</td>
+<td class='score'>
+37266
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:50%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-3rd-generation'>
+iPad Pro (11-inch 3rd generation)
+</a>
+<div class='description'>
+Apple M1
+</div>
+</td>
+<td class='score'>
+32945
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:44%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-12-9-inch-5th-generation'>
+iPad Pro (12.9-inch 5th generation)
+</a>
+<div class='description'>
+Apple M1
+</div>
+</td>
+<td class='score'>
+32913
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:44%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-16-pro'>
+iPhone 16 Pro
+</a>
+<div class='description'>
+Apple A18 Pro
+</div>
+</td>
+<td class='score'>
+32551
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:43%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-5th-generation'>
+iPad Air (5th generation)
+</a>
+<div class='description'>
+Apple M1
+</div>
+</td>
+<td class='score'>
+32537
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:43%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-16-pro-max'>
+iPhone 16 Pro Max
+</a>
+<div class='description'>
+Apple A18 Pro
+</div>
+</td>
+<td class='score'>
+32488
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:43%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-16'>
+iPhone 16
+</a>
+<div class='description'>
+Apple A18
+</div>
+</td>
+<td class='score'>
+27759
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:37%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-16-plus'>
+iPhone 16 Plus
+</a>
+<div class='description'>
+Apple A18
+</div>
+</td>
+<td class='score'>
+27726
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:37%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-15-pro-max'>
+iPhone 15 Pro Max
+</a>
+<div class='description'>
+Apple A17 Pro
+</div>
+</td>
+<td class='score'>
+27097
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:36%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-15-pro'>
+iPhone 15 Pro
+</a>
+<div class='description'>
+Apple A17 Pro
+</div>
+</td>
+<td class='score'>
+26990
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:36%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-mini-7th-generation'>
+iPad mini (7th generation)
+</a>
+<div class='description'>
+Apple A17 Pro
+</div>
+</td>
+<td class='score'>
+25293
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:33%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-16e'>
+iPhone 16e
+</a>
+<div class='description'>
+Apple A18
+</div>
+</td>
+<td class='score'>
+23988
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:32%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-15'>
+iPhone 15
+</a>
+<div class='description'>
+Apple A16 Bionic
+</div>
+</td>
+<td class='score'>
+22974
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:30%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-15-plus'>
+iPhone 15 Plus
+</a>
+<div class='description'>
+Apple A16 Bionic
+</div>
+</td>
+<td class='score'>
+22946
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:30%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-14-pro'>
+iPhone 14 Pro
+</a>
+<div class='description'>
+Apple A16 Bionic
+</div>
+</td>
+<td class='score'>
+22779
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:30%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-14-pro-max'>
+iPhone 14 Pro Max
+</a>
+<div class='description'>
+Apple A16 Bionic
+</div>
+</td>
+<td class='score'>
+22720
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:30%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-14-plus'>
+iPhone 14 Plus
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+20675
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:27%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-14'>
+iPhone 14
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+20647
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:27%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-13-pro'>
+iPhone 13 Pro
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+20223
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:27%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-13-pro-max'>
+iPhone 13 Pro Max
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+20093
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:26%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-mini-6th-generation'>
+iPad mini (6th generation)
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+19680
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:26%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-11th-generation'>
+iPad (11th generation)
+</a>
+<div class='description'>
+Apple A16
+</div>
+</td>
+<td class='score'>
+19458
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:26%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-11-inch-2nd-generation'>
+iPad Pro 11-inch (2nd generation)
+</a>
+<div class='description'>
+Apple A12Z Bionic
+</div>
+</td>
+<td class='score'>
+18475
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:24%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-pro-12-9-inch-4th-generation'>
+iPad Pro 12.9-inch (4th generation)
+</a>
+<div class='description'>
+Apple A12Z Bionic
+</div>
+</td>
+<td class='score'>
+18003
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:24%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-se-3rd-generation'>
+iPhone SE (3rd generation)
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+17900
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:24%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-13'>
+iPhone 13
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+17768
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:23%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-13-mini'>
+iPhone 13 mini
+</a>
+<div class='description'>
+Apple A15 Bionic
+</div>
+</td>
+<td class='score'>
+17392
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:23%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro-11"></div>
+<a href='/ios_devices/ipad-pro-11-inch'>
+iPad Pro (11-inch)
+</a>
+<div class='description'>
+Apple A12X Bionic
+</div>
+</td>
+<td class='score'>
+16711
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:22%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-4th-generation'>
+iPad Air (4th generation)
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+16526
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:22%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-10th-generation'>
+iPad (10th generation)
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+16470
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:22%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-12-pro-max'>
+iPhone 12 Pro Max
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+16293
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:21%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-12'>
+iPhone 12
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+16204
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:21%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-12-mini'>
+iPhone 12 Mini
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+16163
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:21%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-12-pro'>
+iPhone 12 Pro
+</a>
+<div class='description'>
+Apple A14 Bionic
+</div>
+</td>
+<td class='score'>
+16148
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:21%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro-129-2018"></div>
+<a href='/ios_devices/ipad-pro-12-9-inch-3rd-generation'>
+iPad Pro (12.9-inch 3rd Generation)
+</a>
+<div class='description'>
+Apple A12X Bionic
+</div>
+</td>
+<td class='score'>
+16057
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:21%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-9th-generation'>
+iPad (9th generation)
+</a>
+<div class='description'>
+Apple A13 Bionic
+</div>
+</td>
+<td class='score'>
+13649
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:18%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-11-pro-max'>
+iPhone 11 Pro Max
+</a>
+<div class='description'>
+Apple A13 Bionic
+</div>
+</td>
+<td class='score'>
+13590
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:18%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-11-pro'>
+iPhone 11 Pro
+</a>
+<div class='description'>
+Apple A13 Bionic
+</div>
+</td>
+<td class='score'>
+13520
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:18%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-11'>
+iPhone 11
+</a>
+<div class='description'>
+Apple A13 Bionic
+</div>
+</td>
+<td class='score'>
+13434
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:18%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/iphone-se-2nd-generation'>
+iPhone SE (2nd generation)
+</a>
+<div class='description'>
+Apple A13 Bionic
+</div>
+</td>
+<td class='score'>
+12746
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:17%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-air-3rd-generation'>
+iPad Air (3rd generation)
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+9681
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:13%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-mini-5th-generation'>
+iPad mini (5th generation)
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+9357
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:12%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-8th-generation'>
+iPad (8th generation)
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+9159
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:12%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro-105"></div>
+<a href='/ios_devices/ipad-pro-10-5-inch'>
+iPad Pro (10.5-inch)
+</a>
+<div class='description'>
+Apple A10X Fusion
+</div>
+</td>
+<td class='score'>
+8346
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:11%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-xs-max"></div>
+<a href='/ios_devices/iphone-xs-max'>
+iPhone XS Max
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+8279
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:11%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-xs"></div>
+<a href='/ios_devices/iphone-xs'>
+iPhone XS
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+8243
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:11%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-xr"></div>
+<a href='/ios_devices/iphone-xr'>
+iPhone XR
+</a>
+<div class='description'>
+Apple A12 Bionic
+</div>
+</td>
+<td class='score'>
+8232
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:11%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro-129-mid-2017"></div>
+<a href='/ios_devices/ipad-pro-12-9-inch-2nd-generation'>
+iPad Pro (12.9-inch 2nd Generation)
+</a>
+<div class='description'>
+Apple A10X Fusion
+</div>
+</td>
+<td class='score'>
+8090
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:10%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro"></div>
+<a href='/ios_devices/ipad-pro-12-9-inch'>
+iPad Pro (12.9-inch)
+</a>
+<div class='description'>
+Apple A9X
+</div>
+</td>
+<td class='score'>
+5835
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:7%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-pro-97"></div>
+<a href='/ios_devices/ipad-pro-9-7-inch'>
+iPad Pro (9.7-inch)
+</a>
+<div class='description'>
+Apple A9X
+</div>
+</td>
+<td class='score'>
+5675
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:7%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-8-plus"></div>
+<a href='/ios_devices/iphone-8-plus'>
+iPhone 8 Plus
+</a>
+<div class='description'>
+Apple A11 Bionic
+</div>
+</td>
+<td class='score'>
+5308
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:7%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-x-space-gray"></div>
+<a href='/ios_devices/iphone-x'>
+iPhone X
+</a>
+<div class='description'>
+Apple A11 Bionic
+</div>
+</td>
+<td class='score'>
+5165
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:6%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-8"></div>
+<a href='/ios_devices/iphone-8'>
+iPhone 8
+</a>
+<div class='description'>
+Apple A11 Bionic
+</div>
+</td>
+<td class='score'>
+4763
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:6%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-6th-generation'>
+iPad (6th generation)
+</a>
+<div class='description'>
+Apple A10 Fusion
+</div>
+</td>
+<td class='score'>
+4299
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:5%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-7th-generation'>
+iPad (7th generation)
+</a>
+<div class='description'>
+Apple A10 Fusion
+</div>
+</td>
+<td class='score'>
+4193
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:5%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-7-plus"></div>
+<a href='/ios_devices/iphone-7-plus'>
+iPhone 7 Plus
+</a>
+<div class='description'>
+Apple A10 Fusion
+</div>
+</td>
+<td class='score'>
+3811
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:5%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-7"></div>
+<a href='/ios_devices/iphone-7'>
+iPhone 7
+</a>
+<div class='description'>
+Apple A10 Fusion
+</div>
+</td>
+<td class='score'>
+3719
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:4%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipad-5th-generation'>
+iPad (5th generation)
+</a>
+<div class='description'>
+Apple A9
+</div>
+</td>
+<td class='score'>
+3088
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:4%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-6s-plus-silver"></div>
+<a href='/ios_devices/iphone-6s-plus'>
+iPhone 6s Plus
+</a>
+<div class='description'>
+Apple A9
+</div>
+</td>
+<td class='score'>
+2857
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:3%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon apple"></div>
+<a href='/ios_devices/ipod-7th-generation'>
+iPod (7th generation)
+</a>
+<div class='description'>
+Apple A10 Fusion
+</div>
+</td>
+<td class='score'>
+2826
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:3%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-6s-silver"></div>
+<a href='/ios_devices/iphone-6s'>
+iPhone 6s
+</a>
+<div class='description'>
+Apple A9
+</div>
+</td>
+<td class='score'>
+2794
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:3%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon iphone-se"></div>
+<a href='/ios_devices/iphone-se'>
+iPhone SE
+</a>
+<div class='description'>
+Apple A9
+</div>
+</td>
+<td class='score'>
+2773
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:3%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-air-2-gold"></div>
+<a href='/ios_devices/ipad-air-2'>
+iPad Air 2
+</a>
+<div class='description'>
+Apple A8X
+</div>
+</td>
+<td class='score'>
+761
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:1%'>
+&nbsp;
+</div>
+</td>
+</tr>
+<tr>
+<td class='name'>
+<div class="device-icon ipad-mini-4"></div>
+<a href='/ios_devices/ipad-mini-4'>
+iPad mini 4
+</a>
+<div class='description'>
+Apple A8
+</div>
+</td>
+<td class='score'>
+551
+</td>
+<td class='graph'>
+<div class='benchmark-bar' style='width:0%'>
+&nbsp;
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+</div>
+</div>
+
+
+</div>
+<div class='secondary clearfix col-lg-3'>
+<div class='sidebar-nav'>
+<ul class='geekbench-nav nav flex-column'>
+<li class='nav-header'>Compare</li>
+<li><a href="/android-benchmarks">Android Benchmarks</a></li>
+<li><a href="/ios-benchmarks">iOS Benchmarks</a></li>
+<li><a href="/mac-benchmarks">Mac Benchmarks</a></li>
+<li><a href="/processor-benchmarks">Processor Benchmarks</a></li>
+</ul>
+<div style='padding-bottom:1em;'>
+<a href='https://apps.apple.com/us/app/geekbench-6/id1565728895'>
+<img alt='Download on the App Store' src='https://browser.geekbench.com/assets/appstore-a26fc5b38380272c92e9019a2eb8b45542a66814b3e2b203772db8904b9fb99f.svg'>
+</a>
+</div>
+</div>
+
+
+<a href="https://www.geekbench.com?utm_source=browser&utm_medium=banner&utm_campaign=rosedale">
+<img style="width: 255px;" src="https://browser.geekbench.com/assets/ads/rosedale-255x600@2x-e3a672ca7f22dce2233c859bb4ea4541a878feb2a73fb8803a8b217a24bf1eca.jpg" alt="Geekbench 6 now available" />
+</a>
+
+</div>
+</div>
+</div>
+<footer class='footer'>
+<div class='container'>
+<div class='row'>
+<div class='col-6 col-sm-6 col-md-3 col-lg-2'>
+<h6>Products</h6>
+<ul>
+<li>
+<a href='https://www.geekbench.com/'>Geekbench 6</a>
+</li>
+<li>
+<a href='https://www.geekbench.com/ai/'>Geekbench AI</a>
+</li>
+<li>
+<a href='https://www.voodoopad.com/'>VoodooPad</a>
+</li>
+</ul>
+</div>
+<div class='col-6 col-sm-6 col-md-3 col-lg-2'>
+<h6>Support</h6>
+<ul>
+<li>
+<a href='http://support.primatelabs.com/kb'>Knowledge Base</a>
+</li>
+<li>
+<a href='https://store.primatelabs.com/store/lost_license/'>Lost License</a>
+</li>
+<li>
+<a href='https://www.primatelabs.com/contact/'>Contact</a>
+</li>
+<li>
+<a href='https://www.primatelabs.com/legal/privacy.html'>Privacy Policy</a>
+</li>
+<li>
+<a href='https://www.primatelabs.com/legal/terms-of-use.html'>Terms of Use</a>
+</li>
+</ul>
+</div>
+<div class='col-6 col-sm-6 col-md-3 col-lg-2'>
+<h6>News &amp; Social</h6>
+<ul>
+<li>
+<a href='http://www.primatelabs.com/blog/'>Blog</a>
+</li>
+<li>
+<a href='https://mastodon.social/@geekbench'>Mastodon</a>
+</li>
+<li>
+<a href='https://discord.gg/KCQ7tWh'>Discord</a>
+</li>
+<li>
+<a href='https://www.instagram.com/primatelabs/'>Instagram</a>
+</li>
+<li>
+<a href='https://www.youtube.com/channel/UCAr1oShRa70bzaEYwvyLWig/feed'>YouTube</a>
+</li>
+</ul>
+</div>
+<div class='col-6 col-sm-6 col-md-3 col-lg-2'>
+<h6>Company</h6>
+<ul>
+<li>
+<a href='https://www.primatelabs.com/contact/'>Corporate</a>
+</li>
+<li>
+<a href='https://www.primatelabs.com/careers/'>Careers</a>
+</li>
+<li>
+<a href='https://www.primatelabs.com/contact/'>Media</a>
+</li>
+</ul>
+</div>
+<div class='col-12 col-lg-4 order-lg-first'>
+<p class='small'>
+<a href='https://www.primatelabs.com'>
+<img height="30" alt="Geekbench" src="/assets/geekbench-dark-db84d4a4c0d8883b5973004996df2e8601412332bbd0767bd35729010db4ebd3.svg" />
+</a>
+</p>
+<p>
+Copyright © 2004-2026 Primate Labs Inc.
+</p>
+</div>
+</div>
+<div class='row row-centered'>
+<div class='copyright col-12'></div>
+</div>
+</div>
+</footer>
+
+</body>
+</html>
