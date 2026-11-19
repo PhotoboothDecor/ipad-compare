@@ -1,0 +1,2647 @@
+{
+  "source": "https://firestore.googleapis.com/v1/projects/ipad-compare/databases/(default)/documents/geekbench_scores?pageSize=300",
+  "fetched": "2026-11-19",
+  "count": 129,
+  "documents": [
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (10th generation)",
+      "fields": {
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "multi_core_score": {
+          "integerValue": "4725"
+        },
+        "released": {
+          "stringValue": "2022"
+        },
+        "score": {
+          "integerValue": "4725"
+        },
+        "original_name": {
+          "stringValue": "iPad (10th generation)"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "single_core_score": {
+          "integerValue": "2051"
+        },
+        "description": {
+          "stringValue": "Apple A14 Bionic @ 3.1 GHz"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "name": {
+          "stringValue": "iPad (10th generation)"
+        },
+        "cpu": {
+          "stringValue": "A14 Bionic"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (10th)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 16.1"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (11th generation)",
+      "fields": {
+        "cpu": {
+          "stringValue": "A16 Bionic"
+        },
+        "score": {
+          "integerValue": "6063"
+        },
+        "name": {
+          "stringValue": "iPad (11th generation)"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "multi_core_score": {
+          "integerValue": "6063"
+        },
+        "original_name": {
+          "stringValue": "iPad (11th generation)"
+        },
+        "released": {
+          "stringValue": "2025"
+        },
+        "description": {
+          "stringValue": "Apple A16 @ 3.4 GHz"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "single_core_score": {
+          "integerValue": "2598"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (11th)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 18.3.1"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (1st generation)",
+      "fields": {
+        "cpu": {
+          "stringValue": "A4"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "released": {
+          "stringValue": "2010"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-23T01:23:40.777950Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (1st)",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "max_os": {
+          "stringValue": "iOS 5.1.1"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (3rd generation)",
+      "fields": {
+        "released": {
+          "stringValue": "2012"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "cpu": {
+          "stringValue": "A5X"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-23T01:23:40.777950Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (3rd)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iOS 5.1"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (4th generation)",
+      "fields": {
+        "cpu": {
+          "stringValue": "A6X"
+        },
+        "released": {
+          "stringValue": "2012"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-23T01:23:40.777950Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (4th)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iOS 10.3.3iOS 10.3.4"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (5th generation)",
+      "fields": {
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "score": {
+          "integerValue": "976"
+        },
+        "original_name": {
+          "stringValue": "iPad (5th generation)"
+        },
+        "released": {
+          "stringValue": "2017"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "name": {
+          "stringValue": "iPad (5th generation)"
+        },
+        "multi_core_score": {
+          "integerValue": "976"
+        },
+        "cpu": {
+          "stringValue": "A9"
+        },
+        "single_core_score": {
+          "integerValue": "632"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "description": {
+          "stringValue": "Apple A9 @ 1.8 GHz"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (5th)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 16.7.15"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (6th generation)",
+      "fields": {
+        "score": {
+          "integerValue": "1133"
+        },
+        "name": {
+          "stringValue": "iPad (6th generation)"
+        },
+        "single_core_score": {
+          "integerValue": "829"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "description": {
+          "stringValue": "Apple A10 Fusion @ 2.3 GHz"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "multi_core_score": {
+          "integerValue": "1133"
+        },
+        "released": {
+          "stringValue": "2018"
+        },
+        "original_name": {
+          "stringValue": "iPad (6th generation)"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "cpu": {
+          "stringValue": "A10 Fusion"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (6th)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 17.7.10"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (7th generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "original_name": {
+          "stringValue": "iPad (7th generation)"
+        },
+        "single_core_score": {
+          "integerValue": "859"
+        },
+        "released": {
+          "stringValue": "2019"
+        },
+        "cpu": {
+          "stringValue": "A10 Fusion"
+        },
+        "name": {
+          "stringValue": "iPad (7th generation)"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "multi_core_score": {
+          "integerValue": "1376"
+        },
+        "score": {
+          "integerValue": "1376"
+        },
+        "description": {
+          "stringValue": "Apple A10 Fusion @ 2.3 GHz"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (7th)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 18.7.7"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (8th generation)",
+      "fields": {
+        "cpu": {
+          "stringValue": "A12 Bionic"
+        },
+        "single_core_score": {
+          "integerValue": "1304"
+        },
+        "name": {
+          "stringValue": "iPad (8th generation)"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "released": {
+          "stringValue": "2020"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "multi_core_score": {
+          "integerValue": "2800"
+        },
+        "description": {
+          "stringValue": "Apple A12 Bionic @ 2.5 GHz"
+        },
+        "original_name": {
+          "stringValue": "iPad (8th generation)"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "score": {
+          "integerValue": "2800"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (8th)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest iPadOSiPadOS 26.4"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (9th generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "name": {
+          "stringValue": "iPad (9th generation)"
+        },
+        "description": {
+          "stringValue": "Apple A13 Bionic @ 2.7 GHz"
+        },
+        "cpu": {
+          "stringValue": "A13 Bionic"
+        },
+        "score": {
+          "integerValue": "3847"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "single_core_score": {
+          "integerValue": "1737"
+        },
+        "released": {
+          "stringValue": "2021"
+        },
+        "multi_core_score": {
+          "integerValue": "3847"
+        },
+        "original_name": {
+          "stringValue": "iPad (9th generation)"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad (9th)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 15.0"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad 2",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "released": {
+          "stringValue": "2011"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "cpu": {
+          "stringValue": "A5"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-23T01:23:40.777950Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air (1st generation)",
+      "fields": {
+        "released": {
+          "stringValue": "2013"
+        },
+        "cpu": {
+          "stringValue": "A7"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-23T01:23:40.777950Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air (1st)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iOS 12.5.7"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air (3rd generation)",
+      "fields": {
+        "released": {
+          "stringValue": "2019"
+        },
+        "original_name": {
+          "stringValue": "iPad Air (3rd generation)"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "score": {
+          "integerValue": "2944"
+        },
+        "cpu": {
+          "stringValue": "A12 Bionic"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "single_core_score": {
+          "integerValue": "1326"
+        },
+        "multi_core_score": {
+          "integerValue": "2944"
+        },
+        "name": {
+          "stringValue": "iPad Air (3rd generation)"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "description": {
+          "stringValue": "Apple A12 Bionic @ 2.5 GHz"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air (3rd)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest iPadOSiPadOS 26.4"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air (4th generation)",
+      "fields": {
+        "name": {
+          "stringValue": "iPad Air (4th generation)"
+        },
+        "multi_core_score": {
+          "integerValue": "4994"
+        },
+        "score": {
+          "integerValue": "4994"
+        },
+        "single_core_score": {
+          "integerValue": "2086"
+        },
+        "cpu": {
+          "stringValue": "A14 Bionic"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "description": {
+          "stringValue": "Apple A14 Bionic @ 3.0 GHz"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "released": {
+          "stringValue": "2020"
+        },
+        "original_name": {
+          "stringValue": "iPad Air (4th generation)"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air (4th)",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "max_os": {
+          "stringValue": "iPadOS 14.1"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air (5th generation)",
+      "fields": {
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "cpu": {
+          "stringValue": "M1"
+        },
+        "multi_core_score": {
+          "integerValue": "8299"
+        },
+        "original_name": {
+          "stringValue": "iPad Air (5th generation)"
+        },
+        "score": {
+          "integerValue": "8299"
+        },
+        "description": {
+          "stringValue": "Apple M1 @ 3.2 GHz"
+        },
+        "name": {
+          "stringValue": "iPad Air (5th generation)"
+        },
+        "released": {
+          "stringValue": "2022"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "single_core_score": {
+          "integerValue": "2300"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air (5th)",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "max_os": {
+          "stringValue": "iPadOS 15.4"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air (6th generation)",
+      "fields": {
+        "released": {
+          "stringValue": "2024"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "cpu": {
+          "stringValue": "M2"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2025-12-30T05:13:52.964712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air (6th)",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "max_os": {
+          "stringValue": "iPadOS 17.5"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air (7th generation)",
+      "fields": {
+        "released": {
+          "stringValue": "2025"
+        },
+        "cpu": {
+          "stringValue": "M3"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2025-12-30T05:13:52.964712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air (7th)",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "max_os": {
+          "stringValue": "iPadOS 18.3.1"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air (8th)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 26.3"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2026-03-03T01:21:41.763346Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air 11-inch (7th generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "name": {
+          "stringValue": "iPad Air 11-inch (7th generation)"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "single_core_score": {
+          "integerValue": "3050"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "original_name": {
+          "stringValue": "iPad Air 11-inch (7th generation)"
+        },
+        "description": {
+          "stringValue": "Apple M3 @ 4.1 GHz"
+        },
+        "score": {
+          "integerValue": "11699"
+        },
+        "multi_core_score": {
+          "integerValue": "11699"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-25T01:16:19.409520Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air 11-inch (M2)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "name": {
+          "stringValue": "iPad Air 11-inch (M2)"
+        },
+        "original_name": {
+          "stringValue": "iPad Air 11-inch (M2)"
+        },
+        "multi_core_score": {
+          "integerValue": "9835"
+        },
+        "score": {
+          "integerValue": "9835"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "description": {
+          "stringValue": "Apple M2 @ 3.5 GHz"
+        },
+        "single_core_score": {
+          "integerValue": "2598"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air 11-inch (M3)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2026-04-23T01:23:40.777950Z",
+      "updateTime": "2026-04-23T01:23:40.777950Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air 13-inch (7th generation)",
+      "fields": {
+        "score": {
+          "integerValue": "11691"
+        },
+        "name": {
+          "stringValue": "iPad Air 13-inch (7th generation)"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "description": {
+          "stringValue": "Apple M3 @ 4.1 GHz"
+        },
+        "original_name": {
+          "stringValue": "iPad Air 13-inch (7th generation)"
+        },
+        "multi_core_score": {
+          "integerValue": "11691"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "single_core_score": {
+          "integerValue": "3052"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-25T01:16:19.409520Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air 13-inch (M2)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "description": {
+          "stringValue": "Apple M2 @ 3.5 GHz"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "single_core_score": {
+          "integerValue": "2600"
+        },
+        "multi_core_score": {
+          "integerValue": "9855"
+        },
+        "name": {
+          "stringValue": "iPad Air 13-inch (M2)"
+        },
+        "original_name": {
+          "stringValue": "iPad Air 13-inch (M2)"
+        },
+        "score": {
+          "integerValue": "9855"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air 13-inch (M3)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2026-04-23T01:23:40.777950Z",
+      "updateTime": "2026-04-23T01:23:40.777950Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Air 2",
+      "fields": {
+        "description": {
+          "stringValue": "Apple A8X @ 1.5 GHz"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "single_core_score": {
+          "integerValue": "441"
+        },
+        "multi_core_score": {
+          "integerValue": "949"
+        },
+        "released": {
+          "stringValue": "2014"
+        },
+        "name": {
+          "stringValue": "iPad Air 2"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "cpu": {
+          "stringValue": "A8X"
+        },
+        "score": {
+          "integerValue": "949"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "original_name": {
+          "stringValue": "iPad Air 2"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Mini (1st generation)",
+      "fields": {
+        "cpu": {
+          "stringValue": "A5"
+        },
+        "released": {
+          "stringValue": "2012"
+        },
+        "max_os": {
+          "stringValue": "iOS 9.3.6"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2025-12-30T05:13:52.964712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Mini (1st)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iOS 9.3.5iOS 9.3.6"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Mini (5th generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "cpu": {
+          "stringValue": "A12 Bionic"
+        },
+        "released": {
+          "stringValue": "2019"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2025-12-30T05:13:52.964712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Mini (5th)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest iPadOSiPadOS 26.4"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Mini (6th generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "cpu": {
+          "stringValue": "A15 Bionic"
+        },
+        "released": {
+          "stringValue": "2021"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2025-12-30T05:13:52.964712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Mini (6th)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 15.0"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Mini (7th generation)",
+      "fields": {
+        "released": {
+          "stringValue": "2024"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "cpu": {
+          "stringValue": "A17 Pro"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2025-12-30T05:13:52.964712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Mini (7th)",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "max_os": {
+          "stringValue": "iPadOS 18.0.1"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Mini 2",
+      "fields": {
+        "max_os": {
+          "stringValue": "iOS 12.5.8"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "released": {
+          "stringValue": "2013"
+        },
+        "cpu": {
+          "stringValue": "A7"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Mini 3",
+      "fields": {
+        "cpu": {
+          "stringValue": "A7"
+        },
+        "max_os": {
+          "stringValue": "iOS 8.1"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "released": {
+          "stringValue": "2014"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Mini 4",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "max_os": {
+          "stringValue": "iPadOS 15.8.7"
+        },
+        "released": {
+          "stringValue": "2015"
+        },
+        "cpu": {
+          "stringValue": "A8"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (10.5-inch)",
+      "fields": {
+        "multi_core_score": {
+          "integerValue": "2208"
+        },
+        "description": {
+          "stringValue": "Apple A10X Fusion @ 2.3 GHz"
+        },
+        "last_updated": {
+          "timestampValue": "2025-12-30T03:39:05.876Z"
+        },
+        "name": {
+          "stringValue": "iPad Pro (10.5-inch)"
+        },
+        "single_core_score": {
+          "integerValue": "940"
+        },
+        "score": {
+          "integerValue": "2208"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2025-12-30T03:39:06.399427Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (11-inch 3rd generation)",
+      "fields": {
+        "single_core_score": {
+          "integerValue": "2310"
+        },
+        "description": {
+          "stringValue": "Apple M1 @ 3.2 GHz"
+        },
+        "name": {
+          "stringValue": "iPad Pro (11-inch 3rd generation)"
+        },
+        "last_updated": {
+          "timestampValue": "2025-12-30T03:39:05.876Z"
+        },
+        "multi_core_score": {
+          "integerValue": "8340"
+        },
+        "score": {
+          "integerValue": "8340"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2025-12-30T03:39:06.399427Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (11-inch)",
+      "fields": {
+        "original_name": {
+          "stringValue": "iPad Pro (11-inch)"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "name": {
+          "stringValue": "iPad Pro (11-inch)"
+        },
+        "score": {
+          "integerValue": "4577"
+        },
+        "multi_core_score": {
+          "integerValue": "4577"
+        },
+        "single_core_score": {
+          "integerValue": "1328"
+        },
+        "description": {
+          "stringValue": "Apple A12X Bionic @ 2.5 GHz"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-25T01:16:19.409520Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (11-inch, 4th generation)",
+      "fields": {
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "original_name": {
+          "stringValue": "iPad Pro (11-inch, 4th generation)"
+        },
+        "score": {
+          "integerValue": "9812"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "multi_core_score": {
+          "integerValue": "9812"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "name": {
+          "stringValue": "iPad Pro (11-inch, 4th generation)"
+        },
+        "single_core_score": {
+          "integerValue": "2583"
+        },
+        "description": {
+          "stringValue": "Apple M2 @ 3.5 GHz"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-25T01:16:19.409520Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (12.9-inch 2nd Generation)",
+      "fields": {
+        "description": {
+          "stringValue": "Apple A10X Fusion @ 2.3 GHz"
+        },
+        "multi_core_score": {
+          "integerValue": "2256"
+        },
+        "score": {
+          "integerValue": "2256"
+        },
+        "single_core_score": {
+          "integerValue": "929"
+        },
+        "name": {
+          "stringValue": "iPad Pro (12.9-inch 2nd Generation)"
+        },
+        "last_updated": {
+          "timestampValue": "2025-12-30T03:39:05.876Z"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2025-12-30T03:39:06.399427Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (12.9-inch 3rd Generation)",
+      "fields": {
+        "score": {
+          "integerValue": "4465"
+        },
+        "name": {
+          "stringValue": "iPad Pro (12.9-inch 3rd Generation)"
+        },
+        "last_updated": {
+          "timestampValue": "2025-12-30T03:39:05.876Z"
+        },
+        "description": {
+          "stringValue": "Apple A12X Bionic @ 2.5 GHz"
+        },
+        "single_core_score": {
+          "integerValue": "1325"
+        },
+        "multi_core_score": {
+          "integerValue": "4465"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2025-12-30T03:39:06.399427Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (12.9-inch 5th generation)",
+      "fields": {
+        "score": {
+          "integerValue": "8383"
+        },
+        "last_updated": {
+          "timestampValue": "2025-12-30T03:39:05.876Z"
+        },
+        "multi_core_score": {
+          "integerValue": "8383"
+        },
+        "name": {
+          "stringValue": "iPad Pro (12.9-inch 5th generation)"
+        },
+        "description": {
+          "stringValue": "Apple M1 @ 3.2 GHz"
+        },
+        "single_core_score": {
+          "integerValue": "2312"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2025-12-30T03:39:06.399427Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (12.9-inch)",
+      "fields": {
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "description": {
+          "stringValue": "Apple A9X @ 2.3 GHz"
+        },
+        "name": {
+          "stringValue": "iPad Pro (12.9-inch)"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "original_name": {
+          "stringValue": "iPad Pro (12.9-inch)"
+        },
+        "score": {
+          "integerValue": "1248"
+        },
+        "multi_core_score": {
+          "integerValue": "1248"
+        },
+        "single_core_score": {
+          "integerValue": "749"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-25T01:16:19.409520Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (12.9-inch, 6th generation)",
+      "fields": {
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "original_name": {
+          "stringValue": "iPad Pro (12.9-inch, 6th generation)"
+        },
+        "single_core_score": {
+          "integerValue": "2606"
+        },
+        "multi_core_score": {
+          "integerValue": "9894"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "description": {
+          "stringValue": "Apple M2 @ 3.5 GHz"
+        },
+        "name": {
+          "stringValue": "iPad Pro (12.9-inch, 6th generation)"
+        },
+        "score": {
+          "integerValue": "9894"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-25T01:16:19.409520Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (1st generation) 12.9-inch",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 16.7.12"
+        }
+      },
+      "createTime": "2025-12-30T05:13:52.964712Z",
+      "updateTime": "2025-12-30T05:13:52.964712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (1st generation) 9.7-inch",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 16.7.12"
+        }
+      },
+      "createTime": "2025-12-30T05:13:52.964712Z",
+      "updateTime": "2025-12-30T05:13:52.964712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (1st) 12.9-inch",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 16.7.15"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (1st) 9.7-inch",
+      "fields": {
+        "max_os": {
+          "stringValue": "iOS 9.3"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (2nd generation) 10.5-inch",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 17.7.10"
+        }
+      },
+      "createTime": "2025-12-30T05:13:52.964712Z",
+      "updateTime": "2025-12-30T05:13:52.964712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (2nd generation) 12.9-inch",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 17.7.10"
+        }
+      },
+      "createTime": "2025-12-30T05:13:52.964712Z",
+      "updateTime": "2025-12-30T05:13:52.964712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (2nd)",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "max_os": {
+          "stringValue": "iPadOS 17.7.10"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (3rd generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2025-12-30T05:13:52.964712Z",
+      "updateTime": "2025-12-30T05:13:52.964712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (3rd)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest iPadOSiPadOS 26.4"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (4th generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2025-12-30T05:13:52.964712Z",
+      "updateTime": "2025-12-30T05:13:52.964712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (4th)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 13.4"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (5th generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2025-12-30T05:13:52.964712Z",
+      "updateTime": "2025-12-30T05:13:52.964712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (5th)",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "max_os": {
+          "stringValue": "iPadOS 14.5"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (6th generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2025-12-30T05:13:52.964712Z",
+      "updateTime": "2025-12-30T05:13:52.964712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (6th)",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "max_os": {
+          "stringValue": "iPadOS 16.1"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (7th generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2025-12-30T05:13:52.964712Z",
+      "updateTime": "2025-12-30T05:13:52.964712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (7th)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 17.5"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (8th)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 26.0.1"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro (9.7-inch)",
+      "fields": {
+        "last_updated": {
+          "timestampValue": "2025-12-30T03:39:05.876Z"
+        },
+        "single_core_score": {
+          "integerValue": "739"
+        },
+        "multi_core_score": {
+          "integerValue": "1098"
+        },
+        "name": {
+          "stringValue": "iPad Pro (9.7-inch)"
+        },
+        "description": {
+          "stringValue": "Apple A9X @ 2.3 GHz"
+        },
+        "score": {
+          "integerValue": "1098"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2025-12-30T03:39:06.399427Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 10.5-inch",
+      "fields": {
+        "released": {
+          "stringValue": "2017"
+        },
+        "score": {
+          "integerValue": "2211"
+        },
+        "multi_core_score": {
+          "integerValue": "2211"
+        },
+        "cpu": {
+          "stringValue": "A10X Fusion"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "name": {
+          "stringValue": "iPad Pro 10.5-inch"
+        },
+        "single_core_score": {
+          "integerValue": "941"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "original_name": {
+          "stringValue": "iPad Pro (10.5-inch)"
+        },
+        "description": {
+          "stringValue": "Apple A10X Fusion @ 2.3 GHz"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 11-inch (1st generation)",
+      "fields": {
+        "cpu": {
+          "stringValue": "A12X Bionic"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "released": {
+          "stringValue": "2018"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-23T01:23:40.777950Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 11-inch (2nd generation)",
+      "fields": {
+        "released": {
+          "stringValue": "2020"
+        },
+        "multi_core_score": {
+          "integerValue": "4651"
+        },
+        "score": {
+          "integerValue": "4651"
+        },
+        "original_name": {
+          "stringValue": "iPad Pro 11-inch (2nd generation)"
+        },
+        "description": {
+          "stringValue": "Apple A12Z Bionic @ 2.5 GHz"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "name": {
+          "stringValue": "iPad Pro 11-inch (2nd generation)"
+        },
+        "single_core_score": {
+          "integerValue": "1331"
+        },
+        "cpu": {
+          "stringValue": "A12Z Bionic"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 11-inch (3rd generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "cpu": {
+          "stringValue": "M1"
+        },
+        "name": {
+          "stringValue": "iPad Pro 11-inch (3rd generation)"
+        },
+        "description": {
+          "stringValue": "Apple M1 @ 3.2 GHz"
+        },
+        "original_name": {
+          "stringValue": "iPad Pro (11-inch 3rd generation)"
+        },
+        "released": {
+          "stringValue": "2021"
+        },
+        "multi_core_score": {
+          "integerValue": "8352"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "single_core_score": {
+          "integerValue": "2314"
+        },
+        "score": {
+          "integerValue": "8352"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 11-inch (4th generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "released": {
+          "stringValue": "2022"
+        },
+        "cpu": {
+          "stringValue": "M2"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-23T01:23:40.777950Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 11-inch (5th generation)",
+      "fields": {
+        "released": {
+          "stringValue": "2024"
+        },
+        "cpu": {
+          "stringValue": "M4"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2025-12-30T04:44:42.283392Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 11-inch (6th generation)",
+      "fields": {
+        "cpu": {
+          "stringValue": "M5"
+        },
+        "released": {
+          "stringValue": "2025"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2025-12-30T04:44:42.283392Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 11-inch (M4)",
+      "fields": {
+        "multi_core_score": {
+          "integerValue": "13578"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "name": {
+          "stringValue": "iPad Pro 11-inch (M4)"
+        },
+        "description": {
+          "stringValue": "Apple M4 @ 4.4 GHz"
+        },
+        "original_name": {
+          "stringValue": "iPad Pro 11-inch (M4)"
+        },
+        "single_core_score": {
+          "integerValue": "3681"
+        },
+        "score": {
+          "integerValue": "13578"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 11-inch (M5)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "description": {
+          "stringValue": "Apple M5 @ 4.4 GHz"
+        },
+        "name": {
+          "stringValue": "iPad Pro 11-inch (M5)"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "multi_core_score": {
+          "integerValue": "15544"
+        },
+        "score": {
+          "integerValue": "15544"
+        },
+        "single_core_score": {
+          "integerValue": "4137"
+        },
+        "original_name": {
+          "stringValue": "iPad Pro 11-inch (M5)"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        }
+      },
+      "createTime": "2026-02-22T01:21:29.933351Z",
+      "updateTime": "2026-04-25T01:16:19.409520Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 12.9-inch (1st generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "cpu": {
+          "stringValue": "A9X"
+        },
+        "released": {
+          "stringValue": "2015"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-23T01:23:40.777950Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 12.9-inch (2nd generation)",
+      "fields": {
+        "score": {
+          "integerValue": "2261"
+        },
+        "multi_core_score": {
+          "integerValue": "2261"
+        },
+        "name": {
+          "stringValue": "iPad Pro 12.9-inch (2nd generation)"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "description": {
+          "stringValue": "Apple A10X Fusion @ 2.3 GHz"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "single_core_score": {
+          "integerValue": "931"
+        },
+        "cpu": {
+          "stringValue": "A10X Fusion"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "original_name": {
+          "stringValue": "iPad Pro (12.9-inch 2nd Generation)"
+        },
+        "released": {
+          "stringValue": "2017"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 12.9-inch (3rd generation)",
+      "fields": {
+        "description": {
+          "stringValue": "Apple A12X Bionic @ 2.5 GHz"
+        },
+        "multi_core_score": {
+          "integerValue": "4475"
+        },
+        "original_name": {
+          "stringValue": "iPad Pro (12.9-inch 3rd Generation)"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "released": {
+          "stringValue": "2018"
+        },
+        "single_core_score": {
+          "integerValue": "1326"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "name": {
+          "stringValue": "iPad Pro 12.9-inch (3rd generation)"
+        },
+        "cpu": {
+          "stringValue": "A12X Bionic"
+        },
+        "score": {
+          "integerValue": "4475"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 12.9-inch (4th generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "description": {
+          "stringValue": "Apple A12Z Bionic @ 2.5 GHz"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "original_name": {
+          "stringValue": "iPad Pro 12.9-inch (4th generation)"
+        },
+        "cpu": {
+          "stringValue": "A12Z Bionic"
+        },
+        "name": {
+          "stringValue": "iPad Pro 12.9-inch (4th generation)"
+        },
+        "released": {
+          "stringValue": "2020"
+        },
+        "score": {
+          "integerValue": "4669"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "single_core_score": {
+          "integerValue": "1339"
+        },
+        "multi_core_score": {
+          "integerValue": "4669"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 12.9-inch (5th generation)",
+      "fields": {
+        "name": {
+          "stringValue": "iPad Pro 12.9-inch (5th generation)"
+        },
+        "description": {
+          "stringValue": "Apple M1 @ 3.2 GHz"
+        },
+        "multi_core_score": {
+          "integerValue": "8399"
+        },
+        "released": {
+          "stringValue": "2021"
+        },
+        "score": {
+          "integerValue": "8399"
+        },
+        "single_core_score": {
+          "integerValue": "2317"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "original_name": {
+          "stringValue": "iPad Pro (12.9-inch 5th generation)"
+        },
+        "cpu": {
+          "stringValue": "M1"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 12.9-inch (6th generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "cpu": {
+          "stringValue": "M2"
+        },
+        "released": {
+          "stringValue": "2022"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-23T01:23:40.777950Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 13-inch",
+      "fields": {
+        "released": {
+          "stringValue": "2024"
+        },
+        "cpu": {
+          "stringValue": "M4"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2025-12-30T04:44:42.283392Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 13-inch (2nd generation)",
+      "fields": {
+        "cpu": {
+          "stringValue": "M5"
+        },
+        "released": {
+          "stringValue": "2025"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2025-12-30T04:44:42.283392Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 13-inch (M4)",
+      "fields": {
+        "original_name": {
+          "stringValue": "iPad Pro 13-inch (M4)"
+        },
+        "multi_core_score": {
+          "integerValue": "13818"
+        },
+        "score": {
+          "integerValue": "13818"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "single_core_score": {
+          "integerValue": "3706"
+        },
+        "name": {
+          "stringValue": "iPad Pro 13-inch (M4)"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "description": {
+          "stringValue": "Apple M4 @ 4.4 GHz"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 13-inch (M5)",
+      "fields": {
+        "single_core_score": {
+          "integerValue": "4144"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "description": {
+          "stringValue": "Apple M5 @ 4.4 GHz"
+        },
+        "multi_core_score": {
+          "integerValue": "15703"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "score": {
+          "integerValue": "15703"
+        },
+        "name": {
+          "stringValue": "iPad Pro 13-inch (M5)"
+        },
+        "original_name": {
+          "stringValue": "iPad Pro 13-inch (M5)"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        }
+      },
+      "createTime": "2026-02-22T01:21:29.933351Z",
+      "updateTime": "2026-04-25T01:16:19.409520Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad Pro 9.7-inch",
+      "fields": {
+        "released": {
+          "stringValue": "2016"
+        },
+        "multi_core_score": {
+          "integerValue": "1099"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "cpu": {
+          "stringValue": "A9X"
+        },
+        "single_core_score": {
+          "integerValue": "739"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "name": {
+          "stringValue": "iPad Pro 9.7-inch"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "original_name": {
+          "stringValue": "iPad Pro (9.7-inch)"
+        },
+        "score": {
+          "integerValue": "1099"
+        },
+        "description": {
+          "stringValue": "Apple A9X @ 2.3 GHz"
+        }
+      },
+      "createTime": "2025-12-30T04:44:42.283392Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad mini (1st generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2026-04-23T01:23:40.777950Z",
+      "updateTime": "2026-04-23T01:23:40.777950Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad mini (5th generation)",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "multi_core_score": {
+          "integerValue": "2878"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "name": {
+          "stringValue": "iPad mini (5th generation)"
+        },
+        "score": {
+          "integerValue": "2878"
+        },
+        "original_name": {
+          "stringValue": "iPad mini (5th generation)"
+        },
+        "single_core_score": {
+          "integerValue": "1320"
+        },
+        "description": {
+          "stringValue": "Apple A12 Bionic @ 2.5 GHz"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad mini (6th generation)",
+      "fields": {
+        "single_core_score": {
+          "integerValue": "2128"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "original_name": {
+          "stringValue": "iPad mini (6th generation)"
+        },
+        "multi_core_score": {
+          "integerValue": "5363"
+        },
+        "name": {
+          "stringValue": "iPad mini (6th generation)"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "description": {
+          "stringValue": "Apple A15 Bionic @ 2.9 GHz"
+        },
+        "score": {
+          "integerValue": "5363"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad mini (7th generation)",
+      "fields": {
+        "multi_core_score": {
+          "integerValue": "7228"
+        },
+        "single_core_score": {
+          "integerValue": "2909"
+        },
+        "name": {
+          "stringValue": "iPad mini (7th generation)"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-02T01:26:33.619Z"
+        },
+        "description": {
+          "stringValue": "Apple A17 Pro @ 3.8 GHz"
+        },
+        "original_name": {
+          "stringValue": "iPad mini (7th generation)"
+        },
+        "score": {
+          "integerValue": "7228"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-02T01:26:33.702147Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad mini (A17 Pro)",
+      "fields": {
+        "multi_core_score": {
+          "integerValue": "7233"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "name": {
+          "stringValue": "iPad mini (A17 Pro)"
+        },
+        "description": {
+          "stringValue": "Apple A17 Pro @ 3.8 GHz"
+        },
+        "original_name": {
+          "stringValue": "iPad mini (7th generation)"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "score": {
+          "integerValue": "7233"
+        },
+        "single_core_score": {
+          "integerValue": "2910"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        }
+      },
+      "createTime": "2026-04-23T01:23:40.777950Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad mini 2",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2026-04-23T01:23:40.777950Z",
+      "updateTime": "2026-04-23T01:23:40.777950Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad mini 3",
+      "fields": {
+        "max_os": {
+          "stringValue": "Latest"
+        }
+      },
+      "createTime": "2026-04-23T01:23:40.777950Z",
+      "updateTime": "2026-04-23T01:23:40.777950Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPad mini 4",
+      "fields": {
+        "single_core_score": {
+          "integerValue": "413"
+        },
+        "original_name": {
+          "stringValue": "iPad mini 4"
+        },
+        "geekbench_version": {
+          "integerValue": "6"
+        },
+        "max_os": {
+          "stringValue": "Latest"
+        },
+        "description": {
+          "stringValue": "Apple A8 @ 1.5 GHz"
+        },
+        "multi_core_score": {
+          "integerValue": "603"
+        },
+        "last_updated": {
+          "timestampValue": "2026-04-24T01:23:05.274Z"
+        },
+        "name": {
+          "stringValue": "iPad mini 4"
+        },
+        "score": {
+          "integerValue": "603"
+        }
+      },
+      "createTime": "2025-12-30T03:39:06.399427Z",
+      "updateTime": "2026-04-24T01:23:05.361502Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 13.1",
+      "fields": {
+        "max_os": {
+          "stringValue": "iOS 10.3"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 15.8.5",
+      "fields": {
+        "max_os": {
+          "stringValue": "iOS 12.5.7"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-01-27T01:11:05.534Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-01-27T01:11:05.571184Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 15.8.6",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-03-11T01:15:12.023Z"
+        },
+        "max_os": {
+          "stringValue": "iOS 12.5.8"
+        }
+      },
+      "createTime": "2026-01-28T01:07:21.975400Z",
+      "updateTime": "2026-03-11T01:15:12.109934Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 15.8.7",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "max_os": {
+          "stringValue": "iOS 12.5.8"
+        }
+      },
+      "createTime": "2026-03-12T01:14:35.190288Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 17.7.10",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 16.7.15"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 18.0.1",
+      "fields": {
+        "max_os": {
+          "stringValue": "iOS 12.2"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 18.3.1",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 14.0"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 18.7.2",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-01-27T01:11:05.534Z"
+        },
+        "max_os": {
+          "stringValue": "iPadOS 16.7.12"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-01-27T01:11:05.571184Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 18.7.4",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 16.7.15"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-03-16T01:29:04.003Z"
+        }
+      },
+      "createTime": "2026-01-28T01:07:21.975400Z",
+      "updateTime": "2026-03-16T01:29:04.058065Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 18.7.5",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-03-24T01:18:13.720Z"
+        },
+        "max_os": {
+          "stringValue": "iPadOS 16.7.15"
+        }
+      },
+      "createTime": "2026-02-12T01:22:41.995746Z",
+      "updateTime": "2026-03-24T01:18:13.837712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 18.7.7",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "max_os": {
+          "stringValue": "iPadOS 16.7.15"
+        }
+      },
+      "createTime": "2026-03-25T01:22:45.918324Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 26.0.1",
+      "fields": {
+        "max_os": {
+          "stringValue": "iOS 12.1"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 26.2",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 26.2"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-01-27T01:11:05.534Z"
+        }
+      },
+      "createTime": "2025-12-30T05:34:10.274680Z",
+      "updateTime": "2026-01-27T01:11:05.571184Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 26.2.1",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-02-18T01:23:15.844Z"
+        },
+        "max_os": {
+          "stringValue": "iPadOS 26.2.1"
+        }
+      },
+      "createTime": "2026-01-28T01:07:21.975400Z",
+      "updateTime": "2026-02-18T01:23:15.891766Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 26.3",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        },
+        "max_os": {
+          "stringValue": "iOS 12.2"
+        }
+      },
+      "createTime": "2026-02-19T01:22:10.058063Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 26.3.1",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 26.3.1"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-03-18T01:24:19.880Z"
+        }
+      },
+      "createTime": "2026-03-08T01:20:42.103736Z",
+      "updateTime": "2026-03-18T01:24:19.938575Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 26.3.1 (a)",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 26.3.1 (a)"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-03-24T01:18:13.720Z"
+        }
+      },
+      "createTime": "2026-03-19T01:24:31.194733Z",
+      "updateTime": "2026-03-24T01:18:13.837712Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/iPadOS 26.4",
+      "fields": {
+        "max_os": {
+          "stringValue": "iPadOS 26.4"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-04-02T01:26:37.599Z"
+        }
+      },
+      "createTime": "2026-03-25T01:22:45.918324Z",
+      "updateTime": "2026-04-02T01:26:37.691958Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/‹The template Current iPadOS 15 is being considered for deletion.› \niPadOS 15.8.7",
+      "fields": {
+        "max_os": {
+          "stringValue": "‹The template Current iOS 12 is being considered for deletion.› \niOS 12.5.8"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-03-18T01:24:19.880Z"
+        }
+      },
+      "createTime": "2026-03-15T01:29:56.404353Z",
+      "updateTime": "2026-03-18T01:24:19.938575Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/‹The template Current iPadOS 17 is being considered for deletion.› \niPadOS 17.7.10",
+      "fields": {
+        "last_wiki_scrape": {
+          "timestampValue": "2026-03-18T01:24:19.880Z"
+        },
+        "max_os": {
+          "stringValue": "‹The template Current iPadOS 16 is being considered for deletion.› \niPadOS 16.7.15"
+        }
+      },
+      "createTime": "2026-03-15T01:29:56.404353Z",
+      "updateTime": "2026-03-18T01:24:19.938575Z"
+    },
+    {
+      "name": "projects/ipad-compare/databases/(default)/documents/geekbench_scores/‹The template Current iPadOS 18 is being considered for deletion.› \niPadOS 18.7.5",
+      "fields": {
+        "max_os": {
+          "stringValue": "‹The template Current iPadOS 16 is being considered for deletion.› \niPadOS 16.7.15"
+        },
+        "last_wiki_scrape": {
+          "timestampValue": "2026-03-15T01:29:56.338Z"
+        }
+      },
+      "createTime": "2026-03-15T01:29:56.404353Z",
+      "updateTime": "2026-03-15T01:29:56.404353Z"
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+name: Apple check
+
+on:
+  schedule:
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+    inputs:
+      force_fail:
+        description: 'Fail on purpose to test alerts (healthchecks email + GitHub issue)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: apple-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - name: Ping healthchecks (start)
+        env:
+          HEALTHCHECKS_URL: ${{ secrets.HEALTHCHECKS_URL }}
+        run: |
+          if [ -n "$HEALTHCHECKS_URL" ]; then
+            curl -fsS -m 10 --retry 3 "$HEALTHCHECKS_URL/start" || echo "healthchecks start ping failed (ignored)"
+          else
+            echo "HEALTHCHECKS_URL not set; skipping"
+          fi
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: scripts/package-lock.json
+
+      - name: Install
+        working-directory: scripts
+        run: npm ci --ignore-scripts
+
+      - name: Force failure (alert test)
+        if: ${{ inputs.force_fail }}
+        run: |
+          echo "force_fail requested: failing on purpose" | tee check.log
+          exit 1
+
+      - name: Check Apple
+        run: |
+          set -o pipefail
+          node scripts/check_apple.js --write --summary summary.md 2>&1 | tee check.log
+
+      - name: Validate catalog
+        run: |
+          set -o pipefail
+          node scripts/validate.js 2>&1 | tee -a check.log
+
+      - name: Open, update or close "Scores needed" issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # Built from the catalog (not today's summary) so every pending model stays listed.
+          node -e '
+            const c = JSON.parse(require("fs").readFileSync("public/catalog.json", "utf8"));
+            const p = c.models.filter((m) => m.score_status === "pending");
+            require("fs").writeFileSync("pending.txt", p.map((m) => m.name).join("\n") + (p.length ? "\n" : ""));
+          '
+          existing=$(gh issue list --state open --search 'in:title "Scores needed"' --json number,title --jq '[.[] | select(.title | startswith("Scores needed"))][0].number // empty')
+          if [ ! -s pending.txt ]; then
+            if [ -n "$existing" ]; then
+              gh issue close "$existing" --comment "No models are pending a Geekbench score any more."
+            else
+              echo "No pending models; nothing to do"
+            fi
+            exit 0
+          fi
+          total=$(wc -l < pending.txt | tr -d ' ')
+          names=$(head -n 3 pending.txt | paste -sd, - | sed 's/,/, /g')
+          if [ "$total" -gt 3 ]; then names="$names +$((total - 3)) more"; fi
+          title="Scores needed: $names"
+          gh label create auto-update --force --color ededed --description "Automated catalog updates and alerts" || true
+          {
+            echo "These iPad models have no Geekbench score yet (they show as pending on the site):"
+            echo
+            sed 's/^/- /' pending.txt
+            echo
+            echo "To add scores:"
+            echo "1. Merge the open \"Catalog update from Apple\" pull request (if there is one), then run \`git pull\` in the repo folder."
+            echo "2. In Chrome, open https://browser.geekbench.com/ios-benchmarks and save it (Cmd+S, format \"Webpage, HTML only\")."
+            echo "3. From the repo root, run \`node scripts/import_geekbench.js <saved-file>\`, or hand the saved file to Claude."
+            echo "4. If it reports unmatched devices, add the Geekbench name shown to that model's \`names.geekbench\` list in \`public/catalog.json\`, then run the import again."
+            echo
+            echo "Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          } > issue-body.md
+          if [ -n "$existing" ]; then
+            gh issue edit "$existing" --title "$title" --body-file issue-body.md --add-label auto-update
+          else
+            gh issue create --title "$title" --body-file issue-body.md --label auto-update
+          fi
+
+      - name: Open or update PR
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7.0.11
+        with:
+          add-paths: public/catalog.json
+          branch: auto/catalog-update
+          commit-message: 'data: catalog update from Apple'
+          title: Catalog update from Apple
+          body-path: summary.md
+          delete-branch: true
+
+      - name: Upload log and summary
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: apple-check
+          path: |
+            check.log
+            summary.md
+          retention-days: 90
+          if-no-files-found: ignore
+
+      - name: Ping healthchecks (success)
+        if: success()
+        env:
+          HEALTHCHECKS_URL: ${{ secrets.HEALTHCHECKS_URL }}
+        run: |
+          if [ -n "$HEALTHCHECKS_URL" ]; then
+            curl -fsS -m 10 --retry 3 "$HEALTHCHECKS_URL" || echo "healthchecks success ping failed (ignored)"
+          else
+            echo "HEALTHCHECKS_URL not set; skipping"
+          fi
+
+      - name: Alert on failure
+        if: failure()
+        env:
+          HEALTHCHECKS_URL: ${{ secrets.HEALTHCHECKS_URL }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          if [ -f check.log ]; then tail -n 100 check.log > log-tail.txt; else echo "(no check.log; see run for details)" > log-tail.txt; fi
+          if [ -n "$HEALTHCHECKS_URL" ]; then
+            curl -fsS -m 10 --retry 3 --data-binary @log-tail.txt "$HEALTHCHECKS_URL/fail" || echo "healthchecks fail ping failed (ignored)"
+          else
+            echo "HEALTHCHECKS_URL not set; skipping ping"
+          fi
+          gh label create auto-update --force --color ededed --description "Automated catalog updates and alerts" || true
+          {
+            echo "The daily Apple check failed."
+            echo
+            echo "Run: $run_url"
+            echo
+            echo '```'
+            cat log-tail.txt
+            echo '```'
+          } > alert-body.md
+          existing=$(gh issue list --state open --label auto-update --search 'in:title "Apple check failed"' --json number,title --jq '[.[] | select(.title | startswith("Apple check failed"))][0].number // empty')
+          if [ -n "$existing" ]; then
+            {
+              echo "Failed again on $(date -u +%Y-%m-%d)."
+              echo
+              cat alert-body.md
+            } > alert-comment.md
+            gh issue comment "$existing" --body-file alert-comment.md
+          else
+            gh issue create --label auto-update --title "Apple check failed $(date -u +%Y-%m-%d)" --body-file alert-body.md
+          fi

@@ -842,3 +842,25 @@ input.price-edit-input[type=number] {
         display: none;
     }
 }
+/* Catalog score states */
+.score-note {
+    font-size: 0.85em;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.estimate-badge {
+    display: inline-block;
+    margin-left: 0.25rem;
+    padding: 0 5px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: 600;
+    background: rgba(212, 175, 55, 0.15);
+    color: #b45309;
+    cursor: help;
+}
+
+#model-search.load-error::placeholder {
+    color: #ef4444;
+}
