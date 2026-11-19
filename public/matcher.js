@@ -121,15 +121,17 @@
             '2024': { '11': 'iPad Pro 11-inch (M4)', '13': 'iPad Pro 13-inch (M4)', default: 'iPad Pro 11-inch (M4)' },
             '2025': { '11': 'iPad Pro 11-inch (M5)', '13': 'iPad Pro 13-inch (M5)', default: 'iPad Pro 11-inch (M5)' },
         };
-        const proYearMatch = t.match(/ipad\s*pro\s*([\d.]+)?.*?\b(20\d{2})\b/i);
+        const proYearMatch = t.match(/ipad\s*pro\b(.*)$/i);
         if (proYearMatch) {
-            const size = proYearMatch[1] || null;
-            const year = proYearMatch[2];
-            const yearEntry = proYearMap[year];
+            const rest = proYearMatch[1];
+            const yearM = rest.match(/\b(20\d{2})\b/);
+            const yearEntry = yearM ? proYearMap[yearM[1]] : null;
             if (yearEntry) {
-                const sizeKey = size ? Object.keys(yearEntry).find(k => size.startsWith(k)) : null;
-                t = sizeKey ? yearEntry[sizeKey] : yearEntry.default;
-                return t;
+                // Size may come before or after the year; ignore the year's own digits.
+                const sizeM = rest.replace(yearM[0], ' ').match(/(?:^|[^\d.])(\d{2}(?:\.\d)?)(?![\d])/);
+                const size = sizeM ? sizeM[1] : null;
+                const sizeKey = size ? Object.keys(yearEntry).find(k => k !== 'default' && size.startsWith(k)) : null;
+                return sizeKey ? yearEntry[sizeKey] : yearEntry.default;
             }
         }
 

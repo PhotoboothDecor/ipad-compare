@@ -83,7 +83,7 @@ const SIZE_IN = {
   'iPad': 9.7, 'iPad 2': 9.7, 'iPad (3rd generation)': 9.7, 'iPad (4th generation)': 9.7,
   'iPad (5th generation)': 9.7, 'iPad (6th generation)': 9.7,
   'iPad (7th generation)': 10.2, 'iPad (8th generation)': 10.2, 'iPad (9th generation)': 10.2,
-  'iPad (10th generation)': 10.9, 'iPad (A16)': 10.9,
+  'iPad (10th generation)': 10.9, 'iPad (A16)': 11,
   'iPad mini': 7.9, 'iPad mini 2': 7.9, 'iPad mini 3': 7.9, 'iPad mini 4': 7.9, 'iPad mini (5th generation)': 7.9,
   'iPad mini (6th generation)': 8.3, 'iPad mini (A17 Pro)': 8.3, 'iPad mini (A20 Pro)': 8.3,
   'iPad Air': 9.7, 'iPad Air 2': 9.7, 'iPad Air (3rd generation)': 10.5,

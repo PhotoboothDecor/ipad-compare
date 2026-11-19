@@ -216,3 +216,24 @@ test('a leading count and "ipads" are not read as a model', () => {
   assert.deepEqual(find('3 ipad'), []);
   assert.equal(top('2 iPads air 6th gen 13'), 'ipad-air-13-m2');
 });
+
+test('iPad (A16) is the 11-inch iPad', () => {
+  assert.equal(model('ipad-a16').size_in, 11);
+  for (const q of ['iPad 11 inch A16 128GB', 'iPad 11-inch A16', 'iPad A16 11"']) {
+    assert.equal(top(q), 'ipad-a16', q);
+  }
+  assert.ok(find('iPad 11 inch').some((r) => r.id === 'ipad-a16'));
+  for (const q of ['iPad Air 11 inch', 'iPad Pro 11 inch']) {
+    assert.ok(!find(q).some((r) => r.id === 'ipad-a16'), q);
+  }
+});
+
+test('cleanTitle handles year before size for Pro listings', () => {
+  const id = (q) => top(M.cleanTitle(q));
+  assert.equal(id('iPad Pro 2024 13'), 'ipad-pro-13-m4');
+  assert.equal(id('iPad Pro 2024 13 inch'), 'ipad-pro-13-m4');
+  assert.equal(id('iPad Pro 2024 11'), 'ipad-pro-11-m4');
+  assert.equal(M.cleanTitle('iPad Pro 2018 12.9'), 'iPad Pro 12.9-inch (3rd generation)');
+  assert.equal(M.cleanTitle('iPad Pro 12.9 2018'), 'iPad Pro 12.9-inch (3rd generation)');
+  assert.equal(M.cleanTitle('iPad Pro 2024'), 'iPad Pro 11-inch (M4)');
+});

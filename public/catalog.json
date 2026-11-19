@@ -1358,7 +1358,7 @@
       "id": "ipad-a16",
       "name": "iPad (A16)",
       "family": "ipad",
-      "size_in": 10.9,
+      "size_in": 11,
       "chip": "A16",
       "released": 2025,
       "generation": 11,
