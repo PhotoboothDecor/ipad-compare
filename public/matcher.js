@@ -355,5 +355,101 @@
         return { find, byANumber, get };
     }
 
-    return { createMatcher, parseFacebookBlocks, cleanTitle, isIPadListing, getOrdinal, tokenize };
+    // --- App data helpers (pure; used by app.js, tested in Node) ---
+
+    /** "Latest (iPadOS 27)" for current devices, "iPadOS N", or "iOS N" before iPadOS 13. */
+    function displayMaxOS(model, latestIpados) {
+        const n = model && model.max_os_major;
+        if (n == null) return '?';
+        if (n === latestIpados) return `Latest (iPadOS ${n})`;
+        return n < 13 ? `iOS ${n}` : `iPadOS ${n}`;
+    }
+
+    /** GB6 multi-core points per dollar; null unless the score is usable and price > 0. */
+    function valueOf(model, price) {
+        const p = Number(price);
+        if (!model || model.score_status !== 'ok' || !model.score) return null;
+        if (!Number.isFinite(p) || p <= 0) return null;
+        const s = model.score.gb6_multi;
+        return (typeof s === 'number' && s > 0) ? s / p : null;
+    }
+
+    /**
+     * Turn find() results into a decision: a single id when the top result is
+     * unambiguous, otherwise the tied top candidates for the user to choose from.
+     */
+    function resolveMatch(results) {
+        if (!results || results.length === 0) return { id: null, candidates: [] };
+        const top = results[0];
+        if (!top.ambiguous) return { id: top.id, candidates: [] };
+        const candidates = results
+            .filter((r) => r.ambiguous && r.relevance === top.relevance)
+            .map((r) => r.id);
+        return { id: null, candidates };
+    }
+
+    /**
+     * Sort row items by `column`; null/undefined/NaN values always go last,
+     * whatever the direction. Strings compare case-insensitively. Returns a new array.
+     */
+    function rankRows(items, column, direction) {
+        const dir = direction === 'asc' ? 1 : -1;
+        const isMissing = (v) => v == null || (typeof v === 'number' && Number.isNaN(v));
+        return (items || []).slice().sort((a, b) => {
+            let va = a[column];
+            let vb = b[column];
+            const ma = isMissing(va);
+            const mb = isMissing(vb);
+            if (ma || mb) return (ma === mb) ? 0 : (ma ? 1 : -1);
+            if (typeof va === 'string' || typeof vb === 'string') {
+                va = String(va).toLowerCase();
+                vb = String(vb).toLowerCase();
+            }
+            if (va < vb) return -dir;
+            if (va > vb) return dir;
+            return 0;
+        });
+    }
+
+    /** The item with the highest non-null `value`, or null if none has one. */
+    function pickBest(items) {
+        let best = null;
+        for (const it of items || []) {
+            if (typeof it.value !== 'number' || !Number.isFinite(it.value)) continue;
+            if (!best || it.value > best.value) best = it;
+        }
+        return best;
+    }
+
+    /**
+     * Migrate rows saved in localStorage (old: {model, price, score, ...};
+     * new: {id, model, price}) to {id|null, model, price[, candidates]}.
+     * Known ids are kept; otherwise the saved name is re-resolved with find().
+     * Unresolvable or ambiguous names stay as unknown rows (id null) the user can fix.
+     * Rows without a positive price are dropped.
+     */
+    function migrateSaved(rows, matcher) {
+        if (!Array.isArray(rows)) return [];
+        const out = [];
+        for (const r of rows) {
+            if (!r || typeof r !== 'object') continue;
+            const price = Number(r.price);
+            if (!Number.isFinite(price) || price <= 0) continue;
+            const known = r.id ? matcher.get(r.id) : null;
+            if (known) {
+                out.push({ id: known.id, model: known.name, price });
+                continue;
+            }
+            const name = typeof r.model === 'string' && r.model.trim() ? r.model.trim() : 'Unknown model';
+            const { id, candidates } = resolveMatch(matcher.find(name));
+            if (id) out.push({ id, model: matcher.get(id).name, price });
+            else out.push({ id: null, model: name, price, candidates });
+        }
+        return out;
+    }
+
+    return {
+        createMatcher, parseFacebookBlocks, cleanTitle, isIPadListing, getOrdinal, tokenize,
+        displayMaxOS, valueOf, resolveMatch, rankRows, pickBest, migrateSaved,
+    };
 }));
