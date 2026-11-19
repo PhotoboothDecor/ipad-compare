@@ -61,7 +61,7 @@ Totals: 46 models. 36 have a score: 35 measured on GB6 and 1 converted from GB7.
 
 ## Things to double-check
 
-1. **iPad mini (A20 Pro) score is converted, not measured.** GB7 multi 10377 ÷ 0.9441 = **10992**. The ratio is the median of the A17 Pro mini and the A16 iPad, taken from the same 2026-11-19 GB7 chart (spread 0.020). The plan expected about 11016, which used the 2026-10-31 chart for the ratio. The coordinator chose the same-chart ratio.
+1. **iPad mini (A20 Pro) score is converted, not measured.** GB7 multi 10377 ÷ 0.9441 = **10992**. The ratio is the median of the A17 Pro mini and the A16 iPad, taken from the same 2026-11-19 GB7 chart (spread 0.020). The plan expected about 11016, which used the 2026-10-31 chart for the ratio. The coordinator chose the same-chart ratio. This score is an estimate. Ratios taken from newer chips could put it up to about 5% higher, and its rank doesn't change.
 2. **A-numbers that differ from Apple's identify page:**
    - Added A2199 to the iPad (7th generation). It is in 50ce8dc and AppleDB confirms it.
    - Added A1601 to the iPad mini 3. It is in 50ce8dc and AppleDB confirms it.
@@ -72,6 +72,10 @@ Totals: 46 models. 36 have a score: 35 measured on GB6 and 1 converted from GB7.
    - iPad Pro 11-inch (M4) = 5 and (M5) = 6
    - iPad Pro 13-inch (M4) = 7 and (M5) = 8
    - iPad Air (M4) = 8
+   - iPad Air 11-inch and 13-inch (M2) = 6
+   - iPad Air 11-inch and 13-inch (M3) = 7
+   - iPad mini (7th generation, A17 Pro) = 7
+   - iPad (A16) = 11
 
    Pro generations count per size line. The 9.7-inch and 10.5-inch Pros have generation null.
 4. **Shared generation names.** "iPad Air 6/7/8" and "6th/7th/8th generation" without a size are on neither size. The `generation` field covers them (both M2 Airs = 6, both M3 = 7, both M4 = 8).
@@ -80,4 +84,4 @@ Totals: 46 models. 36 have a score: 35 measured on GB6 and 1 converted from GB7.
    - Fragments: "5th Gen", "2019", "M1", "A14", "A17 Pro", "5e génération", and so on.
    - "iPad Pro 2" and "iPad Pro 2nd Gen" on the 10.5-inch Pro, because they also describe the 12.9-inch (2nd generation).
 7. **Chip names.** Chips use AppleDB's short names ("A10X", "A10"). The Geekbench chart's "A10X Fusion" / "A10 Fusion" only produce warnings.
-8. **`size_in` is null** wherever Apple's name gives no size, for example "iPad (10th generation)".
+8. **`size_in` is set for all 46 models**, including names that print no size. For example, the iPad (10th generation) is 10.9 and the iPad (A16) is 11. Apple sells the A16 iPad as the 11-inch iPad.
