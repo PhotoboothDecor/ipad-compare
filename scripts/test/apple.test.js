@@ -313,3 +313,33 @@ test('run without --write leaves the catalog alone; a fetched page with the wron
   assert.deepEqual(fs.readFileSync(file), before);
   fs.rmSync(dir, { recursive: true });
 });
+
+test('makeFetchApple retries thrown fetch errors (network, timeout) with 30/60/120 s backoff', async () => {
+  let t = 0;
+  const sleeps = [];
+  const sleep = async (ms) => { sleeps.push(ms); t += ms; };
+  let n = 0;
+  const fetch = async () => {
+    n++;
+    if (n <= 2) throw new TypeError('fetch failed');
+    return { ok: true, status: 200, text: async () => 'ok' };
+  };
+  const f = makeFetchApple({ fetch, sleep, now: () => t });
+  assert.equal(await f('u'), 'ok');
+  assert.deepEqual(sleeps, [30000, 60000]);
+
+  const alwaysThrows = makeFetchApple({ fetch: async () => { throw new Error('boom'); }, sleep: async () => {}, now: () => 0 });
+  await assert.rejects(alwaysThrows('x'), /boom/);
+});
+
+test('summarize lists new models with chip "unknown" under "Needs manual completion"', () => {
+  const model = { a_numbers: ['A1'], max_os_major: 27, chip: 'unknown' };
+  const known = { a_numbers: ['A2'], max_os_major: 27, chip: 'M4' };
+  const md = summarize([
+    { kind: 'new_model', id: 'a', name: 'iPad A', model },
+    { kind: 'new_model', id: 'b', name: 'iPad B (M4)', model: known },
+  ]);
+  assert.match(md, /## Needs manual completion\n\n- iPad A \(`a`\)/);
+  assert.doesNotMatch(md.split('## Needs manual completion')[1], /iPad B/);
+  assert.doesNotMatch(summarize([{ kind: 'new_model', id: 'b', name: 'iPad B (M4)', model: known }]), /Needs manual completion/);
+});

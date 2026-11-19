@@ -11,7 +11,7 @@ const BACKOFF_MS = [30000, 60000, 120000];
 
 const realSleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// Throttled, retrying fetcher: requests >= 10 s apart; 429/5xx retried after 30/60/120 s.
+// Throttled, retrying fetcher: requests >= 10 s apart; 429/5xx retried after 30/60/120 s, as are thrown fetch errors.
 function makeFetchApple({ fetch = globalThis.fetch, sleep = realSleep, now = Date.now } = {}) {
   let last = null;
   return async function fetchApple(url) {
@@ -21,7 +21,15 @@ function makeFetchApple({ fetch = globalThis.fetch, sleep = realSleep, now = Dat
         if (wait > 0) await sleep(wait);
       }
       last = now();
-      const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT }, signal: AbortSignal.timeout(60000) });
+      let res;
+      try {
+        res = await fetch(url, { headers: { 'User-Agent': USER_AGENT }, signal: AbortSignal.timeout(60000) });
+      } catch (e) {
+        // Network failure or timeout: same backoff as 5xx.
+        if (attempt >= BACKOFF_MS.length) throw e;
+        await sleep(BACKOFF_MS[attempt]);
+        continue;
+      }
       if (res.ok) return res.text();
       const retryable = res.status === 429 || res.status >= 500;
       if (!retryable || attempt >= BACKOFF_MS.length) {
@@ -238,6 +246,12 @@ function summarize(changes) {
       else if (kind === 'a_numbers_added') lines.push(`- ${c.name} (\`${c.id}\`): ${c.added.join(', ')}`);
       else lines.push(`- ${c.name} (\`${c.id}\`): ${c.from} → ${c.to}`);
     }
+    lines.push('');
+  }
+  const unknown = changes.filter((c) => c.kind === 'new_model' && c.model.chip === 'unknown');
+  if (unknown.length) {
+    lines.push('## Needs manual completion', '');
+    for (const c of unknown) lines.push(`- ${c.name} (\`${c.id}\`): chip unknown (no chip in Apple's name; the Geekbench import fills it from the chart)`);
     lines.push('');
   }
   return lines.join('\n');
