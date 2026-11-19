@@ -94,7 +94,7 @@ test('bare family queries are ambiguous, newest first', () => {
 });
 
 test('non-ambiguous results carry ambiguous:false and the documented shape', () => {
-  for (const q of ['ipad air 6', 'a2602', 'ipad pro 11 2018', 'ipad mini a20', 'm4']) {
+  for (const q of ['a2602', 'ipad pro 11 2018', 'ipad mini a20', 'ipad pro 11 m4', 'ipad 9']) {
     for (const r of find(q)) {
       assert.deepEqual(Object.keys(r).sort(), ['ambiguous', 'id', 'matchType', 'name', 'relevance']);
       assert.equal(r.ambiguous, false, q);
@@ -139,4 +139,80 @@ test('parse helpers keep their behavior', () => {
   assert.equal(M.cleanTitle('Apple iPad 9e génération 64GB Silver'), 'iPad 9th generation');
   assert.equal(M.getOrdinal(2), '2nd');
   assert.equal(M.getOrdinal(11), '11th');
+});
+
+// --- Fix round 1 ---
+
+test('a size after an ordinal + gen word is a size, not a second generation', () => {
+  const cases = [
+    ['iPad Pro 3rd gen 12.9', 'ipad-pro-12-9-3rd-generation'],
+    ['iPad Pro 2nd gen 12.9 inch', 'ipad-pro-12-9-2nd-generation'],
+    ['iPad Pro 4th generation 12.9', 'ipad-pro-12-9-4th-generation'],
+    ['iPad Pro 5th gen 11 inch', 'ipad-pro-11-m4'], // catalog: 11-inch gen 5 = M4
+    ['ipad air 6th gen 11"', 'ipad-air-11-m2'],
+    ['iPad Air 7th generation 11 inch', 'ipad-air-11-m3'],
+  ];
+  for (const [q, id] of cases) {
+    const r = find(q);
+    assert.equal(r[0].id, id, q);
+    assert.equal(r[0].relevance >= 200, true, `${q}: size and generation both matched`);
+    assert.equal(r[0].ambiguous, false, q);
+  }
+  // "gen 6" / "6 gen" still read the number as a generation
+  assert.equal(top('ipad mini gen 6'), 'ipad-mini-6th-generation');
+  assert.equal(top('ipad mini 6 gen'), 'ipad-mini-6th-generation');
+  // paste path
+  const cleaned = M.cleanTitle('iPad Pro 3rd Gen 12.9 inch 64GB Space Gray');
+  assert.equal(top(cleaned), 'ipad-pro-12-9-3rd-generation');
+});
+
+test('spaced storage ("256 GB") is ignored', () => {
+  const cases = [
+    ['iPad Pro 11 256 GB', (m) => m.family === 'pro' && m.size_in === 11],
+    ['iPad Pro M4 256 GB', (m) => m.family === 'pro' && m.chip === 'M4'],
+    ['iPad Air M2 128 GB', (m) => m.family === 'air' && m.chip === 'M2'],
+    ['iPad Air 13 512 GB', (m) => m.family === 'air' && m.size_in === 13],
+    ['ipad 9 64 gb', (m) => m.id === 'ipad-9th-generation'],
+    ['ipad mini 6 1 TB', (m) => m.id === 'ipad-mini-6th-generation'],
+  ];
+  for (const [q, ok] of cases) {
+    const r = find(q, 100);
+    assert.ok(r.length > 0, q);
+    assert.ok(r.every((x) => ok(model(x.id))), q);
+  }
+});
+
+test('every catalog model has a size; sizes find base/mini/Air models', () => {
+  assert.deepEqual(catalog.models.filter((m) => m.size_in == null).map((m) => m.id), []);
+  const r97 = find('iPad 9.7', 100);
+  assert.equal(r97[0].id, 'ipad-6th-generation');
+  assert.equal(r97[0].ambiguous, true);
+  assert.ok(r97.every((x) => model(x.id).family === 'ipad' && model(x.id).size_in === 9.7));
+  assert.deepEqual(find('iPad 10.2', 100).map((x) => x.id).sort(),
+    ['ipad-7th-generation', 'ipad-8th-generation', 'ipad-9th-generation']);
+  assert.deepEqual(find('iPad Air 10.9', 100).map((x) => x.id).sort(),
+    ['ipad-air-4th-generation', 'ipad-air-5th-generation']);
+  assert.equal(find('iPad mini 7.9', 100).length, 5);
+  assert.equal(top('ipad 9.7 6th gen'), 'ipad-6th-generation');
+  assert.equal(find('ipad 9.7 6th gen')[0].ambiguous, false);
+  assert.equal(top('ipad mini 8.3 a17 pro'), 'ipad-mini-a17-pro');
+});
+
+test('ties at the top relevance mark every result ambiguous', () => {
+  for (const q of ['iPad Pro 11 inch', 'ipad pro m2', 'iPad Pro 2018', 'iPad Pro M1', 'ipad air 6', 'iPad 9.7']) {
+    const r = find(q, 100);
+    assert.ok(r.length > 1, q);
+    assert.ok(r.every((x) => x.ambiguous === true), q);
+  }
+  for (const q of ['ipad pro 11 m4', 'iPad Pro 11 2018', 'ipad air 6 13 inch', 'ipad 9', 'a2602']) {
+    const r = find(q, 100);
+    assert.ok(r.every((x) => x.ambiguous === false), q);
+  }
+  assert.equal(find('ipad pro 11 m4').length, 1);
+});
+
+test('a leading count and "ipads" are not read as a model', () => {
+  assert.deepEqual(find('2 iPads for sale'), []);
+  assert.deepEqual(find('3 ipad'), []);
+  assert.equal(top('2 iPads air 6th gen 13'), 'ipad-air-13-m2');
 });

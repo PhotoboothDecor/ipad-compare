@@ -77,6 +77,25 @@ const GENERATION = {
   'iPad Pro (9.7-inch)': null, 'iPad Pro (10.5-inch)': null,
 };
 
+// Screen size (inches) for models whose Apple name doesn't carry one. Names with
+// "N-inch" take the size from the name instead.
+const SIZE_IN = {
+  'iPad': 9.7, 'iPad 2': 9.7, 'iPad (3rd generation)': 9.7, 'iPad (4th generation)': 9.7,
+  'iPad (5th generation)': 9.7, 'iPad (6th generation)': 9.7,
+  'iPad (7th generation)': 10.2, 'iPad (8th generation)': 10.2, 'iPad (9th generation)': 10.2,
+  'iPad (10th generation)': 10.9, 'iPad (A16)': 10.9,
+  'iPad mini': 7.9, 'iPad mini 2': 7.9, 'iPad mini 3': 7.9, 'iPad mini 4': 7.9, 'iPad mini (5th generation)': 7.9,
+  'iPad mini (6th generation)': 8.3, 'iPad mini (A17 Pro)': 8.3, 'iPad mini (A20 Pro)': 8.3,
+  'iPad Air': 9.7, 'iPad Air 2': 9.7, 'iPad Air (3rd generation)': 10.5,
+  'iPad Air (4th generation)': 10.9, 'iPad Air (5th generation)': 10.9,
+};
+
+// Size stated in the Apple name ("11-inch"), or null.
+function nameSize(name) {
+  const m = /(\d+(?:\.\d+)?)-inch/.exec(normalizeName(name));
+  return m ? Number(m[1]) : null;
+}
+
 // Hand-written aliases: common ways listings name a model that the generated forms miss.
 const EXTRA_ALIASES = {
   'iPad': ['iPad 1', 'iPad (1st generation)', 'iPad 1st generation', 'iPad original'],
@@ -151,13 +170,14 @@ function loadOldMapping() {
 function baseModel(im) {
   const n = normalizeName(im.name);
   const family = /^ipad pro\b/.test(n) ? 'pro' : /^ipad air\b/.test(n) ? 'air' : /^ipad mini\b/.test(n) ? 'mini' : 'ipad';
-  const size = /(\d+(?:\.\d+)?)-inch/.exec(n);
+  const size = nameSize(im.name) ?? SIZE_IN[im.name] ?? null;
+  if (size === null) problem(`no size_in for "${im.name}"`);
   if (!(im.name in GENERATION)) problem(`no generation entry for "${im.name}"`);
   return {
     id: ID_OVERRIDES[im.name] || slugify(im.name),
     name: im.name,
     family,
-    size_in: size ? Number(size[1]) : null,
+    size_in: size,
     chip: null,
     released: im.year,
     generation: GENERATION[im.name] ?? null,
@@ -284,8 +304,10 @@ function generatedAliases(m) {
   const base = { ipad: 'iPad', air: 'iPad Air', mini: 'iPad mini' }[m.family];
   add(base);
   out.push(`${base} ${g}`);
-  if (m.size_in) {
-    for (const s of [`${m.size_in}-inch`, `${m.size_in}`]) {
+  // Only sizes in the Apple name: table sizes (9.7, 10.2...) are shared by many models.
+  const named = nameSize(m.name);
+  if (named) {
+    for (const s of [`${named}-inch`, `${named}`]) {
       add(`${base} ${s}`);
       if (/^M\d/.test(m.chip)) out.push(`${base} ${s} ${m.chip}`, `${base} ${m.chip} ${s}`);
     }

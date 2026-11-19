@@ -182,7 +182,8 @@
             .replace(/(\d)(?:\s*(?:"|\u201d|\u2033|\u2032\u2032|''|-?\s*inch(?:es)?\b)|in\b)/g, '$1 inch ');
         return q.split(/[^a-z0-9.]+/)
             .map((t) => t.replace(/^\.+|\.+$/g, ''))
-            .filter((t) => t.length > 0);
+            .filter((t) => t.length > 0)
+            .map((t) => (t === 'ipads' ? 'ipad' : t));
     }
 
     /** Pull structured attributes out of query tokens. */
@@ -214,23 +215,31 @@
         const pool = poolFamily ? models.filter((m) => m.family === poolFamily) : models;
         const poolSizes = new Set(pool.map((m) => m.size_in).filter((s) => s != null));
 
+        const ORDINAL = /^(\d+)(?:st|nd|rd|th|e)$/;
+        const isGenWord = (t) => t === 'gen' || t === 'generation';
         tokens.forEach((t, i) => {
             if (consumed.has(i)) return;
             const next = tokens[i + 1];
             const prev = tokens[i - 1];
             let m;
-            if ((m = t.match(/^(\d+)(?:st|nd|rd|th|e)$/))) {
+            if ((m = t.match(ORDINAL))) {
                 out.gens.push(parseInt(m[1], 10));
             } else if (/^(19|20)\d{2}$/.test(t)) {
                 out.years.push(parseInt(t, 10));
             } else if (/^\d+(\.\d+)?$/.test(t)) {
                 const n = parseFloat(t);
-                const genWord = next === 'gen' || next === 'generation' || prev === 'gen' || prev === 'generation';
-                if (!genWord && (next === 'inch' || poolSizes.has(n) || !Number.isInteger(n))) {
+                if (next === 'gb' || next === 'tb') return;          // "256 GB" storage
+                if (i === 0 && next === 'ipad') return;              // "2 iPads for sale" count
+                if (next === 'inch' || !Number.isInteger(n)) {       // never a generation
                     out.sizes.push(n);
-                } else {
-                    out.gens.push(n);
+                    return;
                 }
+                // "gen 6" / "6 gen" make it a generation, but not in "3rd gen 12",
+                // where the gen word belongs to the ordinal before it.
+                const genAfter = isGenWord(next);
+                const genBefore = isGenWord(prev) && !ORDINAL.test(tokens[i - 2] || '');
+                if (!genAfter && !genBefore && poolSizes.has(n)) out.sizes.push(n);
+                else out.gens.push(n);
             }
         });
         return out;
@@ -327,6 +336,10 @@
                 .map((x) => result(x.m, x.s.matchType, x.s.relevance, false));
 
             let out;
+            const flagTies = (list) => {
+                const tied = list.length > 1 && list[0].relevance === list[1].relevance;
+                return tied ? list.map((r) => ({ ...r, ambiguous: true })) : list;
+            };
             if (q.family) {
                 out = run(models.filter((m) => m.family === q.family), q);
             } else if (hasIpad) {
@@ -335,7 +348,8 @@
             } else {
                 out = run(models, q);
             }
-            return out.slice(0, limit);
+            // Several models sharing the top relevance: the query isn't precise.
+            return flagTies(out).slice(0, limit);
         }
 
         return { find, byANumber, get };
