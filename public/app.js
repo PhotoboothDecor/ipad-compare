@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Listing-parse helpers live in matcher.js (window.IPadMatcher).
+    const { parseFacebookBlocks, cleanTitle, isIPadListing, getOrdinal } = window.IPadMatcher;
     const modelSearchInput = document.getElementById('model-search');
     const searchResults = document.getElementById('suggestions');
     const priceInput = document.getElementById('price-input');
@@ -217,150 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         updateLeaderboard(); // Re-sort and re-highlight winner among visible
-    }
-
-    /**
-     * Parse Facebook Marketplace paste into listing blocks.
-     * Each listing follows the pattern:
-     *   [Title] in [City], [Province]   <- block start
-     *   CA$[price]                      <- current price
-     *   CA$[original price]             <- optional struck-through price
-     *   [Title]                         <- duplicate title (no location)
-     *   [City], [Province]              <- standalone location
-     *   [Just listed]                   <- optional tag
-     *
-     * Returns array of { rawTitle, price } objects, or null if not Facebook format.
-     */
-    function parseFacebookBlocks(rawText) {
-        const lines = rawText.split(/\r\n|\r|\n/).map(l => l.trim()).filter(l => l.length > 0);
-
-        const locationSuffix = /\s+in\s+([\w\u00C0-\u024F\s.\-']+),\s*([A-Z]{2})\s*$/;
-        const priceRegex = /^(?:CA\$|CAD\s*\$?|US\$|USD\s*\$?|\$)\s*([\d,]+)\s*$/i;
-
-        const blockStarts = [];
-        for (let i = 0; i < lines.length; i++) {
-            if (locationSuffix.test(lines[i])) {
-                blockStarts.push(i);
-            }
-        }
-
-        if (blockStarts.length < 1) {
-            return null;
-        }
-
-        const listings = [];
-        for (let b = 0; b < blockStarts.length; b++) {
-            const startIdx = blockStarts[b];
-            const endIdx = (b + 1 < blockStarts.length) ? blockStarts[b + 1] : lines.length;
-            const blockLines = lines.slice(startIdx, endIdx);
-
-            const titleLine = blockLines[0];
-            const rawTitle = titleLine.replace(locationSuffix, '').trim();
-
-            const prices = [];
-            for (let j = 1; j < blockLines.length; j++) {
-                const line = blockLines[j];
-                if (/^free$/i.test(line)) continue;
-                const match = line.match(priceRegex);
-                if (match) {
-                    const val = parseInt(match[1].replace(/,/g, ''), 10);
-                    if (val > 0) prices.push(val);
-                }
-            }
-
-            const price = prices.length > 0 ? Math.min(...prices) : null;
-
-            if (price !== null) {
-                listings.push({ rawTitle, price });
-            }
-        }
-
-        return listings;
-    }
-
-    /**
-     * Clean a raw listing title for model matching.
-     * Strips noise (colors, storage, condition, accessories, etc.)
-     * and normalizes French generations and shorthand.
-     */
-    function cleanTitle(raw) {
-        let t = raw;
-
-        t = t.replace(/[\[(](sealed|new|used|mint|trading)[\])]/gi, '');
-        t = t.replace(/^(New|Brand New|Like New|Used|Mint|Sealed)\s+/i, '');
-        t = t.replace(/^Apple\s+/i, '');
-        t = t.replace(/^\$\d+\s+/i, '');
-        t = t.replace(/^(?:CA\$|CAD\s*\$?)\s*\d+\s+/i, '');
-        t = t.replace(/\b\d+\s*(GB|TB|gb|tb)\b/gi, '');
-        t = t.replace(/\b(Blue|Pink|Yellow|Silver|Gold|Space\s*Gr[ae]y|White|Black|Starlight|Purple|Red)\b/gi, '');
-        t = t.replace(/\b(Wi-?Fi|WiFi|Cellular|Wi-?Fi\s*\+\s*Cellular|4G\s*LTE|LTE)\b/gi, '');
-        t = t.replace(/\b(Like New|Condition|pristine condition|Fully functional|very good battery|Fully clean|abd ready)\b/gi, '');
-        t = t.replace(/\+\s*.*$/i, '');
-        t = t.replace(/\bwith\s+(?!Wi).*$/i, '');
-        t = t.replace(/\bfor\s+(sale|parts)\b/gi, '');
-        t = t.replace(/Released:\s*\w+\s*\d{4}/gi, '');
-        t = t.replace(/Wi-?Fi\s*Model/gi, '');
-
-        // Normalize French generations
-        t = t.replace(/(\d+)(?:ème|e|ère)\s*(?:génération|gen\.?)/gi, (_, num) => {
-            return getOrdinal(parseInt(num)) + ' generation';
-        });
-
-        // Normalize "GEN." / "Gen" / "Generation" shorthand
-        t = t.replace(/(\d+)(?:ST|ND|RD|TH)?\s*GEN(?:ERATION)?\.?\s*/gi, (_, num) => {
-            return getOrdinal(parseInt(num)) + ' generation ';
-        });
-
-        t = t.replace(/^TRADING\s*\|\s*/i, '');
-        t = t.replace(/\s*[•·]\s*/g, ' ');
-
-        // Normalize year-as-generation for Pro models
-        const proYearMap = {
-            '2018': { '11': 'iPad Pro 11-inch (1st generation)', '12.9': 'iPad Pro 12.9-inch (3rd generation)', default: 'iPad Pro 11-inch (1st generation)' },
-            '2020': { '11': 'iPad Pro 11-inch (2nd generation)', '12.9': 'iPad Pro 12.9-inch (4th generation)', default: 'iPad Pro 11-inch (2nd generation)' },
-            '2021': { '11': 'iPad Pro 11-inch (3rd generation)', '12.9': 'iPad Pro 12.9-inch (5th generation)', default: 'iPad Pro 11-inch (3rd generation)' },
-            '2022': { '11': 'iPad Pro 11-inch (4th generation)', '12.9': 'iPad Pro 12.9-inch (6th generation)', default: 'iPad Pro 11-inch (4th generation)' },
-            '2024': { '11': 'iPad Pro 11-inch (M4)', '13': 'iPad Pro 13-inch (M4)', default: 'iPad Pro 11-inch (M4)' },
-            '2025': { '11': 'iPad Pro 11-inch (M5)', '13': 'iPad Pro 13-inch (M5)', default: 'iPad Pro 11-inch (M5)' },
-        };
-        const proYearMatch = t.match(/ipad\s*pro\s*([\d.]+)?.*?\b(20\d{2})\b/i);
-        if (proYearMatch) {
-            const size = proYearMatch[1] || null;
-            const year = proYearMatch[2];
-            const yearEntry = proYearMap[year];
-            if (yearEntry) {
-                const sizeKey = size ? Object.keys(yearEntry).find(k => size.startsWith(k)) : null;
-                t = sizeKey ? yearEntry[sizeKey] : yearEntry.default;
-                return t;
-            }
-        }
-
-        t = t.replace(/[.\-–—,;:!]+\s*$/, '');
-        t = t.replace(/\s+/g, ' ').trim();
-
-        return t;
-    }
-
-    /**
-     * Pre-filter: determine if a listing title is actually an iPad for sale
-     * (not an accessory, not Samsung, etc.)
-     * Returns false if the listing should be skipped entirely.
-     */
-    function isIPadListing(rawTitle) {
-        const t = rawTitle.toLowerCase();
-
-        if (!t.includes('ipad')) return false;
-
-        if (/\bfor\s+ipad\b/i.test(rawTitle)) return false;
-        if (/\bcase\b.*\bipad\b/i.test(rawTitle) && !/\bipad\b.*\bcase\b/i.test(rawTitle)) return false;
-        if (/\baccessor(?:y|ies)\s+bundle\b/i.test(rawTitle)) return false;
-        if (/\bipad\b.*\baccessor(?:y|ies)\b/i.test(rawTitle)) return false;
-
-        if (/^samsung\b/i.test(rawTitle)) return false;
-        if (/^logitech\b/i.test(rawTitle)) return false;
-        if (/^microsoft\b/i.test(rawTitle)) return false;
-
-        return true;
     }
 
     // --- Bulk Process Logic (Improved) ---
@@ -1009,12 +867,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // normalized = normalized.replace(/\s+(m\d+)(?:\s|$)/g, ' ($1) '); 
 
         return normalized.trim();
-    }
-
-    function getOrdinal(n) {
-        const s = ["th", "st", "nd", "rd"];
-        const v = n % 100;
-        return n + (s[(v - 20) % 10] || s[v] || s[0]);
     }
 
     function renderResults(matches) {
