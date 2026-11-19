@@ -2,12 +2,11 @@
     "name": "ipad-comparer-scripts",
     "version": "1.0.0",
     "description": "Data pipeline scripts for iPad Comparer",
-    "main": "scrape.js",
+    "main": "validate.js",
     "engines": {
         "node": ">=22"
     },
     "scripts": {
-        "start": "node scrape.js",
         "test": "node --test",
         "validate": "node validate.js"
     },

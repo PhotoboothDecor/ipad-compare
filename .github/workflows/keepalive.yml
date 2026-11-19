@@ -1,0 +1,20 @@
+name: Keep apple-check enabled
+
+# GitHub disables scheduled workflows after 60 days without repo activity.
+# Re-enabling monthly keeps apple-check.yml's schedule alive.
+on:
+  schedule:
+    - cron: '17 6 1 * *'
+  workflow_dispatch:
+
+permissions:
+  actions: write
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable apple-check workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/apple-check.yml/enable"
