@@ -22,7 +22,7 @@ jobs:
           cache-dependency-path: scripts/package-lock.json
       - name: Install
         working-directory: scripts
-        run: npm ci
+        run: npm ci --ignore-scripts
       - name: Unit tests
         working-directory: scripts
         run: npm test

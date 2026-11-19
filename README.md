@@ -29,8 +29,8 @@ All three are in `.github/workflows/`.
 | Workflow | When | What it does |
 |---|---|---|
 | `ci.yml` (CI) | Every pull request and every push to `main` | Runs the unit tests and checks `public/catalog.json` against the previous version. On a push to `main` it then deploys the site to Firebase Hosting. If tests or deploy fail on a push to `main` (not on pull requests) it opens a "Deploy failed" issue and sends a healthchecks.io fail ping. |
-| `apple-check.yml` (Apple check) | Daily at 09:00 UTC, or by hand | Compares the catalog with Apple's pages. If something changed it opens or updates a pull request "Catalog update from Apple". If a new model has no score it opens or updates a "Scores needed" issue. Pings healthchecks.io at start and end; on failure it opens an "Apple check failed" issue. |
-| `keepalive.yml` | 1st of each month | GitHub switches off scheduled workflows after 60 days without repo activity. This re-enables the Apple check so the daily schedule never lapses. |
+| `apple-check.yml` (Apple check) | Daily at 09:00 UTC, or by hand | Compares the catalog with Apple's pages. If something changed it opens or updates a pull request "Catalog update from Apple". If a new model has no score it opens or updates a "Scores needed" issue. Pings healthchecks.io at start and end; on failure it opens an "Apple check failed" issue, or comments on the one already open. |
+| `keepalive.yml` | 1st of each month | GitHub switches off scheduled workflows after 60 days without repo activity. This re-enables the Apple check (and itself) so the schedules never lapse. |
 
 ## A "Catalog update from Apple" PR arrived — what now
 
@@ -47,10 +47,13 @@ All three are in `.github/workflows/`.
 ## A "Scores needed" issue arrived
 
 A new model appeared on Apple's pages and has no Geekbench score yet (it shows as pending on the site).
+The issue lists every model that is still pending, not just today's.
 
-1. In Chrome, open https://browser.geekbench.com/ios-benchmarks.
-2. Save the page: **Cmd+S**, Format **"Webpage, HTML Only"**, and save it somewhere easy, e.g. the Desktop.
-3. In Terminal, from the repo folder (the file name below is an example):
+1. Merge the open "Catalog update from Apple" pull request (if there is one), then run `git pull` in the
+   repo folder. The new model must be in your local `public/catalog.json` before the import can score it.
+2. In Chrome, open https://browser.geekbench.com/ios-benchmarks.
+3. Save the page: **Cmd+S**, Format **"Webpage, HTML Only"**, and save it somewhere easy, e.g. the Desktop.
+4. In Terminal, from the repo folder (the file name below is an example):
 
    ```
    node scripts/import_geekbench.js ~/Desktop/ios-benchmarks.html
@@ -59,7 +62,18 @@ A new model appeared on Apple's pages and has no Geekbench score yet (it shows a
    Useful extras: `--dry-run` shows what would change without writing; `--captured YYYY-MM-DD` sets the
    chart's date (default is today); `--accept-large-changes` is needed only if the script refuses because
    a score moved a lot, so look at the numbers first. It also accepts a `web.archive.org` link instead of a file.
-4. It edits `public/catalog.json`. Put that change on a branch and open a pull request (needs the `gh`
+   If nothing changed it prints "No score changes" and does not touch the file.
+
+   **"Unmatched" devices.** The script only matches a Geekbench name that is exactly one of the model's
+   known names (ignoring capitals and brackets). An *unmatched* device is an iPad on the Geekbench chart that
+   matches no model in the catalog. Geekbench often names an iPad differently from Apple (for example
+   "iPad Air 11-inch (8th generation)" instead of "iPad Air 11-inch (M4)"). If anything is unmatched while a
+   model is still pending, the script lists both, stops, and writes nothing. Fix it by opening
+   `public/catalog.json`, finding the pending model, and adding the Geekbench name, exactly as printed, to that
+   model's `"geekbench": []` list, for example `"geekbench": ["iPad Air 11-inch (8th generation)"]`. Then run the
+   import again. If you are sure the unmatched devices are just old or irrelevant iPads, `--allow-unmatched`
+   imports the rest anyway.
+5. It edits `public/catalog.json`. Put that change on a branch and open a pull request (needs the `gh`
    tool, or open the PR on github.com after the push):
 
    ```

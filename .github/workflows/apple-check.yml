@@ -19,10 +19,6 @@ concurrency:
   group: apple-check
   cancel-in-progress: false
 
-env:
-  HEALTHCHECKS_URL: ${{ secrets.HEALTHCHECKS_URL }}
-  GH_TOKEN: ${{ github.token }}
-
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -31,6 +27,8 @@ jobs:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
 
       - name: Ping healthchecks (start)
+        env:
+          HEALTHCHECKS_URL: ${{ secrets.HEALTHCHECKS_URL }}
         run: |
           if [ -n "$HEALTHCHECKS_URL" ]; then
             curl -fsS -m 10 --retry 3 "$HEALTHCHECKS_URL/start" || echo "healthchecks start ping failed (ignored)"
@@ -46,7 +44,7 @@ jobs:
 
       - name: Install
         working-directory: scripts
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Force failure (alert test)
         if: ${{ inputs.force_fail }}
@@ -74,27 +72,41 @@ jobs:
           body-path: summary.md
           delete-branch: true
 
-      - name: Open or update "Scores needed" issue
+      - name: Open, update or close "Scores needed" issue
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          # Names of new models listed in the summary's "## New models" section
-          names=$(awk '/^## /{in_s = ($0 == "## New models"); next} in_s && /^- /{sub(/^- /,""); sub(/ \(`.*/,""); print}' summary.md | paste -sd, - | sed 's/,/, /g')
-          if [ -z "$names" ]; then
-            echo "No new models; nothing to do"
+          # Built from the catalog (not today's summary) so every pending model stays listed.
+          node -e '
+            const c = JSON.parse(require("fs").readFileSync("public/catalog.json", "utf8"));
+            const p = c.models.filter((m) => m.score_status === "pending");
+            require("fs").writeFileSync("pending.txt", p.map((m) => m.name).join("\n"));
+          '
+          existing=$(gh issue list --state open --search 'in:title "Scores needed"' --json number,title --jq '[.[] | select(.title | startswith("Scores needed"))][0].number // empty')
+          if [ ! -s pending.txt ]; then
+            if [ -n "$existing" ]; then
+              gh issue close "$existing" --comment "No models are pending a Geekbench score any more."
+            else
+              echo "No pending models; nothing to do"
+            fi
             exit 0
           fi
+          names=$(paste -sd, pending.txt | sed 's/,/, /g')
           title="Scores needed: $names"
           {
-            echo "New iPad model(s) detected by the daily Apple check, with no Geekbench score yet: **$names**."
+            echo "These iPad models have no Geekbench score yet (they show as pending on the site):"
+            echo
+            sed 's/^/- /' pending.txt
             echo
             echo "To add scores:"
-            echo "1. In Chrome, open https://browser.geekbench.com/ios-benchmarks and save it (Cmd+S, format \"Webpage, HTML only\")."
-            echo "2. From the repo root, run \`node scripts/import_geekbench.js <saved-file>\`, or hand the saved file to Claude."
-            echo "3. The result goes in as a pull request."
+            echo "1. Merge the open \"Catalog update from Apple\" pull request (if there is one), then run \`git pull\` in the repo folder."
+            echo "2. In Chrome, open https://browser.geekbench.com/ios-benchmarks and save it (Cmd+S, format \"Webpage, HTML only\")."
+            echo "3. From the repo root, run \`node scripts/import_geekbench.js <saved-file>\`, or hand the saved file to Claude."
+            echo "4. If it reports unmatched devices, add the Geekbench name shown to that model's \`names.geekbench\` list in \`public/catalog.json\`, then run the import again."
             echo
             echo "Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           } > issue-body.md
-          existing=$(gh issue list --state open --search 'in:title "Scores needed"' --json number --jq '.[0].number // empty')
           if [ -n "$existing" ]; then
             gh issue edit "$existing" --title "$title" --body-file issue-body.md
           else
@@ -114,6 +126,8 @@ jobs:
 
       - name: Ping healthchecks (success)
         if: success()
+        env:
+          HEALTHCHECKS_URL: ${{ secrets.HEALTHCHECKS_URL }}
         run: |
           if [ -n "$HEALTHCHECKS_URL" ]; then
             curl -fsS -m 10 --retry 3 "$HEALTHCHECKS_URL" || echo "healthchecks success ping failed (ignored)"
@@ -123,6 +137,9 @@ jobs:
 
       - name: Alert on failure
         if: failure()
+        env:
+          HEALTHCHECKS_URL: ${{ secrets.HEALTHCHECKS_URL }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           if [ -f check.log ]; then tail -n 100 check.log > log-tail.txt; else echo "(no check.log; see run for details)" > log-tail.txt; fi
@@ -141,4 +158,14 @@ jobs:
             cat log-tail.txt
             echo '```'
           } > alert-body.md
-          gh issue create --label auto-update --title "Apple check failed $(date -u +%Y-%m-%d)" --body-file alert-body.md
+          existing=$(gh issue list --state open --label auto-update --search 'in:title "Apple check failed"' --json number,title --jq '[.[] | select(.title | startswith("Apple check failed"))][0].number // empty')
+          if [ -n "$existing" ]; then
+            {
+              echo "Failed again on $(date -u +%Y-%m-%d)."
+              echo
+              cat alert-body.md
+            } > alert-comment.md
+            gh issue comment "$existing" --body-file alert-comment.md
+          else
+            gh issue create --label auto-update --title "Apple check failed $(date -u +%Y-%m-%d)" --body-file alert-body.md
+          fi
