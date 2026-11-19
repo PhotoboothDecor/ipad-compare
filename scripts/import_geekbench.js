@@ -10,10 +10,11 @@ const USER_AGENT = 'ipad-compare-bot (+https://github.com/PhotoboothDecor/ipad-c
 const DEFAULT_CATALOG = path.join(__dirname, '..', 'public', 'catalog.json');
 
 function parseArgs(argv) {
-  const o = { input: null, captured: null, dryRun: false, acceptLarge: false, catalog: DEFAULT_CATALOG };
+  const o = { input: null, captured: null, dryRun: false, allowUnmatched: false, acceptLarge: false, catalog: DEFAULT_CATALOG };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--dry-run') o.dryRun = true;
+    else if (a === '--allow-unmatched') o.allowUnmatched = true;
     else if (a === '--accept-large-changes') o.acceptLarge = true;
     else if (a === '--captured') o.captured = argv[++i];
     else if (a === '--catalog') o.catalog = path.resolve(argv[++i]);
@@ -21,7 +22,7 @@ function parseArgs(argv) {
     else if (o.input === null) o.input = a;
     else throw new Error(`Unexpected argument ${a}`);
   }
-  if (!o.input) throw new Error('Usage: import_geekbench.js <file-or-wayback-url> [--captured YYYY-MM-DD] [--dry-run] [--catalog <path>] [--accept-large-changes]');
+  if (!o.input) throw new Error('Usage: import_geekbench.js <file-or-wayback-url> [--captured YYYY-MM-DD] [--dry-run] [--catalog <path>] [--accept-large-changes] [--allow-unmatched]');
   if (o.captured !== null && !/^\d{4}-\d{2}-\d{2}$/.test(o.captured)) throw new Error('--captured must be YYYY-MM-DD');
   return o;
 }
@@ -53,15 +54,25 @@ async function main() {
 
   const previous = JSON.parse(fs.readFileSync(opts.catalog, 'utf8'));
   const { catalog, report } = applyChart(previous, chart, { captured });
+  const unchanged = JSON.stringify(catalog) === JSON.stringify(previous);
   catalog.updated = new Date().toISOString().slice(0, 10);
 
   console.log(`Geekbench ${report.version} chart, captured ${captured}: ${chart.devices.length} iPads`);
   for (const c of report.changes) console.log(`  ${c.id}: gb6_multi ${c.before} -> ${c.after} (${c.source})`);
   for (const r of report.ratios) console.log(`  ratio ${r.chip} ${r.kind}: ${r.ratio.toFixed(4)} from ${r.basis.join(', ')} (spread ${r.spread.toFixed(3)})`);
+  for (const c of report.chipFilled) console.log(`  ${c.id}: chip was "unknown"; set to ${c.chip} from the chart`);
   for (const w of report.warnings) console.log(`  warning: ${w}`);
   if (report.unmatched.length) {
     console.log('Unmatched chart devices (not added):');
     for (const d of report.unmatched) console.log(`  ${d.name} [${d.chip}] single ${d.single} multi ${d.multi}`);
+  }
+
+  const pending = catalog.models.filter((m) => m.score_status === 'pending');
+  if (report.unmatched.length && pending.length && !opts.allowUnmatched) {
+    console.error('Chart iPads with no matching catalog model:\n' + report.unmatched.map((d) => `  ${d.name}`).join('\n'));
+    console.error('Models still pending (no score):\n' + pending.map((m) => `  ${m.name} (${m.id})`).join('\n'));
+    console.error("Nothing written. If one of these is the same iPad, add the Geekbench name to that model's names.geekbench in public/catalog.json, then re-run (or use --allow-unmatched to import anyway).");
+    process.exit(1);
   }
 
   const errors = validateCatalog(catalog, { previous });
@@ -75,6 +86,11 @@ async function main() {
     console.error('Score moves over 15% (use --accept-large-changes to allow):\n' +
       large.map((c) => `  ${c.id}: ${c.before} -> ${c.after}`).join('\n'));
     process.exit(1);
+  }
+
+  if (unchanged) {
+    console.log('No score changes');
+    return;
   }
 
   if (opts.dryRun) {

@@ -185,3 +185,89 @@ test('CLI blocks score moves over 15% unless --accept-large-changes', () => {
   const r2 = runCli([path.join(FIX, 'gb6-2026-07-18.html'), '--captured', '2026-07-18', '--catalog', p, '--accept-large-changes']);
   assert.equal(r2.status, 0, r2.stderr);
 });
+
+// ---- alias matching, unknown chips, unmatched gate ----
+
+const airM4 = (extra = {}) => baseModel('iPad Air 11-inch (M4)', 'M4', {
+  id: 'ipad-air-11-m4', family: 'air', size_in: 11,
+  names: { apple: ['iPad Air 11-inch (M4)'], geekbench: [], aliases: ['iPad Air 11-inch 8th generation'] },
+  ...extra,
+});
+const airDevice = { name: 'iPad Air 11-inch (8th generation)', chip: 'Apple M4', single: 3600, multi: 14000 };
+
+test('applyChart matches exact normalized names.aliases (GB7 chart scores M4 Air as gb7-converted)', () => {
+  const cat = withGb6Gb7();
+  cat.models.push(airM4());
+  const chart = { version: 7, devices: [...gb7b.devices, airDevice] };
+  const { catalog, report } = applyChart(cat, chart, { captured: '2026-11-19' });
+  const air = catalog.models.find((m) => m.id === 'ipad-air-11-m4');
+  assert.equal(air.score_status, 'ok');
+  assert.equal(air.score.source, 'gb7-converted');
+  assert.equal(air.score.gb7_multi, 14000);
+  assert.equal(report.unmatched.length, 0);
+});
+
+test('applyChart does not fuzzy-match near names', () => {
+  const cat = withGb6Gb7();
+  cat.models.push(airM4());
+  const chart = { version: 7, devices: [{ ...airDevice, name: 'iPad Air 11-inch (8th generation) Wi-Fi' }] };
+  const { report } = applyChart(cat, chart, { captured: '2026-11-19' });
+  assert.equal(report.unmatched.length, 1);
+});
+
+test('applyChart throws when a chart name matches two different models', () => {
+  const cat = buildCatalog();
+  cat.models.push(airM4({ names: { apple: [], geekbench: [], aliases: ['iPad mini 4'] } }));
+  const chart = { version: 6, devices: [{ name: 'iPad mini 4', chip: 'Apple A8', single: 412, multi: 602 }] };
+  assert.throws(() => applyChart(cat, chart, { captured: '2026-07-18' }), /iPad mini 4/);
+});
+
+test('applyChart fills an "unknown" chip from the chart before converting, and reports it', () => {
+  const cat = withGb6Gb7();
+  const m = baseModel('iPad Air 11-inch (8th generation)', 'unknown', { id: 'x-air' });
+  cat.models.push(m);
+  const chart = { version: 7, devices: [{ name: m.name, chip: 'Apple M5', single: 4000, multi: 15000 }] };
+  const { catalog, report } = applyChart(cat, chart, { captured: '2026-11-19' });
+  const out = catalog.models.find((x) => x.id === 'x-air');
+  assert.equal(out.chip, 'M5');
+  assert.equal(out.score.source, 'gb7-converted');
+  assert.ok(Math.abs(out.score.ratio_multi - 0.968) < 0.001);
+  assert.deepEqual(report.chipFilled, [{ id: 'x-air', chip: 'M5' }]);
+  assert.equal(report.warnings.length, 0);
+  assert.equal(cat.models.find((x) => x.id === 'x-air').chip, 'unknown'); // input untouched
+});
+
+// Chart HTML where the A20 Pro mini is listed under another name.
+const renamedChart = () => {
+  const f = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'gbchart-')), 'chart.html');
+  fs.writeFileSync(f, read('gb7-2026-11-19.html').replace(/iPad mini \(A20 Pro\)/g, 'iPad mini (9th generation)'));
+  return f;
+};
+
+test('CLI exits 1 without writing when chart has unmatched iPads and models are still pending', () => {
+  const p = tmpCatalog(withGb6Gb7());
+  const orig = fs.readFileSync(p, 'utf8');
+  const r = runCli([renamedChart(), '--captured', '2026-11-19', '--catalog', p]);
+  assert.equal(r.status, 1);
+  assert.equal(fs.readFileSync(p, 'utf8'), orig);
+  assert.match(r.stderr, /iPad mini \(9th generation\)/);
+  assert.match(r.stderr, /iPad mini \(A20 Pro\)/);
+  assert.match(r.stderr, /add the Geekbench name to that model's names\.geekbench in public\/catalog\.json, then re-run/);
+});
+
+test('CLI --allow-unmatched overrides the unmatched gate', () => {
+  const p = tmpCatalog(withGb6Gb7());
+  const r = runCli([renamedChart(), '--captured', '2026-11-19', '--catalog', p, '--allow-unmatched']);
+  assert.equal(r.status, 0, r.stderr);
+});
+
+test('CLI no-op run prints "No score changes" and does not rewrite the file', () => {
+  const cat = withGb6Gb7();
+  cat.updated = '2020-01-01';
+  const p = tmpCatalog(cat);
+  const orig = fs.readFileSync(p, 'utf8');
+  const r = runCli([path.join(FIX, 'gb7-2026-10-31.html'), '--captured', '2026-10-31', '--catalog', p]);
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(r.stdout, /No score changes/);
+  assert.equal(fs.readFileSync(p, 'utf8'), orig);
+});

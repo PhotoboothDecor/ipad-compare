@@ -99,11 +99,17 @@ function conversionRatio(chip, pairs, kind) {
 // was before this chart, so a new GB7 chart never shifts its own conversions.
 function applyChart(catalog, chart, { captured }) {
   const next = JSON.parse(JSON.stringify(catalog));
-  const report = { version: chart.version, changes: [], unmatched: [], ratios: [], warnings: [] };
+  const report = { version: chart.version, changes: [], unmatched: [], ratios: [], warnings: [], chipFilled: [] };
 
+  // Exact normalized equality over name, names.geekbench and names.aliases.
   const index = new Map();
   for (const m of next.models) {
-    for (const n of [m.name, ...m.names.geekbench]) index.set(normalizeName(n), m);
+    for (const n of [m.name, ...m.names.geekbench, ...m.names.aliases]) {
+      const key = normalizeName(n);
+      const other = index.get(key);
+      if (other && other !== m) throw new Error(`Name "${n}" matches both ${other.id} and ${m.id}`);
+      index.set(key, m);
+    }
   }
 
   const pairs = catalog.models.filter((m) => m.score && m.score.source === 'gb6' && m.score.gb7_multi != null && m.score.gb7_single != null);
@@ -127,6 +133,10 @@ function applyChart(catalog, chart, { captured }) {
     if (m.score_status === 'unsupported') {
       report.warnings.push(`${m.id}: marked unsupported but appears in chart; skipped`);
       continue;
+    }
+    if (m.chip === 'unknown' && shortChip(d.chip)) {
+      m.chip = shortChip(d.chip);
+      report.chipFilled.push({ id: m.id, chip: m.chip });
     }
     if (shortChip(d.chip) !== m.chip) {
       report.warnings.push(`${m.id}: chart chip "${d.chip}" differs from catalog chip "${m.chip}"`);
