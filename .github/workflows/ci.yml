@@ -61,3 +61,26 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_HOSTING }}
           channelId: live
           projectId: ipad-compare
+
+  alert:
+    needs: [test, deploy]
+    if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/main' && (needs.test.result == 'failure' || needs.deploy.result == 'failure') }}
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    env:
+      HEALTHCHECKS_URL: ${{ secrets.HEALTHCHECKS_URL }}
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Ping healthchecks and open issue
+        run: |
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          if [ -n "$HEALTHCHECKS_URL" ]; then
+            printf 'CI/deploy failed on main: %s\n' "$run_url" | curl -fsS -m 10 --retry 3 --data-binary @- "$HEALTHCHECKS_URL/fail" || echo "healthchecks fail ping failed (ignored)"
+          else
+            echo "HEALTHCHECKS_URL not set; skipping ping"
+          fi
+          gh label create auto-update --force --color ededed --description "Automated catalog updates and alerts" || true
+          printf 'CI or deploy failed on main.\n\nRun: %s\n' "$run_url" > alert-body.md
+          gh issue create --label auto-update --title "Deploy failed $(date -u +%Y-%m-%d)" --body-file alert-body.md
