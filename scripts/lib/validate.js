@@ -42,6 +42,7 @@ const schema = {
           released: { type: 'integer', minimum: 2010 },
           a_numbers: { type: 'array', items: { type: 'string', pattern: '^A\\d{4}$' } },
           max_os_major: { type: 'integer' },
+          generation: { type: ['integer', 'null'], minimum: 1 }, // optional: Apple's generation number, shared across sizes
           apple_topic_id: { type: ['string', 'null'] },
           names: {
             type: 'object',

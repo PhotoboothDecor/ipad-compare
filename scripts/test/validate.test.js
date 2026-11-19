@@ -44,6 +44,13 @@ test('minimal valid catalog', () => {
   assert.deepEqual(validateCatalog(cat([model(), second()]), { now }), []);
 });
 
+test('generation: optional integer or null', () => {
+  assert.deepEqual(validateCatalog(cat([model({ generation: 7 }), second({ generation: null })]), { now }), []);
+  has(validateCatalog(cat([model({ generation: '7' })]), { now }), 'ipad-air-11-m4', 'generation');
+  has(validateCatalog(cat([model({ generation: 6.5 })]), { now }), 'ipad-air-11-m4', 'generation');
+  has(validateCatalog(cat([model({ generation: 0 })]), { now }), 'ipad-air-11-m4', 'generation');
+});
+
 test('duplicate id', () => {
   const e = validateCatalog(cat([model(), second({ id: 'ipad-air-11-m4' })]), { now });
   has(e, 'ipad-air-11-m4', 'duplicate');
