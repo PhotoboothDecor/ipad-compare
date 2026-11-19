@@ -62,16 +62,6 @@ jobs:
           set -o pipefail
           node scripts/validate.js 2>&1 | tee -a check.log
 
-      - name: Open or update PR
-        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7.0.11
-        with:
-          add-paths: public/catalog.json
-          branch: auto/catalog-update
-          commit-message: 'data: catalog update from Apple'
-          title: Catalog update from Apple
-          body-path: summary.md
-          delete-branch: true
-
       - name: Open, update or close "Scores needed" issue
         env:
           GH_TOKEN: ${{ github.token }}
@@ -81,7 +71,7 @@ jobs:
           node -e '
             const c = JSON.parse(require("fs").readFileSync("public/catalog.json", "utf8"));
             const p = c.models.filter((m) => m.score_status === "pending");
-            require("fs").writeFileSync("pending.txt", p.map((m) => m.name).join("\n"));
+            require("fs").writeFileSync("pending.txt", p.map((m) => m.name).join("\n") + (p.length ? "\n" : ""));
           '
           existing=$(gh issue list --state open --search 'in:title "Scores needed"' --json number,title --jq '[.[] | select(.title | startswith("Scores needed"))][0].number // empty')
           if [ ! -s pending.txt ]; then
@@ -92,8 +82,11 @@ jobs:
             fi
             exit 0
           fi
-          names=$(paste -sd, pending.txt | sed 's/,/, /g')
+          total=$(wc -l < pending.txt | tr -d ' ')
+          names=$(head -n 3 pending.txt | paste -sd, - | sed 's/,/, /g')
+          if [ "$total" -gt 3 ]; then names="$names +$((total - 3)) more"; fi
           title="Scores needed: $names"
+          gh label create auto-update --force --color ededed --description "Automated catalog updates and alerts" || true
           {
             echo "These iPad models have no Geekbench score yet (they show as pending on the site):"
             echo
@@ -108,10 +101,20 @@ jobs:
             echo "Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           } > issue-body.md
           if [ -n "$existing" ]; then
-            gh issue edit "$existing" --title "$title" --body-file issue-body.md
+            gh issue edit "$existing" --title "$title" --body-file issue-body.md --add-label auto-update
           else
-            gh issue create --title "$title" --body-file issue-body.md
+            gh issue create --title "$title" --body-file issue-body.md --label auto-update
           fi
+
+      - name: Open or update PR
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7.0.11
+        with:
+          add-paths: public/catalog.json
+          branch: auto/catalog-update
+          commit-message: 'data: catalog update from Apple'
+          title: Catalog update from Apple
+          body-path: summary.md
+          delete-branch: true
 
       - name: Upload log and summary
         if: always()
