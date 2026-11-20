@@ -94,9 +94,9 @@ function getMaxOS(normalizedName, versionModels, normalizedAliases = []) {
 
     for (const version of versions) {
         const models = versionModels[version];
-        const found = namesToCheck.some(name =>
-            models.some(m => m.includes(name) || name.includes(m))
-        );
+        // Exact match only: substring matching let a bare "ipad" list item
+        // mark every model as "Latest".
+        const found = namesToCheck.some(name => models.includes(name));
         if (found) {
             if (version === versions[0]) return "Latest";
             return `iPadOS ${version}`;
@@ -129,18 +129,39 @@ async function main() {
             process.exit(1);
         }
 
+        // A model number must belong to exactly one model. Numbers that show up
+        // under several Apple headings (a container that grabbed the whole page)
+        // or are already owned by another entry are never merged. Loose substring
+        // matching here once copied ~140 numbers onto every model.
+        const headingsPerNumber = {};
+        for (const { numbers } of Object.values(appleModels)) {
+            for (const n of numbers) headingsPerNumber[n] = (headingsPerNumber[n] || 0) + 1;
+        }
+        const ownerOf = {};
+        for (const entry of modelMapping) {
+            for (const n of entry.model_numbers) ownerOf[n] = entry.model_name;
+        }
+
         for (const entry of modelMapping) {
             const normName = normalize(entry.model_name);
             const normAliases = (entry.aliases || []).map(a => normalize(a));
 
-            const match = Object.entries(appleModels).find(([key]) => {
-                if (key.includes(normName) || normName.includes(key)) return true;
-                return normAliases.some(alias => key.includes(alias) || alias.includes(key));
-            });
+            const match = Object.entries(appleModels).find(([key]) =>
+                key === normName || normAliases.includes(key)
+            );
 
             if (match) {
                 const [, appleData] = match;
-                const newNumbers = appleData.numbers.filter(n => !entry.model_numbers.includes(n));
+                if (appleData.numbers.length > 12) {
+                    console.warn(`Skipping ${entry.model_name}: Apple block has ${appleData.numbers.length} numbers, looks like a page-wide container`);
+                    continue;
+                }
+                const newNumbers = appleData.numbers.filter(n =>
+                    !entry.model_numbers.includes(n) &&
+                    headingsPerNumber[n] === 1 &&
+                    (!ownerOf[n] || ownerOf[n] === entry.model_name)
+                );
+                newNumbers.forEach(n => { ownerOf[n] = entry.model_name; });
                 if (newNumbers.length > 0) {
                     entry.model_numbers.push(...newNumbers);
                     mappingChanged = true;
@@ -159,7 +180,12 @@ async function main() {
             const normAliases = (entry.aliases || []).map(a => normalize(a));
             const maxOS = getMaxOS(normName, versionModels, normAliases);
 
-            if (maxOS !== "Unknown") {
+            // A model that has stopped getting updates can never become "Latest"
+            // again, so never overwrite a final version with "Latest".
+            const currentMaxOS = modelSpecs[entry.model_name] && modelSpecs[entry.model_name].max_os;
+            const wouldRevive = maxOS === "Latest" && currentMaxOS && currentMaxOS !== "Latest";
+
+            if (maxOS !== "Unknown" && !wouldRevive) {
                 const docRef = db.collection("geekbench_scores").doc(entry.model_name);
                 batch.set(docRef, { max_os: maxOS }, { merge: true });
                 batchCount++;

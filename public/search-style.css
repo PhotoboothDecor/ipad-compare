@@ -1,31 +1,23 @@
-/* Search Styles */
-/* Make sure the parent container allows absolute positioning of the dropdown */
+/* Search suggestions — Photo Booth Decor styling */
 .input-group,
 .model-resolve-wrapper {
     position: relative;
 }
 
-/* Generalized Dropdown Class */
 .suggestions-dropdown {
     position: absolute;
-    top: 100%;
-    /* Directly below */
+    top: calc(100% + 6px);
     left: 0;
     width: 100%;
-    /* Match input width */
-    max-height: 250px;
+    max-height: 260px;
     overflow-y: auto;
-    background: #ffffff;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--border);
-    border-top: none;
-    /* Blend with input */
-    border-radius: 0 0 8px 8px;
-    /* Rounded bottom corners */
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
     list-style: none;
-    padding: 0;
+    padding: 4px;
     margin: 0;
-    /* Remove gap */
     z-index: 100;
 }
 
@@ -33,51 +25,45 @@
     display: none;
 }
 
-/* Table context specific override */
 .model-resolve-wrapper .suggestions-dropdown {
     min-width: clamp(240px, 90vw, 350px);
-    /* Wide on desktop, safe on mobile */
     z-index: 9999;
-    /* Ensure on top of other rows */
-    background: #ffffff;
-    /* Ensure non-transparent */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    /* Stronger shadow */
 }
 
 .suggestions-dropdown li {
-    padding: 12px 16px;
+    padding: 10px 12px;
     cursor: pointer;
-    font-size: 0.95rem;
-    color: var(--text);
-    border-bottom: 1px solid var(--border);
-    transition: background 0.2s ease;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    border-radius: 8px;
     text-align: left;
-    /* Ensure left align even in centered table cells */
+    transition: background-color .12s ease;
 }
 
-.suggestions-dropdown li:last-child {
-    border-bottom: none;
+.suggestions-dropdown li + li {
+    margin-top: 2px;
 }
 
 .suggestions-dropdown li:hover {
-    background-color: #f8fafc;
-    /* Light gray hover */
-    color: #0f172a;
-    font-weight: 500;
+    background: var(--lime);
 }
 
 .suggestions-dropdown li strong {
-    color: var(--accent-gold);
-    /* Gold highlight for matches */
+    color: var(--pink-ink);
 }
 
-/* Scrollbar for suggestions */
+.suggestions-dropdown li.no-result-tip,
+.suggestions-dropdown li.no-result-tip:hover {
+    background: #fff4c9;
+    cursor: default;
+}
+
 .suggestions-dropdown::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
 }
 
 .suggestions-dropdown::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 3px;
+    background: var(--ink-3);
+    border-radius: 4px;
 }

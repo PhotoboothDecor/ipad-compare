@@ -60,66 +60,74 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Geekbench / Wikipedia names that are really another canonical model.
+    // They only donate a benchmark score; they never appear as their own model.
+    const MODEL_ALIASES = {
+        'iPad Pro (12.9-inch)': 'iPad Pro 12.9-inch (1st generation)',
+        'iPad Pro (11-inch)': 'iPad Pro 11-inch (1st generation)',
+        'iPad Pro (11-inch, 4th generation)': 'iPad Pro 11-inch (4th generation)',
+        'iPad Pro (12.9-inch, 6th generation)': 'iPad Pro 12.9-inch (6th generation)',
+        'iPad Air (6th generation)': 'iPad Air 11-inch (M2)',
+        'iPad Air (7th generation)': 'iPad Air 11-inch (M3)',
+        'iPad Air 11-inch (7th generation)': 'iPad Air 11-inch (M3)',
+        'iPad Air 13-inch (7th generation)': 'iPad Air 13-inch (M3)',
+        'iPad mini (7th generation)': 'iPad mini (A17 Pro)'
+    };
+
+    // Loose key so "iPad Pro (12.9-inch 2nd Generation)" lines up with
+    // "iPad Pro 12.9-inch (2nd generation)".
+    function scoreKey(name) {
+        return name.toLowerCase()
+            .replace(/generation/g, 'gen')
+            .replace(/[(),]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
     async function loadModels() {
+        // model_specs.json is the list of real models and the source of truth
+        // for chip, year and max iOS. Firestore only supplies Geekbench scores
+        // (its other fields are unreliable and it holds scraper debris such as
+        // "iPad Air (6th)" or "iPadOS 18.7.7").
+        const specsResponse = await fetch('model_specs.json');
+        if (!specsResponse.ok) throw new Error('Could not load model_specs.json');
+        const specs = await specsResponse.json();
+
+        const dbScores = {};
         try {
             const snapshot = await db.collection('geekbench_scores').get();
-            if (snapshot.empty) {
-                console.warn("No models found in DB");
-            } else {
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    modelsData[data.name || doc.id] = {
-                        score: data.multi_core_score || 0,
-                        cpu: data.cpu || 'Unknown',
-                        released: data.released || 'Unknown',
-                        max_os: data.max_os || 'Unknown'
-                    };
-                });
-            }
-
-            // Fallback: Load local model_specs.json to fill gaps (e.g. scores missing in DB)
-            try {
-                const specsResponse = await fetch('model_specs.json');
-                if (specsResponse.ok) {
-                    const specs = await specsResponse.json();
-                    for (const [name, data] of Object.entries(specs)) {
-                        if (!modelsData[name]) {
-                            // Totally missing from DB -> Add it
-                            modelsData[name] = {
-                                score: data.score || 0,
-                                cpu: data.cpu || 'Unknown',
-                                released: data.released || 'Unknown',
-                                max_os: data.max_os || 'Unknown'
-                            };
-                        } else {
-                            // Exists in DB, but might have missing data
-                            const current = modelsData[name];
-
-                            // Patch Score
-                            if ((!current.score || current.score === 0) && data.score) {
-                                console.log(`Patching score for ${name} from local specs: ${data.score}`);
-                                current.score = data.score;
-                            }
-                            // Patch CPU
-                            if ((!current.cpu || current.cpu === 'Unknown') && data.cpu) {
-                                current.cpu = data.cpu;
-                            }
-                            // Patch Released
-                            if ((!current.released || current.released === 'Unknown') && data.released) {
-                                current.released = data.released;
-                            }
-                            // Patch Max iOS
-                            if ((!current.max_os || current.max_os === 'Unknown') && data.max_os) {
-                                current.max_os = data.max_os;
-                            }
-                        }
-                    }
-                }
-            } catch (err) {
-                console.warn("Could not load model_specs.json for fallback", err);
-            }
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                const score = parseInt(data.multi_core_score, 10);
+                if (score > 0) dbScores[data.name || doc.id] = score;
+            });
         } catch (error) {
-            throw new Error(`DB Load Failed: ${error.message}`);
+            console.warn('Could not load scores from Firestore, using local specs only', error);
+        }
+
+        const scoresByKey = {};
+        for (const [name, score] of Object.entries(dbScores)) {
+            const target = MODEL_ALIASES[name] || name;
+            const key = scoreKey(target);
+            if (!scoresByKey[key]) scoresByKey[key] = score;
+        }
+
+        for (const [name, data] of Object.entries(specs)) {
+            if (MODEL_ALIASES[name]) {
+                const target = MODEL_ALIASES[name];
+                const key = scoreKey(target);
+                if (!scoresByKey[key] && data.score) scoresByKey[key] = data.score;
+            }
+        }
+
+        for (const [name, data] of Object.entries(specs)) {
+            if (MODEL_ALIASES[name]) continue;
+            modelsData[name] = {
+                score: dbScores[name] || scoresByKey[scoreKey(name)] || data.score || 0,
+                cpu: data.cpu || 'Unknown',
+                released: data.released || 'Unknown',
+                max_os: data.max_os || 'Unknown'
+            };
         }
     }
 
@@ -207,7 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (activeFilterType === 'budget') matchesType = price < 400;
             else if (activeFilterType === 'pro') matchesType = isPro;
 
-            const matchesQuery = model.includes(query) || row.dataset.cpu.toLowerCase().includes(query);
+            const matchesQuery = model.includes(query) || row.dataset.cpu.toLowerCase().includes(query)
+                || (row.dataset.listing || '').toLowerCase().includes(query);
 
             if (matchesType && matchesQuery) {
                 row.style.display = '';
@@ -286,12 +295,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function cleanTitle(raw) {
         let t = raw;
 
+        t = t.replace(/\bi\s+pad\b/gi, 'iPad'); // "I pad mini 4"
         t = t.replace(/[\[(](sealed|new|used|mint|trading)[\])]/gi, '');
         t = t.replace(/^(New|Brand New|Like New|Used|Mint|Sealed)\s+/i, '');
         t = t.replace(/^Apple\s+/i, '');
         t = t.replace(/^\$\d+\s+/i, '');
         t = t.replace(/^(?:CA\$|CAD\s*\$?)\s*\d+\s+/i, '');
-        t = t.replace(/\b\d+\s*(GB|TB|gb|tb)\b/gi, '');
+        t = t.replace(/\b\d+\s*(GB|TB|G|Go)\b/gi, ''); // "128 g", French "64 Go"
         t = t.replace(/\b(Blue|Pink|Yellow|Silver|Gold|Space\s*Gr[ae]y|White|Black|Starlight|Purple|Red)\b/gi, '');
         t = t.replace(/\b(Wi-?Fi|WiFi|Cellular|Wi-?Fi\s*\+\s*Cellular|4G\s*LTE|LTE)\b/gi, '');
         t = t.replace(/\b(Like New|Condition|pristine condition|Fully functional|very good battery|Fully clean|abd ready)\b/gi, '');
@@ -310,6 +320,22 @@ document.addEventListener('DOMContentLoaded', () => {
         t = t.replace(/(\d+)(?:ST|ND|RD|TH)?\s*GEN(?:ERATION)?\.?\s*/gi, (_, num) => {
             return getOrdinal(parseInt(num)) + ' generation ';
         });
+
+        // "Air2" / "mini4" -> "Air 2" / "mini 4"
+        t = t.replace(/\b(air|mini)(\d)\b/gi, '$1 $2');
+
+        // "2nd generation Apple iPad" -> "iPad 2nd generation"
+        t = t.replace(/^(\d+(?:st|nd|rd|th)\s+generation)\s+(?:Apple\s+)?(iPad(?:\s+(?:Air|mini|Pro))?)\b/i, '$2 $1');
+
+        // Models Apple named by number rather than "(Nth generation)"
+        t = t.replace(/^iPad\s+2nd\s+generation\b/i, 'iPad 2');
+        t = t.replace(/^iPad\s+Air\s+2nd\s+generation\b/i, 'iPad Air 2');
+        t = t.replace(/^iPad\s+mini\s+(2nd|3rd|4th)\s+generation\b/i, (_, g) => `iPad mini ${parseInt(g, 10)}`);
+
+        // Screen sizes: "12.9inch", "12.9 Inch", "10.5”" -> "12.9-inch"
+        t = t.replace(/\b(\d{1,2}(?:\.\d)?)\s*-?\s*(?:inch(?:es)?|in\b|"|”|'')/gi, '$1-inch');
+        // Bare size after the line name: "iPad Pro 12.9 2nd generation" -> "iPad Pro 12.9-inch 2nd generation"
+        t = t.replace(/\b(pro|air)\s+(12\.9|9\.7|10\.5|11|13)\b(?!-inch)/gi, '$1 $2-inch');
 
         t = t.replace(/^TRADING\s*\|\s*/i, '');
         t = t.replace(/\s*[•·]\s*/g, ' ');
@@ -347,14 +373,23 @@ document.addEventListener('DOMContentLoaded', () => {
      * Returns false if the listing should be skipped entirely.
      */
     function isIPadListing(rawTitle) {
-        const t = rawTitle.toLowerCase();
+        const t = rawTitle.toLowerCase().replace(/\bi\s+pad\b/g, 'ipad');
 
         if (!t.includes('ipad')) return false;
+
+        // Accessory sold on its own: "iPad Keyboard", "Apple iPad Pencil"
+        if (/^(?:apple\s+)?ipad\s+(?:keyboard|case|cover|stand|charger|pencil|stylus|mount|holder|screen\s+protector)s?\b/.test(t)) return false;
+        // Dealer ads covering several models
+        if (/\bipads\b|\bmultiple\s+models\b/.test(t)) return false;
 
         if (/\bfor\s+ipad\b/i.test(rawTitle)) return false;
         if (/\bcase\b.*\bipad\b/i.test(rawTitle) && !/\bipad\b.*\bcase\b/i.test(rawTitle)) return false;
         if (/\baccessor(?:y|ies)\s+bundle\b/i.test(rawTitle)) return false;
         if (/\bipad\b.*\baccessor(?:y|ies)\b/i.test(rawTitle)) return false;
+
+        // Empty retail boxes and job lots are not a single iPad
+        if (/\bipad\s+box\b|\bbox\s+only\b|\bempty\s+box\b|\bbox\s+for\b/i.test(rawTitle)) return false;
+        if (/\blot\s+of\b/i.test(rawTitle)) return false;
 
         if (/^samsung\b/i.test(rawTitle)) return false;
         if (/^logitech\b/i.test(rawTitle)) return false;
@@ -362,6 +397,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return true;
     }
+
+    /**
+     * Bulk-paste matching: only accept a model when the title clearly points
+     * at one. Vague titles ("iPad Air", "iPad Pro 12.9-inch") return null so
+     * the row is flagged for the user instead of silently guessing.
+     */
+    function pickBulkMatch(cleaned) {
+        const matches = findMatches(cleaned);
+        if (matches.length === 0) return null;
+        const [top, runnerUp] = matches;
+        if (top.relevance <= 0) return null;
+        if (runnerUp && runnerUp.name !== top.name && runnerUp.relevance >= top.relevance - 5) {
+            console.log(`Ambiguous: "${cleaned}" -> ${top.name} (${top.relevance}) vs ${runnerUp.name} (${runnerUp.relevance})`);
+            return null;
+        }
+        return top;
+    }
+
+    // Anything this cheap is an accessory, a box, or a placeholder price
+    const MIN_LISTING_PRICE = 25;
 
     // --- Bulk Process Logic (Improved) ---
     async function processLegacyBulk(rawText) {
@@ -509,6 +564,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Clean up Name Part
             // 1. Remove "in City, ST" location suffix
             namePart = namePart.replace(/\s+in\s+[A-Za-z\s\.\-]+, [A-Z]{2}$/i, '');
+            const listingTitle = namePart.trim(); // ad title as the seller wrote it
             // 2. Remove common prefixes that confuse matcher if not exact
             // e.g. "Apple iPad..." -> "iPad..." (Matcher works better with standard starts)
             namePart = namePart.replace(/^Apple\s+/i, '');
@@ -526,14 +582,12 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(`  -> ADDING ROW: ${namePart} - $${price}`);
 
             // 3. Find Match & Add Row
-            const matches = findMatches(namePart);
+            const match = pickBulkMatch(cleanTitle(namePart));
 
             let modelNameToAdd = namePart;
             let modelDataToAdd = null;
 
-            if (matches.length > 0) {
-                // Exact or fuzzy match found
-                const match = matches[0];
+            if (match) {
                 modelNameToAdd = match.name;
                 modelDataToAdd = modelsData[match.name];
             }
@@ -572,6 +626,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (modelDataToAdd) {
                 addedRow = addResultRow({
                     model: modelNameToAdd,
+                    listing: listingTitle,
                     price: price,
                     cpu: modelDataToAdd ? modelDataToAdd.cpu : '?',
                     released: modelDataToAdd ? modelDataToAdd.released : '?',
@@ -581,6 +636,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 addedRow = addResultRow({
                     model: modelNameToAdd,
+                    listing: listingTitle,
                     price: price,
                     incomplete: true
                 }, true);
@@ -642,8 +698,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for (const block of blocks) {
             // Pre-filter: skip non-iPad listings
-            if (!isIPadListing(block.rawTitle)) {
-                console.log(`Skipping non-iPad listing: "${block.rawTitle}"`);
+            if (!isIPadListing(block.rawTitle) || block.price < MIN_LISTING_PRICE) {
+                console.log(`Skipping non-iPad listing: "${block.rawTitle}" @ $${block.price}`);
                 continue;
             }
 
@@ -652,13 +708,13 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(`Block: "${block.rawTitle}" -> cleaned: "${cleaned}" @ $${block.price}`);
 
             // Find model match
-            const matches = findMatches(cleaned);
+            const match = pickBulkMatch(cleaned);
 
-            if (matches.length > 0) {
-                const match = matches[0];
+            if (match) {
                 const data = modelsData[match.name];
                 addResultRow({
                     model: match.name,
+                    listing: block.rawTitle,
                     price: block.price,
                     cpu: data ? data.cpu : '?',
                     released: data ? data.released : '?',
@@ -669,6 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Unknown model — show with resolve prompt
                 addResultRow({
                     model: cleaned || block.rawTitle,
+                    listing: block.rawTitle,
                     price: block.price,
                     incomplete: true
                 }, true);
@@ -789,7 +846,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Escape special regex chars in token just in case
                     const escapedToken = token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                     // Look for token bounded by non-digits
-                    const regex = new RegExp(`(?:^|[^0-9])${escapedToken}(?:[^0-9]|$)`, 'i');
+                    // Also not glued to a letter, so "2" doesn't match the chip "M2"
+                    const regex = new RegExp(`(?:^|[^0-9a-z])${escapedToken}(?:[^0-9]|$)`, 'i');
                     if (regex.test(modelLower)) {
                         tokenMatches++;
                     }
@@ -806,7 +864,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (queryScreenSize) {
                 // Check if model name contains this size
                 // e.g. "12.9"
-                if (modelLower.includes(queryScreenSize.toString())) {
+                // Needs "-inch": a bare "11" would hit "iPad (11th generation)"
+                if (modelLower.includes(queryScreenSize.toString() + '-inch')) {
                     matchScore += 150; // Huge Boost for matching screen size
                 }
             }
@@ -888,6 +947,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (matchType !== 'name' && matchType !== 'number') {
                         matchType = 'cpu';
                         matchedDetail = modelData.cpu;
+                    }
+                }
+                // 3. Chip family alone: "iPad A16" / "iPad (A16)" -> "A16 Bionic"
+                else if (cpu) {
+                    const cpuFamily = cpu.split(' ')[0];
+                    const chipTokens = queryLower.split(/[\s(),]+/);
+                    if (/^[am]\d+[xz]?$/.test(cpuFamily) && chipTokens.includes(cpuFamily)) {
+                        matchScore += 80;
+                        if (matchType !== 'name' && matchType !== 'number') {
+                            matchType = 'cpu';
+                            matchedDetail = modelData.cpu;
+                        }
                     }
                 }
 
@@ -1031,7 +1102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const li = document.createElement('li');
                 li.className = 'no-result-tip';
                 li.innerHTML = `
-                    <div style="line-height: 1.4; color: #fbbf24;">
+                    <div style="line-height: 1.4; color: var(--pink-ink);">
                         <strong>Part Number Detected</strong><br>
                         <span style="font-size: 0.85em; color: var(--text-muted)">
                             Settings shows the Part Number (e.g. ${modelSearchInput.value}).<br>
@@ -1147,6 +1218,59 @@ document.addEventListener('DOMContentLoaded', () => {
         modelSearchInput.focus();
     });
 
+    // The ad title as posted, so the listing can be found again on Marketplace
+    function buildListingLine(listing) {
+        const line = document.createElement('div');
+        line.className = 'listing-line';
+
+        const text = document.createElement('span');
+        text.className = 'listing-text';
+        text.textContent = listing;
+        text.title = listing;
+
+        const copyBtn = document.createElement('button');
+        copyBtn.type = 'button';
+        copyBtn.className = 'listing-btn';
+        copyBtn.textContent = 'Copy';
+        copyBtn.setAttribute('aria-label', 'Copy ad title');
+        copyBtn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const ok = await copyText(listing);
+            copyBtn.textContent = ok ? 'Copied' : 'Failed';
+            setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1500);
+        });
+
+        const findLink = document.createElement('a');
+        findLink.className = 'listing-btn';
+        findLink.textContent = 'Find';
+        findLink.href = 'https://www.facebook.com/marketplace/search/?query=' + encodeURIComponent(listing);
+        findLink.target = '_blank';
+        findLink.rel = 'noopener';
+        findLink.setAttribute('aria-label', 'Search Marketplace for this ad');
+        findLink.addEventListener('click', e => e.stopPropagation());
+
+        line.append(text, copyBtn, findLink);
+        return line;
+    }
+
+    async function copyText(str) {
+        // navigator.clipboard only exists on https/localhost
+        if (navigator.clipboard && window.isSecureContext) {
+            try { await navigator.clipboard.writeText(str); return true; } catch (e) { /* fall through */ }
+        }
+        const ta = document.createElement('textarea');
+        ta.value = str;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        let ok = false;
+        try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+        document.body.removeChild(ta);
+        return ok;
+    }
+
     function addResultRow(modelOrData, priceArg, scoreArg, valueScoreArg, cpuArg, releasedArg, max_osArg, shouldSaveArg) {
         // --- Normalization (Handle Object vs Arguments) ---
         let data = {};
@@ -1169,20 +1293,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // --- Defaults ---
-        const { model, price, score, valueScore, cpu = '-', released = '-', max_os = '-', shouldSave = true, incomplete = false } = data;
+        const { model, price, score, valueScore, cpu = '-', released = '-', max_os = '-', shouldSave = true, incomplete = false, listing = '' } = data;
 
         // --- Deduplication Check ---
         // Check if this specific model + price combo already exists
         const existingRows = Array.from(comparisonBody.querySelectorAll('tr'));
-        const isDuplicate = existingRows.some(row => {
-            const rowModel = row.dataset.model;
-            // dataset.price is string, price might be number. Compare loosely or convert.
-            const rowPrice = parseFloat(row.dataset.price);
-            // Also normalized model names might differ slightly if not careful, but dataset.model should be consistent
-            return rowModel === model && rowPrice === parseFloat(price);
+        const duplicateRow = existingRows.find(row => {
+            // Two different ads can share a model and price
+            if (listing && row.dataset.listing && row.dataset.listing !== listing) return false;
+            return row.dataset.model === model && parseFloat(row.dataset.price) === parseFloat(price);
         });
 
-        if (isDuplicate) {
+        if (duplicateRow) {
+            // A row saved before ad titles were stored: re-pasting the same ad
+            // gives it its title instead of being skipped silently.
+            if (listing && !duplicateRow.dataset.listing) {
+                duplicateRow.dataset.listing = listing;
+                duplicateRow.querySelector('td').appendChild(buildListingLine(listing));
+                if (shouldSave) saveComparisons();
+            }
             console.log(`Duplicate detected: ${model} @ $${price}. Skipping.`);
             return;
         }
@@ -1209,6 +1338,7 @@ document.addEventListener('DOMContentLoaded', () => {
         row.dataset.released = released;
         row.dataset.max_os = max_os;
         row.dataset.incomplete = incomplete;
+        row.dataset.listing = listing;
 
         if (incomplete) {
             row.classList.add('incomplete-row');
@@ -1239,6 +1369,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     row.remove();
                     addResultRow({
                         model: selectedModelName,
+                        listing,
                         price: price,
                         score: fullData.score,
                         cpu: fullData.cpu,
@@ -1333,14 +1464,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Standard Row
             row.innerHTML = `
-                <td class="model-name clickable" title="Click to edit model">${model}</td>
+                <td class="model-cell"><span class="model-name clickable" title="Click to change the model">${model}</span></td>
                 <td class="price-cell clickable" title="Click to edit price">$${price}</td>
                 <td><span class="badge chip-badge">${cpu}</span></td>
                 <td>${released}</td>
                 <td>${max_os}</td>
-                <td>${score}</td>
+                <td>${score > 0 ? score : '<span class="no-data">No data</span>'}</td>
                 <td class="value-cell">
-                    <span class="score-val">${finalValueScore}</span>
+                    <span class="score-val">${score > 0 ? finalValueScore : '<span class="no-data" title="No Geekbench 6 score for this model">—</span>'}</span>
                     <span class="trophy-icon"></span>
                 </td>
                 <td><button class="delete-btn" aria-label="Remove row">×</button></td>
@@ -1352,7 +1483,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // If already editing (has input), do nothing
                 if (modelCell.querySelector('input')) return;
 
-                const currentName = modelCell.textContent;
+                const currentName = row.dataset.model;
                 modelCell.classList.remove('clickable');
 
                 // Inject the Resolver UI (reused logic from incomplete rows)
@@ -1378,6 +1509,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         row.remove();
                         addResultRow({
                             model: newMatch.name,
+                            listing,
                             price: price, // Reuse CURRENT price from cell?? No, original price.
                             // Wait, what if price changed? Use current scope price.
                             cpu: newData ? newData.cpu : '?',
@@ -1432,6 +1564,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        if (listing) {
+            row.querySelector('td').appendChild(buildListingLine(listing));
+        }
+
         // Add highlight animation class only if new
         if (shouldSave) {
             row.classList.add('new-row');
@@ -1473,7 +1609,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Update UI
                 priceCell.innerHTML = `$${newPrice}`;
-                row.querySelector('.score-val').textContent = newValueScore;
+                if (newScore > 0) row.querySelector('.score-val').textContent = newValueScore;
 
                 // Re-sort and save
                 updateLeaderboard();
@@ -1545,6 +1681,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return (parseFloat(curr.dataset.value) > parseFloat(prev.dataset.value)) ? curr : prev;
             });
 
+            if (!(parseFloat(winner.dataset.value) > 0)) return;
             winner.classList.add('champion-row');
             const trophy = winner.querySelector('.trophy-icon');
             if (trophy) trophy.textContent = ' 🏆'; // Trophy Emoji
@@ -1577,7 +1714,9 @@ document.addEventListener('DOMContentLoaded', () => {
             valueScore: row.dataset.value,
             cpu: row.dataset.cpu,
             released: row.dataset.released,
-            max_os: row.dataset.max_os
+            max_os: row.dataset.max_os,
+            incomplete: row.dataset.incomplete === 'true',
+            listing: row.dataset.listing || ''
         }));
         localStorage.setItem('ipadComparisons', JSON.stringify(data));
     }
@@ -1588,8 +1727,28 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const data = JSON.parse(saved);
                 data.forEach(item => {
-                    addResultRow(item.model, item.price, item.score, item.valueScore, item.cpu, item.released, item.max_os, false);
+                    const price = parseFloat(item.price);
+                    // Old saves could hold accessory/box rows the parser now rejects
+                    if (!(price >= MIN_LISTING_PRICE)) return;
+
+                    const current = modelsData[item.model];
+                    if (item.incomplete || !current) {
+                        // Still needs (or lost) a model match: keep it as a row to resolve
+                        addResultRow({ model: item.model, listing: item.listing, price, incomplete: true }, false);
+                        return;
+                    }
+                    // Re-read specs so data fixes (max iOS, scores) apply to saved rows too
+                    addResultRow({
+                        model: item.model,
+                        listing: item.listing,
+                        price,
+                        score: current.score,
+                        cpu: current.cpu,
+                        released: current.released,
+                        max_os: current.max_os
+                    }, false);
                 });
+                saveComparisons();
             } catch (e) {
                 console.error("Error loading saved data", e);
             }
@@ -1610,4 +1769,47 @@ document.addEventListener('DOMContentLoaded', () => {
             if (instructions) instructions.classList.add('hidden');
         }
     }
+});
+
+// Build version badge (bottom-left), read from the ?v= on this script's URL
+document.addEventListener('DOMContentLoaded', () => {
+    const script = document.querySelector('script[src*="app.js"]');
+    const match = script && script.src.match(/[?&]v=([^&]+)/);
+    if (!match) return;
+    const badge = document.createElement('div');
+    badge.className = 'version-badge';
+    badge.textContent = 'v' + match[1];
+    document.body.appendChild(badge);
+});
+
+// Theme switch (bottom-right): "Clean" matches the storefront, "Fun" is the original look
+document.addEventListener('DOMContentLoaded', () => {
+    const root = document.documentElement;
+    const meta = document.querySelector('meta[name="theme-color"]');
+    const wrap = document.createElement('div');
+    wrap.className = 'theme-switch';
+    wrap.setAttribute('role', 'group');
+    wrap.setAttribute('aria-label', 'Theme');
+
+    const themes = [['clean', 'Clean'], ['fun', 'Fun']];
+    const buttons = themes.map(([id, label]) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = label;
+        b.addEventListener('click', () => apply(id, true));
+        wrap.appendChild(b);
+        return [id, b];
+    });
+
+    function apply(id, save) {
+        root.setAttribute('data-theme', id);
+        buttons.forEach(([bid, b]) => b.setAttribute('aria-pressed', String(bid === id)));
+        if (meta) meta.setAttribute('content', id === 'clean' ? '#f6f3ee' : '#fff8f2');
+        if (save) {
+            try { localStorage.setItem('ipadTheme', id); } catch (e) { /* private mode */ }
+        }
+    }
+
+    apply(root.getAttribute('data-theme') === 'fun' ? 'fun' : 'clean', false);
+    document.body.prepend(wrap);
 });

@@ -1,0 +1,392 @@
+/* =========================================================
+   "Clean" theme — mirrors the current photoboothdecor.com
+   storefront: warm off-white, charcoal ink, forest-green
+   buttons, Outfit headings, DM Sans body, pill buttons,
+   hairline borders and no offset shadows.
+   Everything is scoped to html[data-theme="clean"]; the
+   original "Fun" theme is the unscoped style.css.
+   ========================================================= */
+html[data-theme="clean"] {
+    --ink: #1c1a1b;
+    --ink-2: #4b4749;
+    --ink-3: #7c7678;
+    --pink: #2f6b4f;          /* accent: storefront button green */
+    --pink-ink: #2f6b4f;
+    --lime: #e4ede6;          /* soft green tint */
+    --yellow: #efe6d6;        /* sand tint */
+    --sand: #cab89b;
+    --cream: #f6f3ee;
+    --paper: #ffffff;
+    --line: rgba(28, 26, 27, .1);
+    --hair: rgba(28, 26, 27, .14);
+    --radius: 18px;
+    --shadow: 0 1px 2px rgba(28, 26, 27, .04), 0 8px 24px rgba(28, 26, 27, .06);
+    --shadow-lg: var(--shadow);
+    --display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+    --body: "DM Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --mono: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+html[data-theme="clean"] body {
+    background: var(--cream);
+}
+
+html[data-theme="clean"] :focus-visible {
+    outline: 2px solid var(--pink);
+}
+
+/* ---------- Hero ---------- */
+html[data-theme="clean"] .pbd-badge {
+    background: transparent;
+    border: 1px solid var(--hair);
+    box-shadow: none;
+    transform: none;
+    font-weight: 500;
+    letter-spacing: 1.4px;
+    color: var(--ink-2);
+}
+
+html[data-theme="clean"] .pbd-hero__title {
+    font-weight: 300;
+    letter-spacing: -.03em;
+}
+
+html[data-theme="clean"] .pbd-mark {
+    background: none;
+    color: var(--pink);
+    box-shadow: none;
+    transform: none;
+    padding: 0;
+    border-radius: 0;
+    font-weight: 400;
+}
+
+html[data-theme="clean"] .pbd-chip {
+    font-weight: 500;
+    background: var(--paper);
+    border: 1px solid var(--hair);
+    color: var(--ink);
+}
+
+html[data-theme="clean"] .pbd-hero__facts::before {
+    letter-spacing: 1.2px;
+}
+
+/* ---------- Cards ---------- */
+html[data-theme="clean"] .pbd-card {
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+}
+
+html[data-theme="clean"] .pbd-card--ink {
+    background: var(--ink);
+    color: var(--cream);
+    box-shadow: none;
+    border-color: var(--ink);
+}
+
+html[data-theme="clean"] .pbd-eyebrow {
+    font-weight: 500;
+    letter-spacing: 1.8px;
+}
+
+html[data-theme="clean"] .pbd-eyebrow--lime {
+    color: var(--sand);
+}
+
+html[data-theme="clean"] .pbd-card__title {
+    font-weight: 400;
+    font-size: 24px;
+    letter-spacing: -.015em;
+}
+
+html[data-theme="clean"] .pbd-steps__num {
+    background: var(--sand);
+    color: var(--ink);
+    font-weight: 500;
+}
+
+html[data-theme="clean"] .pbd-note,
+html[data-theme="clean"] .pbd-card--ink .pbd-note {
+    background: rgba(246, 243, 238, .08);
+    color: var(--cream);
+    border: 1px solid rgba(246, 243, 238, .18);
+    font-weight: 400;
+}
+
+/* ---------- Tabs ---------- */
+html[data-theme="clean"] .tabs {
+    border: 1px solid var(--hair);
+    border-radius: 40px;
+    background: var(--cream);
+}
+
+html[data-theme="clean"] .tab-btn {
+    border-radius: 40px;
+    font-weight: 500;
+}
+
+html[data-theme="clean"] .tab-btn.active {
+    background: var(--ink);
+    color: var(--paper);
+}
+
+/* ---------- Form controls ---------- */
+html[data-theme="clean"] label {
+    font-weight: 500;
+}
+
+html[data-theme="clean"] input[type="text"],
+html[data-theme="clean"] input[type="number"],
+html[data-theme="clean"] textarea,
+html[data-theme="clean"] select {
+    font-weight: 400;
+    border: 1px solid rgba(28, 26, 27, .35);
+    border-radius: 14px;
+}
+
+html[data-theme="clean"] input:focus,
+html[data-theme="clean"] textarea:focus,
+html[data-theme="clean"] select:focus {
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px rgba(47, 107, 79, .18);
+}
+
+/* ---------- Buttons ---------- */
+html[data-theme="clean"] .pbd-btn {
+    border: 1px solid var(--ink);
+    border-radius: 40px;
+    font-weight: 500;
+    box-shadow: none;
+}
+
+html[data-theme="clean"] .pbd-btn:hover {
+    transform: none;
+    box-shadow: none;
+    background: var(--cream);
+}
+
+html[data-theme="clean"] .pbd-btn:active,
+html[data-theme="clean"] .button-click {
+    transform: scale(.98);
+    box-shadow: none;
+}
+
+html[data-theme="clean"] .pbd-btn--pink {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: #fff;
+}
+
+html[data-theme="clean"] .pbd-btn--pink:hover {
+    background: #275a42;
+}
+
+html[data-theme="clean"] .pbd-btn--small {
+    box-shadow: none;
+}
+
+/* ---------- Results ---------- */
+html[data-theme="clean"] .pbd-dot {
+    border: 0;
+    border-radius: 50%;
+}
+
+html[data-theme="clean"] .pbd-dot--lime { background: var(--pink); }
+html[data-theme="clean"] .pbd-dot--pink { background: var(--sand); }
+
+html[data-theme="clean"] .filter-chip {
+    border: 1px solid var(--hair);
+    font-weight: 500;
+}
+
+html[data-theme="clean"] .filter-chip:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: var(--ink);
+}
+
+html[data-theme="clean"] .filter-chip.active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+    box-shadow: none;
+}
+
+html[data-theme="clean"] .table-scroll {
+    border: 1px solid var(--line);
+}
+
+html[data-theme="clean"] th {
+    background: var(--cream);
+    color: var(--ink-2);
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    border-bottom: 1px solid var(--line);
+}
+
+html[data-theme="clean"] th.highlight {
+    color: var(--pink);
+}
+
+html[data-theme="clean"] th.sortable:hover {
+    background: #ede8e0;
+}
+
+html[data-theme="clean"] td {
+    border-bottom: 1px solid var(--line);
+    font-weight: 400;
+}
+
+html[data-theme="clean"] .model-name {
+    font-weight: 500;
+}
+
+html[data-theme="clean"] .value-cell {
+    font-weight: 500;
+}
+
+html[data-theme="clean"] .clickable:hover {
+    text-decoration-thickness: 1px;
+}
+
+/* Copy / Find on the ad title */
+html[data-theme="clean"] .listing-btn {
+    border: 1px solid var(--hair);
+    border-radius: 40px;
+    padding: 4px 9px;
+    letter-spacing: .06em;
+}
+
+html[data-theme="clean"] .listing-btn:hover {
+    background: var(--cream);
+    border-color: var(--ink);
+}
+
+/* Badges */
+html[data-theme="clean"] .badge,
+html[data-theme="clean"] .chip-badge,
+html[data-theme="clean"] .matched-badge {
+    border: 1px solid var(--hair);
+    border-radius: 40px;
+    background: var(--cream);
+    font-weight: 500;
+    padding: 2px 10px;
+}
+
+html[data-theme="clean"] .needs-info-badge {
+    font-weight: 500;
+    border-radius: 40px;
+    padding: 5px 12px;
+}
+
+/* Max iOS rail */
+html[data-theme="clean"] .max-ios-latest td:first-child {
+    box-shadow: inset 3px 0 0 var(--pink);
+}
+
+html[data-theme="clean"] .max-ios-outdated td:first-child {
+    box-shadow: inset 3px 0 0 var(--sand);
+}
+
+/* Best value */
+html[data-theme="clean"] .champion-row td {
+    background: var(--lime);
+}
+
+html[data-theme="clean"] .champion-row .value-cell {
+    color: var(--pink);
+}
+
+/* Remove */
+html[data-theme="clean"] .delete-btn {
+    border: 1px solid var(--hair);
+    border-radius: 50%;
+    font-size: 18px;
+    color: var(--ink-2);
+}
+
+html[data-theme="clean"] .delete-btn:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+}
+
+html[data-theme="clean"] .incomplete-row td {
+    background: #faf6ee;
+}
+
+/* Footer */
+html[data-theme="clean"] .pbd-footer a {
+    font-weight: 500;
+    text-decoration-thickness: 1px;
+}
+
+/* Suggestions dropdown (search-style.css) */
+html[data-theme="clean"] .suggestions-dropdown {
+    border: 1px solid var(--line);
+}
+
+html[data-theme="clean"] .suggestions-dropdown li {
+    font-weight: 400;
+}
+
+html[data-theme="clean"] .suggestions-dropdown li:hover {
+    background: var(--cream);
+}
+
+html[data-theme="clean"] .suggestions-dropdown li.no-result-tip,
+html[data-theme="clean"] .suggestions-dropdown li.no-result-tip:hover {
+    background: var(--yellow);
+}
+
+/* Version badge */
+html[data-theme="clean"] .version-badge {
+    border: 1px solid var(--hair);
+    border-radius: 40px;
+    color: var(--ink-2);
+}
+
+/* ---------- Theme switch (both themes) ---------- */
+.theme-switch {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 200;
+    display: flex;
+    gap: 2px;
+    padding: 3px;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 11px;
+}
+
+.theme-switch button {
+    border: 0;
+    background: transparent;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .04em;
+    color: var(--ink-2);
+}
+
+.theme-switch button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+}
+
+html[data-theme="clean"] .theme-switch {
+    border: 1px solid var(--hair);
+    box-shadow: var(--shadow);
+}
+
+/* Leave room above the hero for the theme switch on phones */
+@media (max-width: 768px) {
+    .pbd {
+        padding-top: 64px;
+    }
+}

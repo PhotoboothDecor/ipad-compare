@@ -4,122 +4,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPad Value Scorer</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="search-style.css">
+    <meta name="theme-color" content="#fff8f2">
+    <title>Used iPad Value Calculator — Photo Booth Decor</title>
+    <meta name="description" content="Free tool by Photo Booth Decor. Compare used iPad listings by price and real-world speed to find the best bang for your buck.">
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts (shared with the other Photo Booth Decor free tools) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500&family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@300;400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css?v=19">
+    <link rel="stylesheet" href="search-style.css?v=19">
+    <link rel="stylesheet" href="theme-clean.css?v=19">
+    <script>
+        // Apply the saved theme before first paint. "clean" is the default; "fun" is the original look.
+        (function () {
+            var t = 'clean';
+            try { t = localStorage.getItem('ipadTheme') || 'clean'; } catch (e) {}
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
 
     <!-- Firebase SDKs -->
     <script defer src="/__/firebase/10.7.1/firebase-app-compat.js"></script>
     <script defer src="/__/firebase/10.7.1/firebase-firestore-compat.js"></script>
     <!-- <script defer src="/__/firebase/init.js"></script> Removed: Using explicit config in app.js -->
-    <script defer src="app.js?v=10"></script>
+    <script defer src="app.js?v=19"></script>
 </head>
 
 <body>
-    <div class="container">
-        <header>
-            <h1>iPad Value Scorer</h1>
-            <p>Find the best bang for your buck.</p>
-        </header>
+    <div class="pbd">
+        <div class="pbd__wrap">
+            <header class="pbd-hero">
+                <p class="pbd-badge">★ Free tool by Photo Booth Decor ★</p>
+                <h1 class="pbd-hero__title">
+                    Used iPad Value
+                    <span class="pbd-mark">Calculator</span>
+                </h1>
+                <p class="pbd-hero__lede">Shopping Marketplace for a booth iPad? Add every listing you find and we'll rank them by how much real speed you get for each dollar.</p>
+                <ul class="pbd-hero__facts" role="list">
+                    <li class="pbd-chip pbd-chip--yellow">Value score</li>
+                    <li class="pbd-chip pbd-chip--lime">Geekbench speed</li>
+                    <li class="pbd-chip pbd-chip--pink">Max iOS support</li>
+                </ul>
+            </header>
 
-        <main>
-            <div class="card">
-                <!-- Tabs -->
-                <div class="tabs">
-                    <button class="tab-btn active" data-tab="basic">Single</button>
-                    <button class="tab-btn" data-tab="pro">Bulk</button>
-                </div>
+            <main>
+                <div class="pbd-grid">
+                    <section class="pbd-card" aria-labelledby="add-title">
+                        <p class="pbd-eyebrow">Step 1 · Add listings</p>
+                        <h2 class="pbd-card__title" id="add-title">What iPads are you looking at?</h2>
 
-                <!-- Basic Tab (Single Entry) -->
-                <div id="basic-tab" class="tab-content active">
-                    <div class="input-group">
-                        <label for="model-search">iPad Model</label>
-                        <input type="text" id="model-search" placeholder="Loading data..." autocomplete="off">
-                        <input type="hidden" id="selected-model-id">
-                        <div id="suggestions" class="suggestions-dropdown hidden"></div>
-                    </div>
+                        <!-- Tabs -->
+                        <div class="tabs" role="group" aria-label="Entry mode">
+                            <button class="tab-btn active" data-tab="basic">One at a time</button>
+                            <button class="tab-btn" data-tab="pro">Paste a list</button>
+                        </div>
 
-                    <div class="input-group">
-                        <label for="price-input">Price ($)</label>
-                        <input type="number" id="price-input" inputmode="numeric" placeholder="e.g. 300">
-                    </div>
+                        <!-- Basic Tab (Single Entry) -->
+                        <div id="basic-tab" class="tab-content active">
+                            <div class="input-group">
+                                <label for="model-search">iPad model</label>
+                                <input type="text" id="model-search" placeholder="Loading data..." autocomplete="off">
+                                <input type="hidden" id="selected-model-id">
+                                <div id="suggestions" class="suggestions-dropdown hidden"></div>
+                            </div>
 
-                    <button id="calculate-btn">Calculate Value</button>
-                </div>
+                            <div class="input-group">
+                                <label for="price-input">Asking price</label>
+                                <div class="pbd-input-unit">
+                                    <input type="number" id="price-input" inputmode="numeric" placeholder="e.g. 300">
+                                    <span>$</span>
+                                </div>
+                            </div>
 
-                <!-- Pro Tab (Bulk Entry) -->
-                <div id="pro-tab" class="tab-content">
-                    <div class="input-group">
-                        <label for="bulk-input">Paste Listing Titles & Prices</label>
-                        <p class="helper-text">Copy multiple lines from Marketplace. Start each line with the model
-                            name.</p>
-                        <textarea id="bulk-input" rows="6" placeholder="iPad Air 4 $350
+                            <button id="calculate-btn" class="pbd-btn pbd-btn--pink">Add to comparison</button>
+                        </div>
+
+                        <!-- Pro Tab (Bulk Entry) -->
+                        <div id="pro-tab" class="tab-content">
+                            <div class="input-group">
+                                <label for="bulk-input">Listing titles and prices</label>
+                                <ol class="paste-steps">
+                                    <li>Open <a href="https://www.facebook.com/marketplace/search/?query=ipad" target="_blank" rel="noopener">Facebook Marketplace</a> and search for <strong>iPad</strong>.</li>
+                                    <li>Scroll down so lots of listings load.</li>
+                                    <li>Click and drag from the top to the bottom of the results to select them.</li>
+                                    <li>Copy with <kbd>⌘</kbd> <kbd>C</kbd>.</li>
+                                    <li>Click in the box below and paste with <kbd>⌘</kbd> <kbd>V</kbd>.</li>
+                                    <li>Hit <strong>Process list</strong> to see every iPad ranked.</li>
+                                </ol>
+                                <textarea id="bulk-input" rows="6" placeholder="iPad Air 4 $350
 iPad Pro 12.9 3rd gen 450
 iPad 9th Gen 200"></textarea>
+                            </div>
+                            <button id="process-bulk-btn" class="pbd-btn pbd-btn--pink">Process list</button>
+                        </div>
+                    </section>
+
+                    <!-- Instructions (Visible when empty) -->
+                    <aside id="instructions" class="pbd-card pbd-card--ink instructions-card">
+                        <p class="pbd-eyebrow pbd-eyebrow--lime">How to read it</p>
+                        <h2 class="pbd-card__title">Higher score = more speed per dollar</h2>
+                        <ul class="pbd-steps" role="list">
+                            <li><span class="pbd-steps__num">1</span>Enter the model and price for every iPad you find.</li>
+                            <li><span class="pbd-steps__num">2</span>We look up its Geekbench score and newest supported iOS.</li>
+                            <li><span class="pbd-steps__num">3</span>The best deal gets a 🏆. Click a price to tweak it.</li>
+                        </ul>
+                        <p class="pbd-note"><strong>Heads up:</strong> we only measure raw speed, not screen size or storage.</p>
+                    </aside>
+                </div>
+
+                <section class="result-container results-section pbd-card pbd-results hidden" id="result-container" aria-labelledby="results-title">
+                    <div class="pbd-results__head">
+                        <div>
+                            <p class="pbd-eyebrow">Step 2 · Compare</p>
+                            <h2 class="pbd-card__title" id="results-title">Your iPad shortlist</h2>
+                        </div>
+                        <p class="pbd-legend">
+                            <span><i class="pbd-dot pbd-dot--lime"></i>Gets latest iOS</span>
+                            <span><i class="pbd-dot pbd-dot--pink"></i>Stuck on older iOS</span>
+                        </p>
                     </div>
-                    <button id="process-bulk-btn">Process List</button>
-                </div>
-            </div>
 
-            <!-- Instructions (Visible when empty) -->
-            <div id="instructions" class="card instructions-card">
-                <h2>How to use this app</h2>
-                <p>Shopping Marketplace? Enter the <strong>Model & Price</strong> for every iPad you find to build your
-                    comparison list.</p>
-                <div class="instruction-highlight">
-                    <p>Higher Score = Better "Bang for your Buck" on performance.</p>
-                </div>
-                <div class="warning-box">
-                    <strong>Note:</strong> We only measure raw speed, not features like screen size or storage.
-                </div>
-            </div>
-
-            <div class="result-container hidden" id="result-container">
-                <!-- Filter Bar -->
-                <div class="filter-bar">
-                    <div class="filter-input-wrapper">
-                        <input type="text" id="table-filter" placeholder="Filter results (e.g. 'Air', 'M1')...">
-                        <span class="filter-icon">🔍</span>
+                    <!-- Filter Bar -->
+                    <div class="filter-bar">
+                        <div class="filter-input-wrapper">
+                            <input type="text" id="table-filter" placeholder="Filter results (e.g. 'Air', 'M1')...">
+                            <span class="filter-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                            </span>
+                        </div>
+                        <div class="quick-filters">
+                            <button class="filter-chip" data-filter="latest">Latest iOS</button>
+                            <button class="filter-chip" data-filter="budget">Under $400</button>
+                            <button class="filter-chip" data-filter="pro">Pro models</button>
+                            <button class="filter-chip active" data-filter="all">All</button>
+                        </div>
                     </div>
-                    <div class="quick-filters">
-                        <button class="filter-chip" data-filter="latest">Latest iOS</button>
-                        <button class="filter-chip" data-filter="budget">Budget (<$400)< /button>
-                                <button class="filter-chip" data-filter="pro">Pro Models</button>
-                                <button class="filter-chip active" data-filter="all">All</button>
+
+                    <div class="table-scroll">
+                        <table id="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th id="th-model" class="sortable">Model <span class="sort-icon"></span></th>
+                                    <th id="th-price" class="sortable">Price <span class="sort-icon"></span></th>
+                                    <th id="th-chip">Chip</th>
+                                    <th id="th-year" class="sortable">Year <span class="sort-icon"></span></th>
+                                    <th id="th-ios">Max iOS</th>
+                                    <th id="th-score" class="sortable">Geekbench <span class="sort-icon"></span></th>
+                                    <th id="th-value" class="sortable highlight sort-desc">Value score <span class="sort-icon"></span></th>
+                                    <th><span class="visually-hidden">Remove</span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="comparison-body">
+                                <!-- Rows added dynamically -->
+                            </tbody>
+                        </table>
                     </div>
-                </div>
+                    <button id="clear-all-btn" class="secondary-btn pbd-btn pbd-btn--small hidden">Clear list</button>
+                </section>
+            </main>
 
-                <table id="comparison-table">
-                    <thead>
-                        <tr>
-                            <th id="th-model" class="sortable">Model <span class="sort-icon"></span></th>
-                            <th id="th-price" class="sortable">Price <span class="sort-icon"></span></th>
-                            <th id="th-chip">Chip</th>
-                            <th id="th-year" class="sortable">Year <span class="sort-icon"></span></th>
-                            <th id="th-ios">Max iOS</th>
-                            <th id="th-score" class="sortable">Geekbench <span class="sort-icon"></span></th>
-                            <th id="th-value" class="sortable highlight sort-desc">Value Score <span
-                                    class="sort-icon"></span>
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="comparison-body">
-                        <!-- Rows added dynamically -->
-                    </tbody>
-                </table>
-                <button id="clear-all-btn" class="secondary-btn hidden">Clear List</button>
-            </div>
-        </main>
-
-        <footer>
-            <p>Data scraped from Geekbench Browser daily.</p>
-        </footer>
+            <footer class="pbd-footer">
+                <p class="pbd-footer__more">More free tools:
+                    <a href="https://photoboothdecor.com/pages/photo-booth-power-station-calculator">Power Station Calculator</a> ·
+                    <a href="https://transparentpng.photoboothdecor.com/">Transparent PNG Maker</a>
+                </p>
+                <p>A free tool by Photo Booth Decor. Looking for a backdrop? <a href="https://photoboothdecor.com/collections/photo-booth-backdrops">Browse the collection →</a></p>
+                <p class="pbd-footer__fine">Benchmark data refreshed daily from Geekbench Browser.</p>
+            </footer>
+        </div>
     </div>
 </body>
 

@@ -2,37 +2,37 @@
     "iPad (1st generation)": {
         "cpu": "A4",
         "released": "2010",
-        "max_os": "Latest"
+        "max_os": "iOS 5"
     },
     "iPad 2": {
         "cpu": "A5",
         "released": "2011",
-        "max_os": "Latest"
+        "max_os": "iOS 9"
     },
     "iPad (3rd generation)": {
         "cpu": "A5X",
         "released": "2012",
-        "max_os": "Latest"
+        "max_os": "iOS 9"
     },
     "iPad (4th generation)": {
         "cpu": "A6X",
         "released": "2012",
-        "max_os": "Latest"
+        "max_os": "iOS 10"
     },
     "iPad (5th generation)": {
         "cpu": "A9",
         "released": "2017",
-        "max_os": "Latest"
+        "max_os": "iPadOS 16"
     },
     "iPad (6th generation)": {
         "cpu": "A10 Fusion",
         "released": "2018",
-        "max_os": "Latest"
+        "max_os": "iPadOS 17"
     },
     "iPad (7th generation)": {
         "cpu": "A10 Fusion",
         "released": "2019",
-        "max_os": "Latest"
+        "max_os": "iPadOS 18"
     },
     "iPad (8th generation)": {
         "cpu": "A12 Bionic",
@@ -57,12 +57,12 @@
     "iPad Air (1st generation)": {
         "cpu": "A7",
         "released": "2013",
-        "max_os": "Latest"
+        "max_os": "iOS 12"
     },
     "iPad Air 2": {
         "cpu": "A8X",
         "released": "2014",
-        "max_os": "Latest"
+        "max_os": "iPadOS 15"
     },
     "iPad Air (3rd generation)": {
         "cpu": "A12 Bionic",
@@ -115,17 +115,17 @@
     "iPad mini (1st generation)": {
         "cpu": "A5",
         "released": "2012",
-        "max_os": "Latest"
+        "max_os": "iOS 9"
     },
     "iPad mini 2": {
         "cpu": "A7",
         "released": "2013",
-        "max_os": "Latest"
+        "max_os": "iOS 12"
     },
     "iPad mini 3": {
         "cpu": "A7",
         "released": "2014",
-        "max_os": "Latest"
+        "max_os": "iOS 12"
     },
     "iPad mini (A17 Pro)": {
         "cpu": "A17 Pro",
@@ -136,7 +136,7 @@
     "iPad mini 4": {
         "cpu": "A8",
         "released": "2015",
-        "max_os": "Latest"
+        "max_os": "iPadOS 15"
     },
     "iPad mini (5th generation)": {
         "cpu": "A12 Bionic",
@@ -156,12 +156,12 @@
     "iPad Pro 9.7-inch": {
         "cpu": "A9X",
         "released": "2016",
-        "max_os": "Latest"
+        "max_os": "iPadOS 16"
     },
     "iPad Pro 10.5-inch": {
         "cpu": "A10X Fusion",
         "released": "2017",
-        "max_os": "Latest"
+        "max_os": "iPadOS 17"
     },
     "iPad Pro 11-inch (1st generation)": {
         "cpu": "A12X Bionic",
@@ -193,12 +193,12 @@
     "iPad Pro 12.9-inch (1st generation)": {
         "cpu": "A9X",
         "released": "2015",
-        "max_os": "Latest"
+        "max_os": "iPadOS 16"
     },
     "iPad Pro 12.9-inch (2nd generation)": {
         "cpu": "A10X Fusion",
         "released": "2017",
-        "max_os": "Latest"
+        "max_os": "iPadOS 17"
     },
     "iPad Pro 12.9-inch (3rd generation)": {
         "cpu": "A12X Bionic",
