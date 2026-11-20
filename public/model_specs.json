@@ -230,7 +230,7 @@
     "iPad Pro (12.9-inch)": {
         "cpu": "A9X",
         "released": "2026",
-        "max_os": "Latest",
+        "max_os": "iPadOS 16",
         "score": 1248,
         "geekbench_version": 6
     },
