@@ -14,8 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearAllBtn = document.getElementById('clear-all-btn');
 
     // Tab Elements
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
     const bulkInput = document.getElementById('bulk-input');
     const processBulkBtn = document.getElementById('process-bulk-btn');
     const tableFilterInput = document.getElementById('table-filter');
@@ -46,22 +44,18 @@ document.addEventListener('DOMContentLoaded', () => {
         initApp();
     } catch (e) {
         console.error("Firebase init error", e);
-        modelSearchInput.placeholder = `Init Error: ${e.message}`;
+        bulkInput.placeholder = `Could not load iPad data: ${e.message}`;
     }
 
     async function initApp() {
         try {
             await Promise.all([loadModels(), loadMapping()]);
             console.log("Data loaded. Enabling input...");
-            modelSearchInput.removeAttribute('disabled');
-            modelSearchInput.disabled = false; // Double tap
-            modelSearchInput.placeholder = "Search by name (e.g. iPad 9) or number (A2602)...";
+            processBulkBtn.disabled = false;
             loadSavedComparisons(); // Load from localStorage on init
         } catch (error) {
             console.error("Error initializing app:", error);
-            modelSearchInput.placeholder = `Error: ${error.message}`;
-            // Try to enable anyway so they can search if partial data loaded?
-            // modelSearchInput.removeAttribute('disabled');
+            bulkInput.placeholder = `Could not load iPad data: ${error.message}`;
         }
     }
 
@@ -147,19 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- Tab Logic ---
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Deactivate all
-            tabBtns.forEach(b => b.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
-
-            // Activate clicked
-            btn.classList.add('active');
-            const tabId = btn.dataset.tab;
-            document.getElementById(`${tabId}-tab`).classList.add('active');
-        });
-    });
 
     // --- Sorting & Filtering Logic ---
     const sortHeaders = {
@@ -750,7 +731,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Search Logic ---
-    modelSearchInput.addEventListener('input', (e) => {
+    modelSearchInput?.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase().trim();
         if (query.length < 1) {
             searchResults.classList.add('hidden');
@@ -763,7 +744,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Hide results when clicking outside
     document.addEventListener('click', (e) => {
-        if (!e.target.closest('.search-container')) {
+        if (searchResults && !e.target.closest('.search-container')) {
             searchResults.classList.add('hidden');
         }
     });
@@ -1161,7 +1142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Calculation Logic ---
-    calculateBtn.addEventListener('click', () => {
+    calculateBtn?.addEventListener('click', () => {
         // Add animation class
         calculateBtn.classList.add('button-click');
         setTimeout(() => calculateBtn.classList.remove('button-click'), 300);
@@ -1818,3 +1799,16 @@ document.addEventListener('DOMContentLoaded', () => {
     apply(root.getAttribute('data-theme') === 'fun' ? 'fun' : 'clean', false);
     document.body.prepend(wrap);
 });
+
+// Inside the photoboothdecor.com page: report our height so the page can size the iframe to fit
+(function () {
+    if (!document.documentElement.classList.contains('is-embed') || !window.ResizeObserver) return;
+    const send = () => {
+        const wrap = document.querySelector('.pbd');
+        if (!wrap) return;
+        const h = Math.ceil(wrap.getBoundingClientRect().height);
+        window.parent.postMessage({ type: 'ipad-compare:height', height: h }, 'https://photoboothdecor.com');
+    };
+    const start = () => { new ResizeObserver(send).observe(document.querySelector('.pbd')); send(); };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
