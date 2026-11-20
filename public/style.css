@@ -1044,3 +1044,43 @@ tbody tr:last-child td {
     padding: 3px 7px;
     pointer-events: none;
 }
+
+/* ---------- One paste box (v22) ---------- */
+.paste-box {
+    display: grid;
+    gap: 14px;
+}
+
+.paste-hint {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink-2);
+}
+
+#process-bulk-btn[disabled] {
+    opacity: .55;
+    cursor: wait;
+}
+
+@media (min-width: 990px) {
+    .pbd-grid,
+    .pbd-grid:has(.instructions-card.hidden) {
+        grid-template-columns: minmax(0, 720px);
+        justify-content: center;
+    }
+}
+
+/* Inside the photoboothdecor.com page: that page has the title, how-to and footer */
+html.is-embed .pbd-hero,
+html.is-embed .pbd-footer,
+html.is-embed .version-badge {
+    display: none;
+}
+
+html.is-embed .pbd {
+    padding: 8px 0 24px;
+}
+
+html.is-embed body {
+    min-height: 0;
+}

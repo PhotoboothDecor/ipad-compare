@@ -13,15 +13,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@500&family=Manrope:wght@400;500;600;700;800&family=Outfit:wght@300;400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css?v=21">
-    <link rel="stylesheet" href="search-style.css?v=21">
-    <link rel="stylesheet" href="theme-clean.css?v=21">
+    <link rel="stylesheet" href="style.css?v=22">
+    <link rel="stylesheet" href="search-style.css?v=22">
+    <link rel="stylesheet" href="theme-clean.css?v=22">
     <script>
         // Apply the saved theme before first paint. "clean" is the default; "fun" is the original look.
         (function () {
             var t = 'clean';
             try { t = localStorage.getItem('ipadTheme') || 'clean'; } catch (e) {}
             document.documentElement.setAttribute('data-theme', t);
+            // Inside the store page, which has its own title and footer
+            try { if (window.self !== window.top) document.documentElement.classList.add('is-embed'); } catch (e) { document.documentElement.classList.add('is-embed'); }
         })();
     </script>
 
@@ -29,7 +31,7 @@
     <script defer src="/__/firebase/10.7.1/firebase-app-compat.js"></script>
     <script defer src="/__/firebase/10.7.1/firebase-firestore-compat.js"></script>
     <!-- <script defer src="/__/firebase/init.js"></script> Removed: Using explicit config in app.js -->
-    <script defer src="app.js?v=21"></script>
+    <script defer src="app.js?v=22"></script>
 </head>
 
 <body>
@@ -41,95 +43,36 @@
                     Used iPad Value
                     <span class="pbd-mark">Calculator</span>
                 </h1>
-                <p class="pbd-hero__lede">Shopping Marketplace for a booth iPad? Add every listing you find and we'll rank them by how much real speed you get for each dollar.</p>
-                <ul class="pbd-hero__facts" role="list">
-                    <li class="pbd-chip pbd-chip--yellow">Value score</li>
-                    <li class="pbd-chip pbd-chip--lime">Geekbench speed</li>
-                    <li class="pbd-chip pbd-chip--pink">Max iOS support</li>
-                </ul>
+                <p class="pbd-hero__lede">Paste your Marketplace listings. See which iPad gives the most speed per dollar.</p>
             </header>
 
             <main>
                 <div class="pbd-grid">
                     <section class="pbd-card" aria-labelledby="add-title">
-                        <p class="pbd-eyebrow">Step 1 · Add listings</p>
-                        <h2 class="pbd-card__title" id="add-title">What iPads are you looking at?</h2>
-
-                        <!-- Tabs -->
-                        <div class="tabs" role="group" aria-label="Entry mode">
-                            <button class="tab-btn active" data-tab="basic">One at a time</button>
-                            <button class="tab-btn" data-tab="pro">Paste a list</button>
-                        </div>
-
-                        <!-- Basic Tab (Single Entry) -->
-                        <div id="basic-tab" class="tab-content active">
-                            <div class="input-group">
-                                <label for="model-search">iPad model</label>
-                                <input type="text" id="model-search" placeholder="Loading data..." autocomplete="off">
-                                <input type="hidden" id="selected-model-id">
-                                <div id="suggestions" class="suggestions-dropdown hidden"></div>
-                            </div>
-
-                            <div class="input-group">
-                                <label for="price-input">Asking price</label>
-                                <div class="pbd-input-unit">
-                                    <input type="number" id="price-input" inputmode="numeric" placeholder="e.g. 300">
-                                    <span>$</span>
-                                </div>
-                            </div>
-
-                            <button id="calculate-btn" class="pbd-btn pbd-btn--pink">Add to comparison</button>
-                        </div>
-
-                        <!-- Pro Tab (Bulk Entry) -->
-                        <div id="pro-tab" class="tab-content">
-                            <div class="input-group">
-                                <label for="bulk-input">Listing titles and prices</label>
-                                <ol class="paste-steps">
-                                    <li>Open <a href="https://www.facebook.com/marketplace/search/?query=ipad" target="_blank" rel="noopener">Facebook Marketplace</a> and search for <strong>iPad</strong>.</li>
-                                    <li>Scroll down so lots of listings load.</li>
-                                    <li>Click and drag from the top to the bottom of the results to select them.</li>
-                                    <li>Copy with <kbd>⌘</kbd> <kbd>C</kbd>.</li>
-                                    <li>Click in the box below and paste with <kbd>⌘</kbd> <kbd>V</kbd>.</li>
-                                    <li>Hit <strong>Process list</strong> to see every iPad ranked.</li>
-                                </ol>
-                                <textarea id="bulk-input" rows="6" placeholder="iPad Air 4 $350
-iPad Pro 12.9 3rd gen 450
-iPad 9th Gen 200"></textarea>
-                            </div>
-                            <button id="process-bulk-btn" class="pbd-btn pbd-btn--pink">Process list</button>
+                        <h2 class="pbd-card__title" id="add-title">Paste your listings</h2>
+                        <div class="paste-box">
+                            <label for="bulk-input" class="paste-hint">Copy a Marketplace search page and paste it here. One iPad works too.</label>
+                            <textarea id="bulk-input" rows="6" placeholder="iPad Air 4 $350
+iPad 9th gen $190"></textarea>
+                            <button id="process-bulk-btn" class="pbd-btn pbd-btn--pink" disabled>Process list</button>
                         </div>
                     </section>
-
-                    <!-- Instructions (Visible when empty) -->
-                    <aside id="instructions" class="pbd-card pbd-card--ink instructions-card">
-                        <p class="pbd-eyebrow pbd-eyebrow--lime">How to read it</p>
-                        <h2 class="pbd-card__title">Higher score = more speed per dollar</h2>
-                        <ul class="pbd-steps" role="list">
-                            <li><span class="pbd-steps__num">1</span>Enter the model and price for every iPad you find.</li>
-                            <li><span class="pbd-steps__num">2</span>We look up its Geekbench score and newest supported iOS.</li>
-                            <li><span class="pbd-steps__num">3</span>The best deal gets a 🏆. Click a price to tweak it.</li>
-                        </ul>
-                        <p class="pbd-note"><strong>Heads up:</strong> we only measure raw speed, not screen size or storage.</p>
-                    </aside>
                 </div>
 
                 <section class="result-container results-section pbd-card pbd-results hidden" id="result-container" aria-labelledby="results-title">
                     <div class="pbd-results__head">
-                        <div>
-                            <p class="pbd-eyebrow">Step 2 · Compare</p>
-                            <h2 class="pbd-card__title" id="results-title">Your iPad shortlist</h2>
-                        </div>
+                        <h2 class="pbd-card__title" id="results-title">Best value first</h2>
                         <p class="pbd-legend">
-                            <span><i class="pbd-dot pbd-dot--lime"></i>Gets latest iOS</span>
-                            <span><i class="pbd-dot pbd-dot--pink"></i>Stuck on older iOS</span>
+                            <span>Value score = speed ÷ price</span>
+                            <span><i class="pbd-dot pbd-dot--lime"></i>Latest iOS</span>
+                            <span><i class="pbd-dot pbd-dot--pink"></i>Older iOS</span>
                         </p>
                     </div>
 
                     <!-- Filter Bar -->
                     <div class="filter-bar">
                         <div class="filter-input-wrapper">
-                            <input type="text" id="table-filter" placeholder="Filter results (e.g. 'Air', 'M1')...">
+                            <input type="text" id="table-filter" placeholder="Filter (Air, M1…)">
                             <span class="filter-icon" aria-hidden="true">
                                 <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
                             </span>
@@ -166,12 +109,8 @@ iPad 9th Gen 200"></textarea>
             </main>
 
             <footer class="pbd-footer">
-                <p class="pbd-footer__more">More free tools:
-                    <a href="https://photoboothdecor.com/pages/photo-booth-power-station-calculator">Power Station Calculator</a> ·
-                    <a href="https://transparentpng.photoboothdecor.com/">Transparent PNG Maker</a>
-                </p>
-                <p>A free tool by Photo Booth Decor. Looking for a backdrop? <a href="https://photoboothdecor.com/collections/photo-booth-backdrops">Browse the collection →</a></p>
-                <p class="pbd-footer__fine">Benchmark data refreshed daily from Geekbench Browser.</p>
+                <p>More free tools: <a href="https://photoboothdecor.com/pages/photo-booth-power-station-calculator">Power Station Calculator</a> · <a href="https://photoboothdecor.com/pages/transparent-png-maker">Transparent PNG Maker</a></p>
+                <p class="pbd-footer__fine">Speed scores from Geekbench, updated daily.</p>
             </footer>
         </div>
     </div>
