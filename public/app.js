@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Listing titles come from strangers' Marketplace ads: escape anything
+    // that goes into an innerHTML template.
+    const esc = (v) => String(v ?? '').replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
     const modelSearchInput = document.getElementById('model-search');
     const searchResults = document.getElementById('suggestions');
     const priceInput = document.getElementById('price-input');
@@ -1105,7 +1110,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div style="line-height: 1.4; color: var(--pink-ink);">
                         <strong>Part Number Detected</strong><br>
                         <span style="font-size: 0.85em; color: var(--text-muted)">
-                            Settings shows the Part Number (e.g. ${modelSearchInput.value}).<br>
+                            Settings shows the Part Number (e.g. ${esc(modelSearchInput.value)}).<br>
                             <strong>Tap it once</strong> in Settings to reveal the "A" Model Number (e.g. A1893), then search for that!
                         </span>
                     </div>
@@ -1123,18 +1128,18 @@ document.addEventListener('DOMContentLoaded', () => {
         matches.forEach(match => {
             const li = document.createElement('li');
 
-            let displayText = match.name;
+            let displayText = esc(match.name);
             let extraInfo = '';
 
             if (match.matchType === 'number') {
                 // Bold the model number
-                displayText = `<strong>${match.matchedNumber}</strong> - ${match.name}`;
+                displayText = `<strong>${esc(match.matchedNumber)}</strong> - ${esc(match.name)}`;
             } else if (match.matchType === 'cpu') {
                 // Show CPU badge
-                extraInfo = `<span class="badge chip-badge matched-badge">${match.matchedNumber}</span>`; // matchedNumber holds the CPU here
+                extraInfo = `<span class="badge chip-badge matched-badge">${esc(match.matchedNumber)}</span>`; // matchedNumber holds the CPU here
             } else if (match.matchType === 'year') {
                 // Show Year badge
-                extraInfo = `<span class="badge year-badge matched-badge">${match.matchedNumber}</span>`; // matchedNumber holds the release date
+                extraInfo = `<span class="badge year-badge matched-badge">${esc(match.matchedNumber)}</span>`; // matchedNumber holds the release date
             }
 
             li.innerHTML = `<span>${displayText}</span> ${extraInfo}`;
@@ -1345,11 +1350,11 @@ document.addEventListener('DOMContentLoaded', () => {
             row.innerHTML = `
                 <td>
                     <div class="model-resolve-wrapper">
-                        <input type="text" class="model-resolve-input" value="${model}" placeholder="Type to search definition..." autocomplete="off">
+                        <input type="text" class="model-resolve-input" value="${esc(model)}" placeholder="Type to search definition..." autocomplete="off">
                         <ul class="suggestions-dropdown hidden"></ul>
                     </div>
                 </td>
-                <td class="price-cell">$${price}</td>
+                <td class="price-cell">$${esc(price)}</td>
                 <td colspan="3"><span class="needs-info-badge">Identify this model to see its value score</span></td>
                 <td>?</td>
                 <td class="value-cell">
@@ -1396,7 +1401,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     matches.forEach(match => {
                         const li = document.createElement('li');
                         if (match.matchType === 'number') {
-                            li.innerHTML = `<strong>${match.matchedNumber}</strong> - ${match.name}`;
+                            li.innerHTML = `<strong>${esc(match.matchedNumber)}</strong> - ${esc(match.name)}`;
                         } else {
                             li.textContent = match.name;
                         }
@@ -1444,7 +1449,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         matches.forEach(match => {
                             const li = document.createElement('li');
                             if (match.matchType === 'number') {
-                                li.innerHTML = `<strong>${match.matchedNumber}</strong> - ${match.name}`;
+                                li.innerHTML = `<strong>${esc(match.matchedNumber)}</strong> - ${esc(match.name)}`;
                             } else {
                                 li.textContent = match.name;
                             }
@@ -1464,14 +1469,14 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Standard Row
             row.innerHTML = `
-                <td class="model-cell"><span class="model-name clickable" title="Click to change the model">${model}</span></td>
-                <td class="price-cell clickable" title="Click to edit price">$${price}</td>
-                <td><span class="badge chip-badge">${cpu}</span></td>
-                <td>${released}</td>
-                <td>${max_os}</td>
-                <td>${score > 0 ? score : '<span class="no-data">No data</span>'}</td>
+                <td class="model-cell"><span class="model-name clickable" title="Click to change the model">${esc(model)}</span></td>
+                <td class="price-cell clickable" title="Click to edit price">$${esc(price)}</td>
+                <td><span class="badge chip-badge">${esc(cpu)}</span></td>
+                <td>${esc(released)}</td>
+                <td>${esc(max_os)}</td>
+                <td>${score > 0 ? esc(score) : '<span class="no-data">No data</span>'}</td>
                 <td class="value-cell">
-                    <span class="score-val">${score > 0 ? finalValueScore : '<span class="no-data" title="No Geekbench 6 score for this model">—</span>'}</span>
+                    <span class="score-val">${score > 0 ? esc(finalValueScore) : '<span class="no-data" title="No Geekbench 6 score for this model">—</span>'}</span>
                     <span class="trophy-icon"></span>
                 </td>
                 <td><button class="delete-btn" aria-label="Remove row">×</button></td>
@@ -1489,7 +1494,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Inject the Resolver UI (reused logic from incomplete rows)
                 modelCell.innerHTML = `
                 <div class="model-resolve-wrapper">
-                    <input type="text" class="model-resolve-input" placeholder="Type to search..." value="${currentName}">
+                    <input type="text" class="model-resolve-input" placeholder="Type to search..." value="${esc(currentName)}">
                     <ul class="suggestions-dropdown hidden"></ul>
                 </div>`;
 
@@ -1589,7 +1594,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (priceCell.querySelector('input')) return; // Already editing
 
             const currentPrice = row.dataset.price;
-            priceCell.innerHTML = `<input type="number" class="price-edit-input" value="${currentPrice}" min="1" step="1">`;
+            priceCell.innerHTML = `<input type="number" class="price-edit-input" value="${esc(currentPrice)}" min="1" step="1">`;
             const input = priceCell.querySelector('input');
             input.focus();
 
@@ -1597,7 +1602,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let newPrice = parseFloat(input.value);
                 if (!newPrice || newPrice <= 0) {
                     // Revert if invalid
-                    priceCell.innerHTML = `$${currentPrice}`;
+                    priceCell.textContent = `$${currentPrice}`;
                     return;
                 }
 
@@ -1608,7 +1613,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.dataset.value = newValueScore;
 
                 // Update UI
-                priceCell.innerHTML = `$${newPrice}`;
+                priceCell.textContent = `$${newPrice}`;
                 if (newScore > 0) row.querySelector('.score-val').textContent = newValueScore;
 
                 // Re-sort and save
