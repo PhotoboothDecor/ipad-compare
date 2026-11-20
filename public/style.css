@@ -1091,3 +1091,51 @@ html.is-embed body {
         display: none;
     }
 }
+
+/* Phone: fit Model, Price and Value score in the card (the other columns already hide) */
+@media (max-width: 749px) {
+    #comparison-table th:nth-child(1),
+    #comparison-table td:nth-child(1) {
+        min-width: 0;
+        width: auto;
+    }
+
+    #comparison-table th,
+    #comparison-table td {
+        padding: 10px 5px;
+    }
+
+    #comparison-table .value-cell {
+        font-size: 18px;
+        white-space: nowrap;
+    }
+
+    #comparison-table .delete-btn {
+        width: 32px;
+        height: 32px;
+    }
+
+    .pbd-results.pbd-card {
+        padding: 18px 12px;
+    }
+
+    /* The store page already has its own side gutter around the iframe */
+    html.is-embed .pbd__wrap {
+        padding: 0;
+    }
+
+    #comparison-table th {
+        white-space: normal;
+    }
+
+    /* The one-line ad title would otherwise set the column's minimum width */
+    #comparison-table .listing-line {
+        flex-wrap: wrap;
+        width: 0;
+        min-width: 100%;
+    }
+
+    #comparison-table .listing-text {
+        flex-basis: 100%;
+    }
+}
