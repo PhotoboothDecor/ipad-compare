@@ -1084,3 +1084,10 @@ html.is-embed .pbd {
 html.is-embed body {
     min-height: 0;
 }
+
+/* Phone, inside the store page: the floating Clean/Fun switch would cover the card title */
+@media (max-width: 749px) {
+    html.is-embed .theme-switch {
+        display: none;
+    }
+}
