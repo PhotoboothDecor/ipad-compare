@@ -1057,6 +1057,13 @@ tbody tr:last-child td {
     color: var(--ink-2);
 }
 
+.usage-count {
+    margin: 0;
+    font-size: 13px;
+    color: var(--ink-3);
+    text-align: center;
+}
+
 #process-bulk-btn[disabled] {
     opacity: .55;
     cursor: wait;

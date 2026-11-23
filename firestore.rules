@@ -5,6 +5,14 @@ service cloud.firestore {
       allow read: if true;
       allow write: if false; // Only admin (functions) can write
     }
+    // Public usage counter: anyone can read it; a write may only add 1
+    match /stats/usage {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['uses'])
+                    && request.resource.data.uses == 1;
+      allow update: if request.resource.data.keys().hasOnly(['uses'])
+                    && request.resource.data.uses == resource.data.uses + 1;
+    }
     match /{document=**} {
       allow read, write: if false;
     }
