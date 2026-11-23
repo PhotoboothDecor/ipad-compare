@@ -53,9 +53,46 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("Data loaded. Enabling input...");
             processBulkBtn.disabled = false;
             loadSavedComparisons(); // Load from localStorage on init
+            showUsageCount();
         } catch (error) {
             console.error("Error initializing app:", error);
             bulkInput.placeholder = `Could not load iPad data: ${error.message}`;
+        }
+    }
+
+    // --- Usage counter ---
+    // One Firestore number (stats/usage.uses). It goes up once per browser,
+    // the first time that browser gets results, so it counts people, not clicks.
+    // The line stays hidden until the number is big enough to be worth showing.
+    const USAGE_MIN_SHOWN = 50;
+    const usageEl = document.getElementById('usage-count');
+    const usageRef = () => db.collection('stats').doc('usage');
+
+    function renderUsage(n) {
+        if (!usageEl || !(n >= USAGE_MIN_SHOWN)) return;
+        usageEl.textContent = `Used by ${n.toLocaleString('en-US')} people`;
+        usageEl.hidden = false;
+    }
+
+    async function showUsageCount() {
+        try {
+            const snap = await usageRef().get();
+            renderUsage(snap.exists ? snap.data().uses : 0);
+        } catch (e) {
+            console.warn('Usage count unavailable', e);
+        }
+    }
+
+    async function countUse() {
+        try {
+            if (localStorage.getItem('ipadCounted')) return;
+            localStorage.setItem('ipadCounted', '1');
+        } catch (e) { return; } // no storage: skip, so private tabs can't inflate it
+        try {
+            await usageRef().set({ uses: firebase.firestore.FieldValue.increment(1) }, { merge: true });
+            showUsageCount();
+        } catch (e) {
+            console.warn('Usage count not saved', e);
         }
     }
 
@@ -675,6 +712,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Not a Facebook paste — use legacy parser
             console.log("No Facebook block structure detected, using legacy parser");
             await processLegacyBulk(rawText);
+            if (comparisonBody.querySelector('tr')) countUse();
             return;
         }
 
@@ -724,6 +762,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (processedCount === 0) {
             alert('No iPad listings found in the pasted text. Make sure you\'re copying from Facebook Marketplace search results.');
+        } else {
+            countUse();
         }
 
         updateLeaderboard();
